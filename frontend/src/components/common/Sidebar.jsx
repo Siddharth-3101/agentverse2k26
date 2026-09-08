@@ -85,22 +85,6 @@ const Sidebar = ({ activePage = 'events', onNavigate = () => {} }) => {
             </div>
           </div>
 
-          {/* Viewing Mode Selector Card (Unstop Style) */}
-          <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100">
-            <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
-              You're viewing as
-            </label>
-            <select
-              value={userRole}
-              onChange={(e) => setUserRole(e.target.value)}
-              className="w-full bg-white border border-slate-200 text-xs font-bold text-slate-800 rounded-xl px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#1c4980]"
-            >
-              <option value="STUDENT">🎓 Student / Talent</option>
-              <option value="TEACHER">👨‍🏫 Teacher / Mentor</option>
-              <option value="ADMIN">⚡ Teacher + Admin</option>
-            </select>
-          </div>
-
           {/* Quick Create Action Button */}
           <button
             onClick={() => onNavigate('events')}
