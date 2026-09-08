@@ -52,16 +52,18 @@ const TeacherLogin = ({ onNavigate, onToggleRole }) => {
       setIsSubmitting(true);
       setTimeout(() => {
         setIsSubmitting(false);
-        setSuccessMessage('Login successful!');
-        setGlobalRole('TEACHER');
-        // Navigate to Teacher Dashboard
+        const isAdm = formData.facultyIdOrEmail.toLowerCase().includes('admin');
+        const role = isAdm ? 'ADMIN' : 'TEACHER';
+        setSuccessMessage(isAdm ? 'Admin authentication successful!' : 'Faculty login successful!');
+        setGlobalRole(role);
+        // Navigate to appropriate dashboard
         setTimeout(() => {
           if (typeof onNavigate === 'function') {
-            onNavigate('teacher-dashboard');
+            onNavigate(isAdm ? 'admin-dashboard' : 'teacher-dashboard');
           } else {
-            navigate('/teacher/dashboard');
+            navigate(isAdm ? '/admin/dashboard' : '/teacher/dashboard');
           }
-        }, 1000);
+        }, 800);
       }, 350);
     }
   };

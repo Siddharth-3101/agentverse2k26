@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext.jsx';
 
 // Layout
 import DashboardLayout from '../components/layout/DashboardLayout.jsx';
@@ -28,6 +29,14 @@ import Register from '../pages/auth/Register.jsx';
 import TeacherLogin from '../pages/auth/TeacherLogin.jsx';
 import NotFound from '../pages/errors/NotFound.jsx';
 
+const RootRedirect = () => {
+  const { role } = useAuth();
+  if (role === 'TEACHER' || role === 'ADMIN') {
+    return <Navigate to="/teacher/dashboard" replace />;
+  }
+  return <Navigate to="/dashboard" replace />;
+};
+
 const AppRoutes = () => {
   return (
     <Routes>
@@ -38,7 +47,7 @@ const AppRoutes = () => {
 
       {/* Main Application Routes inside Common Layout */}
       <Route path="/" element={<DashboardLayout />}>
-        <Route index element={<Navigate to="/dashboard" replace />} />
+        <Route index element={<RootRedirect />} />
         
         {/* Student Primary Routes */}
         <Route path="dashboard" element={<StudentDashboard />} />
@@ -79,4 +88,3 @@ const AppRoutes = () => {
 };
 
 export default AppRoutes;
-

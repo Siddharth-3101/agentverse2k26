@@ -11,13 +11,16 @@ import {
   BarChart3,
   Trophy,
   X,
-  LogOut
+  LogOut,
+  Building2
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 export default function Sidebar({ open, onClose }) {
   const { user, role, logout } = useAuth();
   const navigate = useNavigate();
+
+  const isFacultyOrAdmin = role === 'TEACHER' || role === 'ADMIN';
 
   const studentItems = [
     { label: 'All Events', path: '/events', icon: CalendarDays },
@@ -34,6 +37,13 @@ export default function Sidebar({ open, onClose }) {
     { label: 'Leaderboard', path: '/teacher/leaderboard', icon: Trophy },
     { label: 'Notifications', path: '/teacher/notifications', icon: Bell },
     { label: 'Faculty Profile', path: '/teacher/profile', icon: UserRound }
+  ];
+
+  const adminItems = [
+    { label: 'Manage Clubs', path: '/admin/clubs', icon: Building2 },
+    { label: 'Manage Events', path: '/admin/events', icon: CalendarDays },
+    { label: 'Manage Users', path: '/admin/users', icon: UserRound },
+    { label: 'Admin Overview', path: '/admin/dashboard', icon: LayoutDashboard }
   ];
 
   const handleLogout = () => {
@@ -86,7 +96,7 @@ export default function Sidebar({ open, onClose }) {
                 AgentVerse
               </h1>
               <span className="text-[10px] font-bold text-slate-400 tracking-wider uppercase">
-                Campus Platform
+                {isFacultyOrAdmin ? 'Faculty & Admin' : 'Campus Platform'}
               </span>
             </div>
           </div>
@@ -99,23 +109,40 @@ export default function Sidebar({ open, onClose }) {
           </button>
         </div>
 
-        {/* Quick Participate Action Button */}
-        <NavLink
-          to="/events"
-          onClick={onClose}
-          className="w-full py-2.5 bg-[#1c4980] hover:bg-blue-900 text-white rounded-xl font-extrabold text-xs tracking-wide shadow-md shadow-blue-900/10 transition flex items-center justify-center space-x-2"
-        >
-          <span className="text-base leading-none">+</span>
-          <span>Participate in Event</span>
-        </NavLink>
+        {/* Quick Action Button */}
+        {!isFacultyOrAdmin ? (
+          <NavLink
+            to="/events"
+            onClick={onClose}
+            className="w-full py-2.5 bg-[#1c4980] hover:bg-blue-900 text-white rounded-xl font-extrabold text-xs tracking-wide shadow-md shadow-blue-900/10 transition flex items-center justify-center space-x-2"
+          >
+            <span className="text-base leading-none">+</span>
+            <span>Participate in Event</span>
+          </NavLink>
+        ) : (
+          <NavLink
+            to="/teacher/notifications"
+            onClick={onClose}
+            className="w-full py-2.5 bg-[#1c4980] hover:bg-blue-900 text-white rounded-xl font-extrabold text-xs tracking-wide shadow-md shadow-blue-900/10 transition flex items-center justify-center space-x-2"
+          >
+            <span className="text-base leading-none">🔔</span>
+            <span>Review Applications</span>
+          </NavLink>
+        )}
 
-        {/* Navigation Groups */}
+        {/* Navigation Groups based on Role */}
         <nav className="space-y-6">
-          {renderNavGroup(studentItems, 'Student Portal')}
-          {(role === 'TEACHER' || role === 'ADMIN') && (
-            <div className="pt-2 border-t border-slate-100">
-              {renderNavGroup(teacherItems, 'Teacher Portal')}
-            </div>
+          {!isFacultyOrAdmin ? (
+            /* Student Only Navigation */
+            renderNavGroup(studentItems, 'Student Portal')
+          ) : (
+            /* Faculty & Admin Navigation */
+            <>
+              {renderNavGroup(teacherItems, 'Faculty Portal')}
+              <div className="pt-2 border-t border-slate-100">
+                {renderNavGroup(adminItems, 'Admin & Management')}
+              </div>
+            </>
           )}
         </nav>
       </div>
@@ -125,14 +152,14 @@ export default function Sidebar({ open, onClose }) {
         <div className="flex items-center justify-between bg-white p-2.5 rounded-xl border border-slate-200 shadow-xs">
           <div className="flex items-center space-x-2.5 min-w-0">
             <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0">
-              {user?.name ? user.name[0] : 'S'}
+              {isFacultyOrAdmin ? 'F' : user?.name ? user.name[0] : 'S'}
             </div>
             <div className="min-w-0 flex-1">
               <div className="text-xs font-extrabold text-slate-800 truncate">
-                {user?.name || 'Siddharth'}
+                {isFacultyOrAdmin ? (role === 'ADMIN' ? 'Admin Officer' : 'John Teacher') : (user?.name || 'Siddharth')}
               </div>
               <div className="text-[10px] text-slate-500 truncate font-semibold">
-                {user?.email || 'siddharth@campus.edu'}
+                {isFacultyOrAdmin ? (role === 'ADMIN' ? 'admin@campus.edu' : 'john.teacher@campus.edu') : (user?.email || 'siddharth@campus.edu')}
               </div>
             </div>
           </div>
