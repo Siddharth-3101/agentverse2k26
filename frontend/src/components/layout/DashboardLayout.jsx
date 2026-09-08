@@ -1,0 +1,2 @@
+import { useState } from 'react'; import Sidebar from './Sidebar'; import TopNavbar from './TopNavbar';
+export default function DashboardLayout({ children }) { const [open, setOpen] = useState(false); return <div className="shell"><Sidebar open={open} onClose={() => setOpen(false)} /><div className="page"><TopNavbar onMenu={() => setOpen(true)} />{open && <div className="scrim" onClick={() => setOpen(false)} />}<main>{children}</main></div></div> }

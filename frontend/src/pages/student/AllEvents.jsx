@@ -208,7 +208,6 @@ export const DUMMY_PARTICIPATED_EVENTS = [
 
 const AllEvents = () => {
   // Active selected category / tab in the pill line
-  // Options: 'All' | 'Participated' | 'Competitions' | 'Hackathons' | 'Quizzes' | 'Workshops' | 'Cultural'
   const [selectedCategory, setSelectedCategory] = useState('All');
   
   // Mode filter state: 'All' | 'Online' | 'Offline' | 'Hybrid'
@@ -321,7 +320,7 @@ const AllEvents = () => {
             </div>
           </div>
 
-          {/* Category Pills Line (Including "My Participated Events" button right in the line!) */}
+          {/* Category Pills Line */}
           <div className="flex items-center space-x-2 mt-6 overflow-x-auto hide-scrollbar pb-2">
             {categories.map((cat) => {
               const isSelected = selectedCategory === cat.name;
@@ -373,9 +372,7 @@ const AllEvents = () => {
           )}
         </div>
 
-        {/* =========================================================================
-            MY PARTICIPATED EVENTS VIEW (When "Participated" pill button is selected)
-            ========================================================================= */}
+        {/* MY PARTICIPATED EVENTS VIEW vs EXPLORE EVENTS VIEW */}
         {selectedCategory === 'Participated' ? (
           <div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -466,9 +463,7 @@ const AllEvents = () => {
             </div>
           </div>
         ) : (
-          /* =========================================================================
-              EXPLORE EVENTS LIST VIEW
-              ========================================================================= */
+          /* EXPLORE EVENTS LIST VIEW */
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left Column - Events Card List */}
             <div className="lg:col-span-2 space-y-4">
@@ -666,9 +661,7 @@ const AllEvents = () => {
 
       </div>
 
-      {/* =========================================================================
-          EVENT DETAILS MODAL (Poster, Details, Contacts, Google Form Link)
-          ========================================================================= */}
+      {/* EVENT DETAILS MODAL */}
       {selectedEvent && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
           <div
@@ -813,6 +806,7 @@ const AllEvents = () => {
                   <span className="text-base">↗</span>
                 </a>
               </div>
+
             </div>
           </div>
         </div>
