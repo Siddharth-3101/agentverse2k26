@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext.jsx';
 
 const TeacherLogin = ({ onNavigate, onToggleRole }) => {
+  const navigate = useNavigate();
+  const { setRole: setGlobalRole } = useAuth();
   const [formData, setFormData] = useState({
     facultyIdOrEmail: '',
     password: '',
@@ -49,17 +53,19 @@ const TeacherLogin = ({ onNavigate, onToggleRole }) => {
       setTimeout(() => {
         setIsSubmitting(false);
         setSuccessMessage('Login successful!');
+        setGlobalRole('TEACHER');
         // Navigate to Teacher Dashboard
         setTimeout(() => {
           if (typeof onNavigate === 'function') {
             onNavigate('teacher-dashboard');
           } else {
-            window.location.hash = '#teacher-dashboard';
+            navigate('/teacher/dashboard');
           }
         }, 1000);
       }, 350);
     }
   };
+
 
   return (
     <div className="w-full">

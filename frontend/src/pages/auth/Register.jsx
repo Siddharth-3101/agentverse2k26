@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Register = ({ onNavigate }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -19,9 +21,10 @@ const Register = ({ onNavigate }) => {
     if (typeof onNavigate === 'function') {
       onNavigate('login');
     } else {
-      window.location.hash = '#login';
+      navigate('/login');
     }
   };
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;

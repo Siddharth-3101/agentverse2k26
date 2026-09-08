@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext.jsx';
 import TeacherLogin from './TeacherLogin.jsx';
 
 const Login = ({ onNavigate }) => {
+  const navigate = useNavigate();
+  const { setRole: setGlobalRole } = useAuth();
   const [role, setRole] = useState('student'); // 'student' | 'teacher'
 
   // Student form state
@@ -21,7 +25,7 @@ const Login = ({ onNavigate }) => {
     if (typeof onNavigate === 'function') {
       onNavigate('register');
     } else {
-      window.location.hash = '#register';
+      navigate('/register');
     }
   };
 
@@ -63,16 +67,18 @@ const Login = ({ onNavigate }) => {
       setTimeout(() => {
         setIsSubmitting(false);
         setSuccessMessage('Login successful!');
+        setGlobalRole('STUDENT');
         setTimeout(() => {
           if (typeof onNavigate === 'function') {
             onNavigate('dashboard');
           } else {
-            window.location.hash = '#dashboard';
+            navigate('/dashboard');
           }
         }, 1000);
       }, 350);
     }
   };
+
 
   return (
     <div className="min-h-[85vh] w-full flex items-center justify-center p-4 sm:p-6 font-sans">

@@ -1,11 +1,9 @@
 import React from 'react';
+import DashboardLayout from '../components/layout/DashboardLayout.jsx';
 
-const AdminLayout = () => {
-  return (
-    <div className="adminlayout">
-      <h2>AdminLayout</h2>
-    </div>
-  );
+const AdminLayout = ({ children }) => {
+  return <DashboardLayout>{children}</DashboardLayout>;
 };
 
 export default AdminLayout;
+

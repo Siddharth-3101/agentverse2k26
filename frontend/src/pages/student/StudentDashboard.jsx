@@ -34,7 +34,7 @@ export default function StudentDashboard() {
   };
 
   return (
-    <div className="student-dashboard-page p-4 sm:p-6 lg:p-8 max-w-[1600px] mx-auto space-y-6">
+    <div className="student-dashboard-page space-y-6 max-w-[1600px] mx-auto">
       <WelcomeHero student={student} notify={notify} />
       <ActivitySummary stats={activityStats} />
       <div className="two-col">
