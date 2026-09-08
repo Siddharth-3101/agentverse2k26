@@ -4,6 +4,7 @@ import Register from './pages/auth/Register.jsx';
 import StudentLayout from './layouts/StudentLayout.jsx';
 import TeacherLayout from './layouts/TeacherLayout.jsx';
 import { TeacherNotificationProvider } from './context/teacherNotificationContext.jsx';
+import './index.css';
 import './styles/global.css';
 import './styles/teacher.css';
 
