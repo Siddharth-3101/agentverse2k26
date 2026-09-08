@@ -1,10 +1,10 @@
 import React from 'react';
-import './styles/global.css';
+import StudentLayout from './layouts/StudentLayout.jsx';
 
 function App() {
   return (
     <div className="App">
-      <h1>AgentVerse Frontend</h1>
+      <StudentLayout />
     </div>
   );
 }
