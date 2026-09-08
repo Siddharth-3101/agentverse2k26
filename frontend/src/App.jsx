@@ -1,11 +1,14 @@
 import React from 'react';
-import AllEvents from './pages/student/AllEvents.jsx';
+import { TeacherNotificationProvider } from './context/teacherNotificationContext';
+import TeacherLayout from './layouts/TeacherLayout';
+import './styles/global.css';
+import './styles/teacher.css';
 
 function App() {
   return (
-    <div className="App">
-      <AllEvents />
-    </div>
+    <TeacherNotificationProvider>
+      <TeacherLayout />
+    </TeacherNotificationProvider>
   );
 }
 
