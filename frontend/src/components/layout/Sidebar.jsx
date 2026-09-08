@@ -12,7 +12,8 @@ import {
   Trophy,
   X,
   LogOut,
-  Building2
+  Building2,
+  Sparkles
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -28,7 +29,8 @@ export default function Sidebar({ open, onClose }) {
     { label: 'All Clubs', path: '/clubs', icon: Users },
     { label: 'My Club', path: '/my-club', icon: Shield },
     { label: 'Certificates', path: '/certificates', icon: Award },
-    { label: 'Profile & Portfolio', path: '/profile', icon: UserRound }
+    { label: 'AI Portfolio', path: '/portfolio', icon: Sparkles },
+    { label: 'Profile & Settings', path: '/profile', icon: UserRound }
   ];
 
   const teacherItems = [

@@ -12,6 +12,7 @@ import AllClubs from '../pages/student/AllClubs.jsx';
 import MyClub from '../pages/student/MyClub.jsx';
 import Certificates from '../pages/student/Certificates.jsx';
 import StudentProfile from '../pages/student/StudentProfile.jsx';
+import Portfolio from '../pages/student/Portfolio.jsx';
 
 import TeacherDashboard from '../pages/teacher/TeacherDashboard.jsx';
 import TeacherClubs from '../pages/teacher/TeacherClubs.jsx';
@@ -55,6 +56,7 @@ const AppRoutes = () => {
         <Route path="clubs" element={<AllClubs />} />
         <Route path="my-club" element={<MyClub />} />
         <Route path="certificates" element={<Certificates />} />
+        <Route path="portfolio" element={<Portfolio />} />
         <Route path="profile" element={<StudentProfile />} />
         <Route path="students" element={<StudentProfile />} />
 
@@ -64,8 +66,8 @@ const AppRoutes = () => {
         <Route path="student/clubs" element={<AllClubs />} />
         <Route path="student/my-club" element={<MyClub />} />
         <Route path="student/certificates" element={<Certificates />} />
+        <Route path="student/portfolio" element={<Portfolio />} />
         <Route path="student/profile" element={<StudentProfile />} />
-        <Route path="student/portfolio" element={<StudentProfile />} />
 
         {/* Teacher Routes */}
         <Route path="teacher/dashboard" element={<TeacherDashboard />} />
