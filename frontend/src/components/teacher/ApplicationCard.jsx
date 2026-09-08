@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import ConfirmDialog from '../common/ConfirmDialog';
 
 const ApplicationCard = ({ application, onBack, onStatusChange }) => {
   const [showDeclineModal, setShowDeclineModal] = useState(false);
@@ -7,11 +6,11 @@ const ApplicationCard = ({ application, onBack, onStatusChange }) => {
 
   if (!application) {
     return (
-      <div className="bg-white rounded-2xl p-8 border border-slate-200 text-center">
-        <p className="text-slate-500">No application selected.</p>
+      <div className="bg-white rounded-3xl p-8 border border-slate-200 text-center max-w-md mx-auto my-8">
+        <p className="text-slate-500 mb-4">No application selected.</p>
         <button
           onClick={onBack}
-          className="mt-4 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-xl hover:bg-indigo-700 transition"
+          className="px-5 py-2.5 bg-indigo-600 text-white text-xs font-bold rounded-xl hover:bg-indigo-700 transition"
         >
           ← Back to Notifications
         </button>
@@ -20,6 +19,7 @@ const ApplicationCard = ({ application, onBack, onStatusChange }) => {
   }
 
   const {
+    id,
     applicationId,
     studentName,
     studentId,
@@ -33,22 +33,25 @@ const ApplicationCard = ({ application, onBack, onStatusChange }) => {
     status = 'PENDING'
   } = application;
 
+  const targetAppId = applicationId || id;
   const isProcessed = status === 'ACCEPTED' || status === 'DECLINED';
 
   const handleAccept = () => {
-    onStatusChange(applicationId, 'ACCEPTED');
+    if (isProcessed) return;
+    onStatusChange(targetAppId, 'ACCEPTED');
     setFeedbackMessage({
       type: 'success',
-      text: '✓ Application accepted successfully'
+      text: 'Application accepted successfully.'
     });
   };
 
   const handleConfirmDecline = () => {
     setShowDeclineModal(false);
-    onStatusChange(applicationId, 'DECLINED');
+    if (isProcessed) return;
+    onStatusChange(targetAppId, 'DECLINED');
     setFeedbackMessage({
       type: 'declined',
-      text: '✕ Application declined'
+      text: 'Application declined.'
     });
   };
 
@@ -57,28 +60,28 @@ const ApplicationCard = ({ application, onBack, onStatusChange }) => {
     : Array.isArray(skills) ? skills : [];
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto animate-fadeIn">
-      {/* Top Header Bar with Back button and Status Badge */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
+    <div className="space-y-8 max-w-5xl mx-auto animate-fadeIn pb-12">
+      {/* Top Header Bar with Back button */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200/80">
         <button
           type="button"
           id="backToNotificationsBtn"
           onClick={onBack}
-          className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-indigo-600 transition-colors w-fit px-3 py-1.5 rounded-lg hover:bg-indigo-50"
+          className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-4 py-2 rounded-xl transition-all duration-150 border border-indigo-100 w-fit"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
           <span>Back to Notifications</span>
         </button>
 
         <div className="flex items-center gap-3">
-          <span className="text-xs uppercase tracking-wider font-semibold text-slate-400">
-            Pending Review
+          <span className="text-xs font-semibold text-slate-400">
+            Application Status:
           </span>
           <span
             id="applicationStatusBadge"
-            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
+            className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider ${
               status === 'ACCEPTED'
                 ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
                 : status === 'DECLINED'
@@ -100,17 +103,29 @@ const ApplicationCard = ({ application, onBack, onStatusChange }) => {
         </div>
       </div>
 
-      {/* Feedback Alert */}
+      {/* Page Heading */}
+      <div>
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          Application Review
+        </h1>
+        <p className="text-sm text-slate-500 mt-1">
+          Review submitted details for <span className="font-bold text-slate-800">{clubName}</span>.
+        </p>
+      </div>
+
+      {/* Feedback Banner */}
       {feedbackMessage && (
         <div
           id="decisionFeedbackBanner"
-          className={`p-4 rounded-xl text-sm font-medium flex items-center justify-between border ${
+          className={`p-4 rounded-2xl text-sm font-bold flex items-center justify-between border ${
             feedbackMessage.type === 'success'
-              ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-              : 'bg-rose-50 text-rose-800 border-rose-200'
+              ? 'bg-emerald-50 text-emerald-900 border-emerald-200'
+              : 'bg-rose-50 text-rose-900 border-rose-200'
           }`}
         >
-          <span>{feedbackMessage.text}</span>
+          <div className="flex items-center gap-2">
+            <span>{feedbackMessage.text}</span>
+          </div>
           <button
             onClick={() => setFeedbackMessage(null)}
             className="text-xs font-bold underline hover:opacity-80"
@@ -120,159 +135,183 @@ const ApplicationCard = ({ application, onBack, onStatusChange }) => {
         </div>
       )}
 
-      {/* Page Title */}
-      <div>
-        <h2 className="text-2xl font-bold text-slate-800">Application Review</h2>
-        <p className="text-sm text-slate-500 mt-1">
-          Review submitted membership application for {clubName}.
-        </p>
-      </div>
-
-      {/* Card 1: Student Information (Fields 1 - 6) */}
-      <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-xs space-y-4">
-        <h3 className="text-base font-bold text-slate-800 pb-2 border-b border-slate-100">
-          Student Information
-        </h3>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-1">
-          {/* 1. Full Name */}
-          <div>
-            <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
-              Full Name
-            </span>
-            <span id="field-fullName" className="text-sm font-semibold text-slate-800">
-              {studentName}
-            </span>
+      {/* 2-Column Information Layout on Desktop */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Card 1: Student Information */}
+        <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-5">
+          <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
+            <div className="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-slate-900">Student Information</h3>
+              <p className="text-xs text-slate-400">Personal contact details</p>
+            </div>
           </div>
 
-          {/* 2. Student ID */}
-          <div>
-            <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
-              Student ID
-            </span>
-            <span id="field-studentId" className="text-sm font-semibold text-slate-800">
-              {studentId}
-            </span>
-          </div>
-
-          {/* 3. Email ID */}
-          <div>
-            <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
-              Email ID
-            </span>
-            <span id="field-email" className="text-sm font-semibold text-slate-800 break-all">
-              {email}
-            </span>
-          </div>
-
-          {/* 4. Phone Number */}
-          <div>
-            <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
-              Phone Number
-            </span>
-            <span id="field-phoneNumber" className="text-sm font-semibold text-slate-800">
-              {phoneNumber}
-            </span>
-          </div>
-
-          {/* 5. Department */}
-          <div>
-            <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
-              Department
-            </span>
-            <span id="field-department" className="text-sm font-semibold text-slate-800">
-              {department}
-            </span>
-          </div>
-
-          {/* 6. Year of Study */}
-          <div>
-            <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
-              Year of Study
-            </span>
-            <span id="field-yearOfStudy" className="text-sm font-semibold text-slate-800">
-              {yearOfStudy}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* Card 2: Why do you want to join this club? (Field 7) */}
-      <div className="bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-2">
-        <h3 className="text-sm font-bold text-slate-800">
-          Why do you want to join this club?
-        </h3>
-        <p id="field-reason" className="text-sm text-slate-600 leading-relaxed italic bg-slate-50/80 p-4 rounded-xl border border-slate-100">
-          "{reason}"
-        </p>
-      </div>
-
-      {/* Card 3: What skills do you have to join this club? (Field 8) */}
-      <div className="bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-3">
-        <h3 className="text-sm font-bold text-slate-800">
-          What skills do you have to join this club?
-        </h3>
-        <div id="field-skills" className="pt-1">
-          <div className="text-sm font-medium text-slate-700 bg-slate-50/80 p-3.5 rounded-xl border border-slate-100">
-            {skillList.join(' • ')}
-          </div>
-          <div className="flex flex-wrap items-center gap-2 pt-2.5">
-            {skillList.map((skill, idx) => (
-              <span
-                key={idx}
-                className="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 text-indigo-700 rounded-xl text-xs font-semibold border border-indigo-100/80"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-indigo-600"></span>
-                {skill}
+          <div className="space-y-4 text-sm">
+            {/* 1. Full Name */}
+            <div>
+              <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
+                Full Name
               </span>
-            ))}
+              <span id="appFullName" className="font-bold text-slate-900 text-base">
+                {studentName}
+              </span>
+            </div>
+
+            {/* 2. Student ID */}
+            <div>
+              <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
+                Student ID
+              </span>
+              <span id="appStudentId" className="font-semibold text-slate-800 bg-slate-100 px-2.5 py-1 rounded-lg text-xs font-mono">
+                {studentId}
+              </span>
+            </div>
+
+            {/* 3. Email ID */}
+            <div>
+              <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
+                Email ID
+              </span>
+              <span id="appEmail" className="font-medium text-slate-800">
+                {email}
+              </span>
+            </div>
+
+            {/* 4. Phone Number */}
+            <div>
+              <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
+                Phone Number
+              </span>
+              <span id="appPhoneNumber" className="font-medium text-slate-800">
+                {phoneNumber}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Academic Information */}
+        <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-5">
+          <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
+            <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l9-5-9-5-9 5 9 5z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 01-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+              </svg>
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-slate-900">Academic Information</h3>
+              <p className="text-xs text-slate-400">Department and year</p>
+            </div>
+          </div>
+
+          <div className="space-y-4 text-sm">
+            {/* 5. Department */}
+            <div>
+              <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
+                Department
+              </span>
+              <span id="appDepartment" className="font-bold text-slate-900 text-base">
+                {department}
+              </span>
+            </div>
+
+            {/* 6. Year of Study */}
+            <div>
+              <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
+                Year of Study
+              </span>
+              <span id="appYearOfStudy" className="inline-block font-bold text-indigo-700 bg-indigo-50 px-3 py-1 rounded-xl text-xs border border-indigo-100">
+                {yearOfStudy}
+              </span>
+            </div>
+
+            {/* Club Applied */}
+            <div className="pt-2">
+              <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
+                Applied Club
+              </span>
+              <span className="font-bold text-slate-800">
+                {clubName}
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Card 5: Application Status & Decision Buttons */}
-      <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+      {/* Full-width Card 7: Why do you want to join this club? */}
+      <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-3">
+        <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
+          7. Why do you want to join this club?
+        </h3>
+        <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 text-sm text-slate-800 leading-relaxed font-normal italic">
+          "{reason}"
+        </div>
+      </div>
+
+      {/* Full-width Card 8: What skills do you have to join this club? */}
+      <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-3">
+        <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
+          8. What skills do you have to join this club?
+        </h3>
+        <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 text-sm text-slate-800 leading-relaxed">
+          <p className="mb-3 italic">"{skills}"</p>
+          {skillList.length > 0 && (
+            <div className="flex flex-wrap gap-2 pt-1 border-t border-slate-200/60">
+              {skillList.map((skill, index) => (
+                <span
+                  key={index}
+                  className="px-3 py-1 rounded-xl bg-indigo-50 text-indigo-700 text-xs font-bold border border-indigo-100"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Application Review Action Footer / Buttons */}
+      <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
-          <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
-            Application Status
+          <span className="text-xs text-slate-500 font-medium block">
+            Review decision for this student application:
           </span>
-          <span
-            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
-              status === 'ACCEPTED'
-                ? 'bg-emerald-100 text-emerald-800'
-                : status === 'DECLINED'
-                ? 'bg-rose-100 text-rose-800'
-                : 'bg-amber-100 text-amber-800'
-            }`}
-          >
-            [{status}]
+          <span className="text-xs font-bold text-slate-800">
+            {studentName} ({studentId})
           </span>
         </div>
 
         <div className="flex items-center gap-3 w-full sm:w-auto">
+          {/* Decline Button */}
           <button
             type="button"
             id="declineApplicationBtn"
-            onClick={() => setShowDeclineModal(true)}
             disabled={isProcessed}
-            className={`flex-1 sm:flex-initial px-5 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-xs ${
+            onClick={() => setShowDeclineModal(true)}
+            className={`w-full sm:w-auto px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-150 ${
               isProcessed
                 ? 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200'
-                : 'bg-white text-rose-600 border border-rose-300 hover:bg-rose-50 active:bg-rose-100'
+                : 'bg-white text-rose-600 hover:bg-rose-50 border border-rose-200 active:scale-98 shadow-xs'
             }`}
           >
             Decline
           </button>
 
+          {/* Accept Button */}
           <button
             type="button"
             id="acceptApplicationBtn"
-            onClick={handleAccept}
             disabled={isProcessed}
-            className={`flex-1 sm:flex-initial px-6 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-xs ${
+            onClick={handleAccept}
+            className={`w-full sm:w-auto px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-150 shadow-sm ${
               isProcessed
                 ? 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200'
-                : 'bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white'
+                : 'bg-indigo-600 text-white hover:bg-indigo-700 active:scale-98'
             }`}
           >
             Accept
@@ -281,16 +320,45 @@ const ApplicationCard = ({ application, onBack, onStatusChange }) => {
       </div>
 
       {/* Decline Confirmation Modal */}
-      <ConfirmDialog
-        isOpen={showDeclineModal}
-        title="Decline Application?"
-        message={`Are you sure you want to decline this student's application?`}
-        confirmText="Decline Application"
-        cancelText="Cancel"
-        onConfirm={handleConfirmDecline}
-        onCancel={() => setShowDeclineModal(false)}
-        isDanger={true}
-      />
+      {showDeclineModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-fadeIn">
+          <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full border border-slate-200 shadow-2xl space-y-5">
+            <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold mx-auto">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+
+            <div className="text-center">
+              <h3 className="text-lg font-extrabold text-slate-900">
+                Decline Application?
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-500 mt-2 leading-relaxed">
+                Are you sure you want to decline this student's application?
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3 pt-2">
+              <button
+                type="button"
+                id="cancelDeclineModalBtn"
+                onClick={() => setShowDeclineModal(false)}
+                className="w-1/2 py-2.5 px-4 rounded-xl border border-slate-200 text-slate-700 text-xs font-bold hover:bg-slate-50 transition"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                id="confirmDeclineModalBtn"
+                onClick={handleConfirmDecline}
+                className="w-1/2 py-2.5 px-4 rounded-xl bg-rose-600 text-white text-xs font-bold hover:bg-rose-700 shadow-sm transition"
+              >
+                Decline Application
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

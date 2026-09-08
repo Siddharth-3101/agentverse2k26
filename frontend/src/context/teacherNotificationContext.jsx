@@ -11,8 +11,12 @@ export const TeacherNotificationProvider = ({ children }) => {
   const [notificationFilter, setNotificationFilter] = useState('all'); // 'all' | 'unread' | 'applications'
 
   // Teacher & Club information (strictly John Teacher -> Coding Club)
-  const teacher = TEACHER_PROFILE;
+  const [teacherProfile, setTeacherProfile] = useState(TEACHER_PROFILE);
   const club = CLUB_SUMMARY;
+
+  const updateTeacherProfile = (updatedData) => {
+    setTeacherProfile(prev => ({ ...prev, ...updatedData }));
+  };
 
   const unreadCount = notifications.filter(n => !n.read).length;
   const pendingCount = notifications.filter(n => n.status === 'PENDING').length;
@@ -52,7 +56,8 @@ export const TeacherNotificationProvider = ({ children }) => {
   return (
     <TeacherNotificationContext.Provider
       value={{
-        teacher,
+        teacher: teacherProfile,
+        updateTeacherProfile,
         club,
         notifications,
         unreadCount,
