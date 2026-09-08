@@ -1,11 +1,4 @@
-import React from 'react';
+import TopNavbar from '../layout/TopNavbar.jsx';
 
-const Navbar = () => {
-  return (
-    <div className="navbar">
-      <h2>Navbar</h2>
-    </div>
-  );
-};
+export default TopNavbar;
 
-export default Navbar;
