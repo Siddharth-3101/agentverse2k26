@@ -1,11 +1,14 @@
 import React from 'react';
+import { TeacherNotificationProvider } from './context/teacherNotificationContext';
+import TeacherLayout from './layouts/TeacherLayout';
 import './styles/global.css';
+import './styles/teacher.css';
 
 function App() {
   return (
-    <div className="App">
-      <h1>AgentVerse Frontend</h1>
-    </div>
+    <TeacherNotificationProvider>
+      <TeacherLayout />
+    </TeacherNotificationProvider>
   );
 }
 
