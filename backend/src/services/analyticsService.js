@@ -1,5 +1,11 @@
 import { getPool } from '../config/db.js';
 import { getTeacherClub } from './clubService.js';
+import {
+  weeklyAnalysisModel,
+  careerRecommenderModel,
+  recommendationEngine,
+  roadmapTaxonomy,
+} from './aiService.js';
 
 export async function getTeacherDashboardAnalytics(teacherUserId) {
   const club = await getTeacherClub(teacherUserId);
@@ -197,4 +203,123 @@ export async function getLeaderboard() {
   );
 
   return leaderboard;
+}
+
+/**
+ * AI Weekly Activity & Streaks Analytics
+ */
+export async function getWeeklyActivityAnalysis(studentUserId) {
+  const pool = getPool();
+
+  const [users] = await pool.query(
+    `SELECT u.id, u.full_name, u.email, u.department, u.year_of_study 
+     FROM users u WHERE u.id = ?`,
+    [studentUserId]
+  );
+  const profile = users[0] || { id: studentUserId, full_name: 'Student' };
+
+  const [certs] = await pool.query(
+    `SELECT * FROM certificates WHERE student_id = ? ORDER BY created_at DESC`,
+    [studentUserId]
+  );
+  const parsedCerts = certs.map((c) => ({
+    ...c,
+    certificate_title: c.title,
+    issuing_organization: c.organization,
+    skills: typeof c.skills === 'string' ? JSON.parse(c.skills || '[]') : (c.skills || []),
+  }));
+
+  const [activities] = await pool.query(
+    `SELECT sa.participation_status, sa.achievement, sa.created_at, a.title, a.activity_type, a.start_date 
+     FROM student_activities sa
+     JOIN activities a ON sa.activity_id = a.id
+     WHERE sa.student_id = ?`,
+    [studentUserId]
+  );
+
+  return weeklyAnalysisModel.analyzeWeeklyActivity(profile, parsedCerts, activities);
+}
+
+/**
+ * Get Available 10 Roadmap.sh Career Roles
+ */
+export async function getCareerRoadmapRoles() {
+  return roadmapTaxonomy.getAllRoles();
+}
+
+/**
+ * AI Career Path Recommender & Milestone Progression
+ */
+export async function evaluateCareerPath(studentUserId, selectedRole = null) {
+  const pool = getPool();
+
+  const [users] = await pool.query(
+    `SELECT u.id, u.full_name, u.email, u.department, u.year_of_study 
+     FROM users u WHERE u.id = ?`,
+    [studentUserId]
+  );
+  const profile = users[0] || { id: studentUserId, full_name: 'Student' };
+
+  const [certs] = await pool.query(
+    `SELECT * FROM certificates WHERE student_id = ? ORDER BY created_at DESC`,
+    [studentUserId]
+  );
+  const parsedCerts = certs.map((c) => ({
+    ...c,
+    certificate_title: c.title,
+    issuing_organization: c.organization,
+    skills: typeof c.skills === 'string' ? JSON.parse(c.skills || '[]') : (c.skills || []),
+  }));
+
+  return careerRecommenderModel.evaluateCareerPath(profile, parsedCerts, selectedRole);
+}
+
+/**
+ * Skill-Matched Club Recommendations
+ */
+export async function getRecommendedClubs(studentUserId) {
+  const pool = getPool();
+
+  const [users] = await pool.query('SELECT * FROM users WHERE id = ?', [studentUserId]);
+  const profile = users[0] || { id: studentUserId };
+
+  const [certs] = await pool.query('SELECT * FROM certificates WHERE student_id = ?', [studentUserId]);
+  const parsedCerts = certs.map((c) => ({
+    ...c,
+    skills: typeof c.skills === 'string' ? JSON.parse(c.skills || '[]') : (c.skills || []),
+  }));
+
+  const [clubs] = await pool.query('SELECT * FROM clubs');
+  const parsedClubs = clubs.map((cl) => ({
+    ...cl,
+    skills: typeof cl.tags === 'string' ? JSON.parse(cl.tags || '[]') : (cl.tags || []),
+  }));
+
+  const ranked = recommendationEngine.filterAndRankClubs(profile, parsedCerts, parsedClubs);
+  return ranked;
+}
+
+/**
+ * Skill-Matched Event Recommendations
+ */
+export async function getRecommendedEvents(studentUserId) {
+  const pool = getPool();
+
+  const [users] = await pool.query('SELECT * FROM users WHERE id = ?', [studentUserId]);
+  const profile = users[0] || { id: studentUserId };
+
+  const [certs] = await pool.query('SELECT * FROM certificates WHERE student_id = ?', [studentUserId]);
+  const parsedCerts = certs.map((c) => ({
+    ...c,
+    skills: typeof c.skills === 'string' ? JSON.parse(c.skills || '[]') : (c.skills || []),
+  }));
+
+  const [activities] = await pool.query('SELECT * FROM activities');
+  const parsedActivities = activities.map((a) => ({
+    ...a,
+    tags: typeof a.tags === 'string' ? JSON.parse(a.tags || '[]') : (a.tags || []),
+  }));
+
+  const ranked = recommendationEngine.filterAndRankEvents(profile, parsedCerts, parsedActivities);
+  return ranked;
 }

@@ -1,22 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../styles/allclubs.css';
 import ClubCard from '../../components/student/ClubCard.jsx';
 import RecommendationCard from '../../components/student/RecommendationCard.jsx';
 import CreateClubModal from '../../components/club/CreateClubModal.jsx';
 import JoinClubModal from '../../components/club/JoinClubModal.jsx';
+import { getClubs } from '../../services/clubService.js';
+import { getRecommendedClubs } from '../../services/careerService.js';
 
-/* ==========================================================================
-   EASY-TO-REMOVE DUMMY DATA FOR CAMPUS CLUBS
-   Replace DUMMY_CLUBS with backend API responses (e.g. fetchFromApi('/clubs'))
-   ========================================================================== */
-export const DUMMY_CLUBS = [
+export const SEEDED_CLUBS = [
   {
-    id: 'club-1',
+    id: 1,
     name: 'Agentic AI & Coding Society',
     category: 'Technical',
-    mentorName: 'Dr. A. K. Gupta (CSE)',
-    presidentName: 'Siddharth Mehta',
-    vpName: 'Aarav Sharma',
+    mentorName: 'Dr. A. K. Gupta',
+    presidentName: 'Siddharth G',
+    vpName: 'Sanjay Krishna',
     presidentPhone: '+91 98765 43210',
     vpPhone: '+91 91234 56789',
     memberCount: 142,
@@ -24,16 +22,16 @@ export const DUMMY_CLUBS = [
     logoImage: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=150&auto=format&fit=crop&q=80',
     bannerImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&fit=crop&q=80',
     description: 'The premier technical club dedicated to Competitive Programming, Machine Learning, Web3, and Open Source development.',
-    fullVision: 'Our goal is to build industry-ready software engineers and AI practitioners through weekly hack nights, workshops, open-source sprints, and inter-college hackathons.',
+    fullVision: 'Our goal is to build industry-ready software engineers and AI practitioners through weekly hack nights, workshops, and inter-college hackathons.',
     tags: ['Python', 'AI Agents', 'DSA', 'WebDev']
   },
   {
-    id: 'club-2',
+    id: 2,
     name: 'Robotics & Automation Guild',
     category: 'Technical',
-    mentorName: 'Dr. R. K. Singh (Mech)',
-    presidentName: 'Vikramaditya Roy',
-    vpName: 'Rohan Mehta',
+    mentorName: 'Dr. Ramesh Nair',
+    presidentName: 'Santhana S',
+    vpName: 'Siddharth G',
     presidentPhone: '+91 98112 23344',
     vpPhone: '+91 99887 76655',
     memberCount: 98,
@@ -41,16 +39,16 @@ export const DUMMY_CLUBS = [
     logoImage: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=150&auto=format&fit=crop&q=80',
     bannerImage: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80',
     description: 'Build autonomous rovers, drone swarms, and industrial automation prototypes with hands-on hardware labs.',
-    fullVision: 'Equipping students with CAD design, embedded C/C++, ROS2, and PCB soldering skills for national robo-wars and aerial vehicle competitions.',
+    fullVision: 'Equipping students with CAD design, embedded C/C++, ROS2, and PCB soldering skills for national competitions.',
     tags: ['Robotics', 'Arduino', 'IoT', 'Hardware']
   },
   {
-    id: 'club-3',
+    id: 3,
     name: 'Resonance Music & Band Society',
     category: 'Cultural',
-    mentorName: 'Prof. Meenakshi Sharma (ECE)',
-    presidentName: 'Ananya Roy',
-    vpName: 'Karan Malhotra',
+    mentorName: 'Prof. Meenakshi Sharma',
+    presidentName: 'Sankari G',
+    vpName: 'Shalini S',
     presidentPhone: '+91 98300 11223',
     vpPhone: '+91 98711 22334',
     memberCount: 210,
@@ -62,12 +60,12 @@ export const DUMMY_CLUBS = [
     tags: ['Music', 'Live Band', 'Stage', 'Vocals']
   },
   {
-    id: 'club-4',
+    id: 4,
     name: 'E-Cell & Startup Incubator',
     category: 'Entrepreneurship',
-    mentorName: 'Prof. Rajesh Verma (IT)',
-    presidentName: 'Priya Patel',
-    vpName: 'Ananya Deshmukh',
+    mentorName: 'Prof. Rajesh Verma',
+    presidentName: 'Senthil P',
+    vpName: 'Dinesh S',
     presidentPhone: '+91 97110 09988',
     vpPhone: '+91 94567 89012',
     memberCount: 165,
@@ -75,16 +73,16 @@ export const DUMMY_CLUBS = [
     logoImage: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=150&auto=format&fit=crop&q=80',
     bannerImage: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&auto=format&fit=crop&q=80',
     description: 'Fostering student startup culture through pitch competitions, angel investor meets, and incubation mentorship.',
-    fullVision: 'Connecting student founders with venture capitalists, seed grants, patent filing support, and startup bootcamps.',
+    fullVision: 'Connecting student founders with venture capitalists, seed grants, and startup bootcamps.',
     tags: ['Startups', 'Pitch Deck', 'Business', 'Finance']
   },
   {
-    id: 'club-5',
+    id: 5,
     name: 'Cyber Shield Security Club',
     category: 'Technical',
-    mentorName: 'Dr. Sunita Deshmukh (HSS)',
-    presidentName: 'Rohan Sharma',
-    vpName: 'Aarav Sharma',
+    mentorName: 'Dr. Sunita Deshmukh',
+    presidentName: 'Sabarish R',
+    vpName: 'Sanjay Krishna',
     presidentPhone: '+91 98765 99887',
     vpPhone: '+91 91234 55443',
     memberCount: 115,
@@ -97,10 +95,7 @@ export const DUMMY_CLUBS = [
   }
 ];
 
-/* ==========================================================================
-   RECOMMENDED CLUBS (Matched with Student Profile Skills & Certificates)
-   ========================================================================== */
-export const DUMMY_RECOMMENDED_CLUBS = [
+export const DEFAULT_RECOMMENDED_CLUBS = [
   {
     id: 'rec-1',
     name: 'Agentic AI & Coding Society',
@@ -121,12 +116,11 @@ export const DUMMY_RECOMMENDED_CLUBS = [
   }
 ];
 
-import { getClubs } from '../../services/clubService.js';
-
 const AllClubs = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [clubsList, setClubsList] = useState(DUMMY_CLUBS);
+  const [clubsList, setClubsList] = useState(SEEDED_CLUBS);
+  const [recommendedClubs, setRecommendedClubs] = useState(DEFAULT_RECOMMENDED_CLUBS);
   
   // Modals state
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -136,7 +130,7 @@ const AllClubs = () => {
   // Success Toast Banner
   const [toastMessage, setToastMessage] = useState(null);
 
-  React.useEffect(() => {
+  const loadClubs = () => {
     getClubs()
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
@@ -154,13 +148,33 @@ const AllClubs = () => {
             logoImage: c.logo_url || 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=150&auto=format&fit=crop&q=80',
             bannerImage: c.banner_url || 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&fit=crop&q=80',
             description: c.description || 'Campus student club dedicated to student activities and skill development.',
-            fullVision: c.description || 'Fostering excellence and teamwork across campus.',
+            fullVision: c.full_vision || c.description || 'Fostering excellence and teamwork across campus.',
             tags: typeof c.tags === 'string' ? JSON.parse(c.tags) : (Array.isArray(c.tags) ? c.tags : ['Campus', 'Club'])
           }));
           setClubsList(formatted);
         }
       })
       .catch((err) => console.warn('[AllClubs API warning]:', err.message));
+
+    getRecommendedClubs()
+      .then((recs) => {
+        if (Array.isArray(recs) && recs.length > 0) {
+          setRecommendedClubs(recs.map((r, i) => ({
+            id: r.id || `rec-${i}`,
+            name: r.name || r.clubName,
+            mentorName: r.mentorName || r.mentor_name || 'Faculty Mentor',
+            logoImage: r.logoImage || r.logo_url || 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=150&auto=format&fit=crop&q=80',
+            matchScore: r.matchScore || 90,
+            matchedSkills: r.matchedSkills || ['Technical Skills'],
+            matchReason: r.matchReason || 'Matched with your verified profile skills.'
+          })));
+        }
+      })
+      .catch(() => {});
+  };
+
+  useEffect(() => {
+    loadClubs();
   }, []);
 
   const categories = [
@@ -212,7 +226,7 @@ const AllClubs = () => {
             <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
               Campus Clubs & Communities
               <span className="text-xs font-bold bg-blue-100 text-[#1c4980] px-3 py-1 rounded-full">
-                {DUMMY_CLUBS.length} Active Clubs
+                {clubsList.length} Active Clubs
               </span>
             </h1>
             <p className="text-slate-600 mt-1 font-medium text-sm">
@@ -299,12 +313,12 @@ const AllClubs = () => {
 
             {/* Recommendation Cards Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {DUMMY_RECOMMENDED_CLUBS.map((rec) => (
+              {recommendedClubs.map((rec) => (
                 <RecommendationCard
                   key={rec.id}
                   recommendation={rec}
                   onApply={(item) => {
-                    const matchedClub = DUMMY_CLUBS.find((c) => c.name === item.name) || DUMMY_CLUBS[0];
+                    const matchedClub = clubsList.find((c) => c.name === item.name) || clubsList[0];
                     setSelectedJoinClub(matchedClub);
                   }}
                 />

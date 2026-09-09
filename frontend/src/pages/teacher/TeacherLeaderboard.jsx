@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getLeaderboard } from '../../services/teacherService';
 
-const LEADERBOARD_DATA = [
+const INITIAL_LEADERBOARD = [
   {
     rank: 1,
     name: 'Coding Club',
@@ -70,7 +71,30 @@ const LEADERBOARD_DATA = [
 ];
 
 const TeacherLeaderboard = () => {
+  const [leaderboardData, setLeaderboardData] = useState(INITIAL_LEADERBOARD);
   const [filter, setFilter] = useState('all');
+
+  useEffect(() => {
+    getLeaderboard()
+      .then((res) => {
+        const rows = res?.data || res;
+        if (Array.isArray(rows) && rows.length > 0) {
+          const mapped = rows.map((r, idx) => ({
+            rank: r.rank || idx + 1,
+            name: r.clubName || r.name || 'Campus Club',
+            category: r.category || 'Technical',
+            points: r.points || r.score || 1000,
+            members: r.members || r.member_count || 10,
+            events: r.activities || r.activities_count || 2,
+            mentor: r.mentor || 'Faculty Lead',
+            growth: '+15%',
+            badge: idx === 0 ? '🥇 Gold Tier' : idx === 1 ? '🥈 Silver Tier' : 'Active'
+          }));
+          setLeaderboardData(mapped);
+        }
+      })
+      .catch((e) => console.warn('[Leaderboard fetch notice]:', e.message));
+  }, []);
 
   return (
     <div className="space-y-8 max-w-6xl mx-auto animate-fadeIn pb-12">
@@ -92,55 +116,61 @@ const TeacherLeaderboard = () => {
       {/* Top 3 Podium Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {/* Rank 2 - Silver */}
-        <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs flex flex-col items-center text-center order-2 md:order-1">
-          <div className="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center text-2xl mb-3 shadow-inner">
-            🥈
+        {leaderboardData[1] && (
+          <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs flex flex-col items-center text-center order-2 md:order-1">
+            <div className="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center text-2xl mb-3 shadow-inner">
+              🥈
+            </div>
+            <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
+              Rank #2
+            </span>
+            <h3 className="font-extrabold text-base text-slate-900 mt-1">
+              {leaderboardData[1].name}
+            </h3>
+            <span className="text-xs text-slate-500 font-semibold">{leaderboardData[1].category}</span>
+            <div className="mt-4 px-4 py-1.5 bg-slate-100 text-slate-800 rounded-xl font-black text-sm">
+              {leaderboardData[1].points.toLocaleString()} pts
+            </div>
           </div>
-          <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
-            Rank #2
-          </span>
-          <h3 className="font-extrabold text-base text-slate-900 mt-1">
-            {LEADERBOARD_DATA[1].name}
-          </h3>
-          <span className="text-xs text-slate-500 font-semibold">{LEADERBOARD_DATA[1].category}</span>
-          <div className="mt-4 px-4 py-1.5 bg-slate-100 text-slate-800 rounded-xl font-black text-sm">
-            {LEADERBOARD_DATA[1].points.toLocaleString()} pts
-          </div>
-        </div>
+        )}
 
         {/* Rank 1 - Gold */}
-        <div className="bg-gradient-to-b from-amber-50 to-white rounded-3xl p-6 border-2 border-amber-300 shadow-md flex flex-col items-center text-center order-1 md:order-2 transform md:-translate-y-2">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-400 to-amber-500 text-white flex items-center justify-center text-3xl mb-3 shadow-lg shadow-amber-500/20">
-            👑
+        {leaderboardData[0] && (
+          <div className="bg-gradient-to-b from-amber-50 to-white rounded-3xl p-6 border-2 border-amber-300 shadow-md flex flex-col items-center text-center order-1 md:order-2 transform md:-translate-y-2">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-400 to-amber-500 text-white flex items-center justify-center text-3xl mb-3 shadow-lg shadow-amber-500/20">
+              👑
+            </div>
+            <span className="text-[10px] font-extrabold uppercase tracking-widest text-amber-700 bg-amber-100 px-3 py-0.5 rounded-full">
+              🏆 Top Performer #1
+            </span>
+            <h3 className="font-extrabold text-lg text-slate-900 mt-1.5">
+              {leaderboardData[0].name}
+            </h3>
+            <span className="text-xs text-amber-900 font-semibold">{leaderboardData[0].category}</span>
+            <div className="mt-4 px-5 py-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-xl font-black text-base shadow-sm">
+              {leaderboardData[0].points.toLocaleString()} pts
+            </div>
           </div>
-          <span className="text-[10px] font-extrabold uppercase tracking-widest text-amber-700 bg-amber-100 px-3 py-0.5 rounded-full">
-            🏆 Top Performer #1
-          </span>
-          <h3 className="font-extrabold text-lg text-slate-900 mt-1.5">
-            {LEADERBOARD_DATA[0].name}
-          </h3>
-          <span className="text-xs text-amber-900 font-semibold">{LEADERBOARD_DATA[0].category}</span>
-          <div className="mt-4 px-5 py-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-xl font-black text-base shadow-sm">
-            {LEADERBOARD_DATA[0].points.toLocaleString()} pts
-          </div>
-        </div>
+        )}
 
         {/* Rank 3 - Bronze */}
-        <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs flex flex-col items-center text-center order-3">
-          <div className="w-14 h-14 rounded-2xl bg-amber-50 flex items-center justify-center text-2xl mb-3 shadow-inner">
-            🥉
+        {leaderboardData[2] && (
+          <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs flex flex-col items-center text-center order-3">
+            <div className="w-14 h-14 rounded-2xl bg-amber-50 flex items-center justify-center text-2xl mb-3 shadow-inner">
+              🥉
+            </div>
+            <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
+              Rank #3
+            </span>
+            <h3 className="font-extrabold text-base text-slate-900 mt-1">
+              {leaderboardData[2].name}
+            </h3>
+            <span className="text-xs text-slate-500 font-semibold">{leaderboardData[2].category}</span>
+            <div className="mt-4 px-4 py-1.5 bg-amber-50 text-amber-900 rounded-xl font-black text-sm">
+              {leaderboardData[2].points.toLocaleString()} pts
+            </div>
           </div>
-          <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
-            Rank #3
-          </span>
-          <h3 className="font-extrabold text-base text-slate-900 mt-1">
-            {LEADERBOARD_DATA[2].name}
-          </h3>
-          <span className="text-xs text-slate-500 font-semibold">{LEADERBOARD_DATA[2].category}</span>
-          <div className="mt-4 px-4 py-1.5 bg-amber-50 text-amber-900 rounded-xl font-black text-sm">
-            {LEADERBOARD_DATA[2].points.toLocaleString()} pts
-          </div>
-        </div>
+        )}
       </div>
 
       {/* Leaderboard Table */}
@@ -167,7 +197,7 @@ const TeacherLeaderboard = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {LEADERBOARD_DATA.map((c) => (
+              {leaderboardData.map((c) => (
                 <tr key={c.rank} className="hover:bg-slate-50/70 transition">
                   <td className="py-4 px-5 font-extrabold text-slate-700">
                     <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full font-black text-xs ${

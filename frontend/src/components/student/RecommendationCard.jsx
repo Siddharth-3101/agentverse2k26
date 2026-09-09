@@ -51,12 +51,12 @@ const RecommendationCard = ({ recommendation, onApply }) => {
 
         {/* Matching Skill Pills */}
         <div className="flex flex-wrap gap-1 mt-3">
-          {recommendation.matchedSkills.map((skill, idx) => (
+          {(recommendation.matchedSkills || []).map((skill, idx) => (
             <span
               key={idx}
               className="text-[10px] font-bold text-emerald-200 bg-emerald-500/20 border border-emerald-400/20 px-2 py-0.5 rounded-md"
             >
-              ✓ {skill}
+              ✓ {typeof skill === 'object' && skill !== null ? (skill.name || skill.skill || '') : skill}
             </span>
           ))}
         </div>

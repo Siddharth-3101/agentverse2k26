@@ -18,23 +18,22 @@ const ApplicationCard = ({ application, onBack, onStatusChange }) => {
     );
   }
 
-  const {
-    id,
-    applicationId,
-    studentName,
-    studentId,
-    email,
-    phoneNumber,
-    department,
-    yearOfStudy,
-    clubName = 'Coding Club',
-    reason,
-    skills,
-    status = 'PENDING'
-  } = application;
+  const targetAppId = application.applicationId || application.id;
+  const studentName = application.full_name || application.student_name || application.studentName || 'Student';
+  const studentId = application.student_id_number || application.student_id || application.studentId || '2024CS002';
+  const email = application.email || 'student@agentverse.edu';
+  const phoneNumber = application.phone_number || application.phoneNumber || '+91 98765 43210';
+  const department = application.department || 'Computer Science & Engineering';
+  const yearOfStudy = application.year_of_study
+    ? `${application.year_of_study}${application.year_of_study === 1 ? 'st' : application.year_of_study === 2 ? 'nd' : application.year_of_study === 3 ? 'rd' : 'th'} Year`
+    : application.yearOfStudy || '3rd Year';
+  const clubName = application.club_name || application.clubName || 'Agentic AI & Coding Society';
+  const reason = application.reason_to_join || application.reason || 'I want to contribute to club projects and activities.';
+  const skills = application.skills || 'Python, Full Stack, Problem Solving';
+  const status = application.status || 'PENDING';
 
-  const targetAppId = applicationId || id;
-  const isProcessed = status === 'ACCEPTED' || status === 'DECLINED';
+  const isProcessed = status === 'ACCEPTED' || status === 'DECLINED' || status === 'REJECTED';
+
 
   const handleAccept = () => {
     if (isProcessed) return;
@@ -84,7 +83,7 @@ const ApplicationCard = ({ application, onBack, onStatusChange }) => {
             className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider ${
               status === 'ACCEPTED'
                 ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
-                : status === 'DECLINED'
+                : status === 'DECLINED' || status === 'REJECTED'
                 ? 'bg-rose-100 text-rose-800 border border-rose-300'
                 : 'bg-amber-100 text-amber-800 border border-amber-300'
             }`}
@@ -93,7 +92,7 @@ const ApplicationCard = ({ application, onBack, onStatusChange }) => {
               className={`w-2 h-2 rounded-full ${
                 status === 'ACCEPTED'
                   ? 'bg-emerald-500'
-                  : status === 'DECLINED'
+                  : status === 'DECLINED' || status === 'REJECTED'
                   ? 'bg-rose-500'
                   : 'bg-amber-500 animate-pulse'
               }`}

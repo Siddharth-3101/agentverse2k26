@@ -11,8 +11,12 @@ export async function submitApplication(studentUserId, data) {
     department,
     year_of_study,
     reason_to_join,
+    reason,
     skills,
   } = data;
+
+  const actualReason = reason_to_join || reason || '';
+
 
   // 1. Verify student exists
   const [students] = await pool.query('SELECT * FROM users WHERE id = ?', [studentUserId]);
@@ -63,28 +67,54 @@ export async function submitApplication(studentUserId, data) {
       phone_number || student.phone_number || null,
       department || student.department || null,
       year_of_study || student.year_of_study || null,
-      reason_to_join || null,
+      actualReason || null,
       skills || null,
     ]
   );
 
   const applicationId = appResult.insertId;
 
-  // 6. Create notification for the teacher assigned to that club
-  let teacherUserId = club.mentor_teacher_id;
-  if (!teacherUserId) {
+  // 6. Create notifications for Mentor, President, and Vice President of the club
+  const recipientIds = new Set();
+
+  // Mentor Teacher
+  if (club.mentor_teacher_id) {
+    recipientIds.add(club.mentor_teacher_id);
+  } else {
     const [profiles] = await pool.query('SELECT user_id FROM teacher_profiles WHERE club_id = ?', [club_id]);
     if (profiles.length > 0) {
-      teacherUserId = profiles[0].user_id;
+      recipientIds.add(profiles[0].user_id);
     }
   }
 
-  if (teacherUserId) {
-    await pool.query(
-      `INSERT INTO notifications (recipient_user_id, type, title, message, application_id, is_read)
-       VALUES (?, 'CLUB_APPLICATION', 'New Club Application', ?, ?, FALSE)`,
-      [teacherUserId, `${full_name || student.full_name} applied to ${club.name}`, applicationId]
-    );
+  // Club President
+  if (club.president_user_id) {
+    recipientIds.add(club.president_user_id);
+  }
+
+  // Club Vice President
+  if (club.vp_user_id) {
+    recipientIds.add(club.vp_user_id);
+  }
+
+  // Also find any executive members in club_members table
+  const [execMembers] = await pool.query(
+    `SELECT student_id FROM club_members WHERE club_id = ? AND role IN ('PRESIDENT', 'VICE_PRESIDENT') AND status = 'ACTIVE'`,
+    [club_id]
+  );
+  for (const exec of execMembers) {
+    recipientIds.add(exec.student_id);
+  }
+
+  // Insert notification for each recipient (mentor, pres, vp)
+  for (const recipientId of recipientIds) {
+    if (recipientId !== studentUserId) {
+      await pool.query(
+        `INSERT INTO notifications (recipient_user_id, type, title, message, application_id, is_read)
+         VALUES (?, 'CLUB_APPLICATION', 'New Club Application', ?, ?, FALSE)`,
+        [recipientId, `${full_name || student.full_name} applied to ${club.name}`, applicationId]
+      );
+    }
   }
 
   return getApplicationById(applicationId);
@@ -106,7 +136,7 @@ export async function getStudentApplications(studentUserId) {
 export async function getApplicationById(applicationId) {
   const pool = getPool();
   const [apps] = await pool.query(
-    `SELECT a.*, c.name as club_name, c.category as club_category, c.mentor_teacher_id
+    `SELECT a.*, c.name as club_name, c.category as club_category, c.mentor_teacher_id, c.president_user_id, c.vp_user_id
      FROM applications a 
      JOIN clubs c ON a.club_id = c.id 
      WHERE a.id = ?`,
@@ -120,36 +150,51 @@ export async function getApplicationById(applicationId) {
   return apps[0];
 }
 
-export async function getTeacherApplications(teacherUserId) {
+export async function getClubApplications(clubId) {
   const pool = getPool();
-
-  // Find teacher's assigned club
-  const [clubs] = await pool.query(
-    `SELECT id, name FROM clubs WHERE mentor_teacher_id = ?
-     UNION 
-     SELECT c.id, c.name FROM teacher_profiles tp JOIN clubs c ON tp.club_id = c.id WHERE tp.user_id = ?`,
-    [teacherUserId, teacherUserId]
-  );
-
-  if (clubs.length === 0) {
-    return [];
-  }
-
-  const clubId = clubs[0].id;
-
   const [apps] = await pool.query(
-    `SELECT a.*, c.name as club_name 
+    `SELECT a.*, c.name as club_name, c.category as club_category 
      FROM applications a 
      JOIN clubs c ON a.club_id = c.id 
      WHERE a.club_id = ? 
      ORDER BY a.applied_at DESC`,
     [clubId]
   );
+  return apps;
+}
+
+export async function getTeacherApplications(teacherUserId) {
+  const pool = getPool();
+
+  // Find teacher's assigned club or club where user is mentor/president/vp
+  const [clubs] = await pool.query(
+    `SELECT id, name FROM clubs WHERE mentor_teacher_id = ? OR president_user_id = ? OR vp_user_id = ?
+     UNION 
+     SELECT c.id, c.name FROM teacher_profiles tp JOIN clubs c ON tp.club_id = c.id WHERE tp.user_id = ?
+     UNION
+     SELECT c.id, c.name FROM club_members cm JOIN clubs c ON cm.club_id = c.id WHERE cm.student_id = ? AND cm.role IN ('PRESIDENT', 'VICE_PRESIDENT')`,
+    [teacherUserId, teacherUserId, teacherUserId, teacherUserId, teacherUserId]
+  );
+
+  if (clubs.length === 0) {
+    return [];
+  }
+
+  const clubIds = clubs.map((c) => c.id);
+
+  const [apps] = await pool.query(
+    `SELECT a.*, c.name as club_name 
+     FROM applications a 
+     JOIN clubs c ON a.club_id = c.id 
+     WHERE a.club_id IN (?) 
+     ORDER BY a.applied_at DESC`,
+    [clubIds]
+  );
 
   return apps;
 }
 
-export async function reviewApplication(teacherUserId, applicationId, newStatus) {
+export async function reviewApplication(reviewerUserId, applicationId, newStatus) {
   if (!['ACCEPTED', 'REJECTED'].includes(newStatus)) {
     throw { status: 400, message: "Invalid status. Must be 'ACCEPTED' or 'REJECTED'." };
   }
@@ -161,14 +206,23 @@ export async function reviewApplication(teacherUserId, applicationId, newStatus)
     throw { status: 400, message: `Application is already ${application.status}.` };
   }
 
-  // 1. Verify teacher owns/mentors the club
-  const [teacherClubs] = await pool.query(
-    `SELECT id FROM clubs WHERE id = ? AND (mentor_teacher_id = ? OR id IN (SELECT club_id FROM teacher_profiles WHERE user_id = ?))`,
-    [application.club_id, teacherUserId, teacherUserId]
+  // 1. Verify reviewer is mentor teacher, president, VP, or admin
+  const [authClubs] = await pool.query(
+    `SELECT id FROM clubs WHERE id = ? AND (
+      mentor_teacher_id = ? OR 
+      president_user_id = ? OR 
+      vp_user_id = ? OR 
+      id IN (SELECT club_id FROM teacher_profiles WHERE user_id = ?) OR
+      id IN (SELECT club_id FROM club_members WHERE student_id = ? AND role IN ('PRESIDENT', 'VICE_PRESIDENT'))
+    )`,
+    [application.club_id, reviewerUserId, reviewerUserId, reviewerUserId, reviewerUserId, reviewerUserId]
   );
 
-  if (teacherClubs.length === 0) {
-    throw { status: 403, message: 'Forbidden. You can only review applications for your assigned club.' };
+  // If user is ADMIN, allow
+  const [admins] = await pool.query('SELECT id, role FROM users WHERE id = ? AND role = "ADMIN"', [reviewerUserId]);
+
+  if (authClubs.length === 0 && admins.length === 0) {
+    throw { status: 403, message: 'Forbidden. You can only review applications for clubs you mentor or lead as President/VP.' };
   }
 
   const connection = await pool.getConnection();
@@ -180,12 +234,12 @@ export async function reviewApplication(teacherUserId, applicationId, newStatus)
       // Update status
       await connection.query(
         `UPDATE applications SET status = 'ACCEPTED', reviewed_at = NOW(), reviewed_by = ? WHERE id = ?`,
-        [teacherUserId, applicationId]
+        [reviewerUserId, applicationId]
       );
 
       // Add student to club_members
       await connection.query(
-        `INSERT INTO club_members (club_id, student_id, status) VALUES (?, ?, 'ACTIVE')
+        `INSERT INTO club_members (club_id, student_id, role, status) VALUES (?, ?, 'MEMBER', 'ACTIVE')
          ON DUPLICATE KEY UPDATE status = 'ACTIVE'`,
         [application.club_id, application.student_id]
       );
@@ -202,7 +256,7 @@ export async function reviewApplication(teacherUserId, applicationId, newStatus)
          VALUES (?, 'APPLICATION_ACCEPTED', 'Application Accepted', ?, ?, FALSE)`,
         [
           application.student_id,
-          `Your application to ${application.club_name} has been accepted.`,
+          `Congratulations! Your application to join ${application.club_name} has been accepted.`,
           applicationId,
         ]
       );
@@ -210,7 +264,7 @@ export async function reviewApplication(teacherUserId, applicationId, newStatus)
       // Update status
       await connection.query(
         `UPDATE applications SET status = 'REJECTED', reviewed_at = NOW(), reviewed_by = ? WHERE id = ?`,
-        [teacherUserId, applicationId]
+        [reviewerUserId, applicationId]
       );
 
       // Create student notification
@@ -219,7 +273,7 @@ export async function reviewApplication(teacherUserId, applicationId, newStatus)
          VALUES (?, 'APPLICATION_REJECTED', 'Application Rejected', ?, ?, FALSE)`,
         [
           application.student_id,
-          `Your application to ${application.club_name} has been rejected.`,
+          `Your application to join ${application.club_name} was not accepted at this time.`,
           applicationId,
         ]
       );

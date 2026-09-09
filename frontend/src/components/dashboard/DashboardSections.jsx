@@ -1,18 +1,255 @@
 import * as Icons from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Bar, BarChart, Cell, Pie, PieChart, Radar, RadarChart, ResponsiveContainer, Tooltip, PolarGrid, PolarAngleAxis } from 'recharts';
 import Badge from '../common/Badge';
+
 const Icon = ({ name, ...props }) => { const Component = Icons[name] || Icons.Circle; return <Component {...props} />; };
-const SectionTitle = ({ eyebrow, title, link }) => <div className="section-title"><div>{eyebrow && <span className="eyebrow">{eyebrow}</span>}<h2>{title}</h2></div>{link && <button className="text-link">{link} <Icons.ArrowRight size={16}/></button>}</div>;
-export function WelcomeHero({ student, notify }) { return <section className="welcome"><div><span className="eyebrow">YOUR STUDENT ACTIVITY HUB</span><h1>Good afternoon, {student.name}</h1><p>Build your profile. Discover opportunities. Track your growth.</p><div className="hero-actions"><button className="button primary" onClick={() => notify('Exploring opportunities...')}>Explore opportunities <Icons.ArrowUpRight size={17}/></button><button className="button secondary" onClick={() => notify('Certificate upload is ready')}>Upload certificate</button></div></div><div className="strength"><div className="strength-top"><span>Profile strength</span><b>{student.profileCompletion}%</b></div><div className="progress"><i style={{ width: `${student.profileCompletion}%` }} /></div><small>Great start! Add a project to reach 100%.</small></div></section> }
-export function ActivitySummary({ stats }) { return <section className="stat-grid">{stats.map((item) => <button className="stat-card" key={item.label}><span className={`stat-icon ${item.tone}`}><Icon name={item.icon} size={20}/></span><div><strong>{item.value}</strong><span>{item.label}</span><small>↗ {item.detail}</small></div><Icons.ChevronRight className="stat-arrow" size={17}/></button>)}</section> }
-export function SkillDevelopment({ skills }) { return <section className="card skill-card"><SectionTitle eyebrow="DEVELOPMENT SNAPSHOT" title="Your skill graph" link="View skill graph"/><div className="skill-body"><div className="radar-wrap"><ResponsiveContainer width="100%" height={220}><RadarChart data={skills} outerRadius="70%"><PolarGrid stroke="#e7eaf2"/><PolarAngleAxis dataKey="subject" tick={{ fill:'#65708b', fontSize: 10 }}/><Radar dataKey="value" stroke="#5d5fef" fill="#5d5fef" fillOpacity={.2} /></RadarChart></ResponsiveContainer></div><div className="skill-bars">{skills.slice(0, 4).map((skill) => <div className="skill-row" key={skill.subject}><div><span>{skill.subject}</span><b>{skill.value}%</b></div><div className="mini-progress"><i style={{width:`${skill.value}%`}} /></div></div>)}</div></div></section> }
-export function AIInsights() { return <section className="card ai-card"><div className="ai-heading"><span className="ai-icon"><Icons.Sparkles size={18}/></span><div><span className="eyebrow">DEVELOPMENT INTELLIGENCE</span><h2>AI insights</h2></div></div><div className="insight-list"><div><b>Your strengths</b><p><span>Programming</span><span>Problem solving</span><span>Innovation</span></p></div><div><b>Build next</b><p><span>Leadership</span><span>Research</span></p></div></div><div className="recommend"><span><Icons.UsersRound size={17}/></span><div><b>Join a leadership role</b><p>Strong technical participation—try leading a club initiative.</p><button className="text-link">Explore clubs <Icons.ArrowRight size={15}/></button></div></div><div className="recommend"><span><Icons.Rocket size={17}/></span><div><b>Participate in a hackathon</b><p>Build innovation, teamwork and problem solving.</p><button className="text-link">Explore hackathons <Icons.ArrowRight size={15}/></button></div></div></section> }
-export function OpportunitySection({ opportunities, notify }) { return <section className="opportunity-section"><SectionTitle eyebrow="CURATED FOR YOU" title="Recommended opportunities" link="View all"/><div className="opportunity-grid">{opportunities.map((item) => <OpportunityCard key={item.id} item={item} notify={notify}/>)}</div></section> }
-export function OpportunityCard({ item, notify }) { return <article className="opportunity-card"><div className={`opportunity-art ${item.accent}`}><span>{item.category}</span><Icon name={item.icon} size={35}/><div className="art-dots">•••</div></div><div className="opportunity-info"><div className="opportunity-head"><h3>{item.title}</h3><button aria-label="Save opportunity"><Icons.Bookmark size={18}/></button></div><p className="org">{item.organization}</p><div className="opportunity-meta"><span><Icons.CalendarDays size={14}/>{item.date}</span><Badge status={item.status}/></div><div className="deadline"><Icons.Clock3 size={14}/>{item.deadline}</div><button className="button apply" onClick={() => notify(`Application started for ${item.title}`)}>{item.status === 'PARTIALLY_APPLIED' ? 'Continue' : 'Apply now'} <Icons.ArrowUpRight size={15}/></button></div></article> }
-export function ActionRequired({ items, notify }) { return <section className="card action-card"><SectionTitle eyebrow="DON'T MISS OUT" title="Action required"/><div className="action-list">{items.map((item) => <div className="action-item" key={item.title}><span className={`action-icon ${item.urgent ? 'urgent' : ''}`}><Icon name={item.icon} size={17}/></span><div><b>{item.title}</b><p>{item.text}</p><button onClick={() => notify(`${item.title}: action opened`)}>{item.cta} <Icons.ArrowRight size={14}/></button></div></div>)}</div></section> }
-export function Calendar({ events }) { const [month, setMonth] = useState(1); const [selected, setSelected] = useState(null); const monthNames = ['August 2026', 'September 2026', 'October 2026']; const days = useMemo(() => Array.from({length: 35}, (_, index) => index - 1), []); const getEvent = (day) => month === 1 ? events.find((e) => e.day === day) : null; return <section className="card calendar-card"><SectionTitle eyebrow="PLAN AHEAD" title="Your activity calendar"/><div className="calendar-head"><button onClick={() => setMonth(Math.max(0, month - 1))} disabled={!month}><Icons.ChevronLeft size={18}/></button><b>{monthNames[month]}</b><button onClick={() => setMonth(Math.min(2, month + 1))} disabled={month === 2}><Icons.ChevronRight size={18}/></button></div><div className="weekdays">{['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d=><span key={d}>{d}</span>)}</div><div className="calendar-grid">{days.map((day,index) => { const event = getEvent(day); return <button onClick={() => event && setSelected(event)} className={`${day < 1 || day > 30 ? 'blank' : ''} ${day === 8 && month === 1 ? 'today' : ''} ${event ? 'has-event' : ''}`} key={index}>{day > 0 && day <= 30 && <><span>{day}</span>{event && <i className={event.color} title={event.title}/>}</>}</button>})}</div>{selected && <div className="event-popover"><span className={`event-dot ${selected.color}`}/><div><b>{selected.title}</b><small>{selected.type} · September {selected.day}</small></div><button onClick={() => setSelected(null)}><Icons.X size={16}/></button></div>}</section> }
-export function Achievements({ items }) { return <section className="card achievement-card"><SectionTitle eyebrow="MILESTONES" title="Recent achievements" link="View all achievements"/><div className="achievement-list">{items.map(item=><div className="achievement" key={item.title}><span className={`achievement-icon ${item.tone}`}><Icon name={item.icon} size={19}/></span><div><small>{item.type}</small><b>{item.title}</b></div></div>)}</div></section> }
-export function ActivityAnalytics({ distribution, monthly }) { return <section className="card analytics-card"><SectionTitle eyebrow="YOUR ACTIVITY MIX" title="Activity analytics"/><div className="charts"><div className="donut"><h3>Distribution</h3><ResponsiveContainer width="100%" height={155}><PieChart><Pie data={distribution} innerRadius={42} outerRadius={63} dataKey="value" paddingAngle={3}>{distribution.map(i=><Cell key={i.name} fill={i.color}/>)}</Pie><Tooltip /></PieChart></ResponsiveContainer><div className="legend">{distribution.slice(0,4).map(i=><span key={i.name}><i style={{background:i.color}}/>{i.name} {i.value}%</span>)}</div></div><div className="bar"><h3>Monthly activity</h3><ResponsiveContainer width="100%" height={180}><BarChart data={monthly} margin={{top: 10, right: 0, left: -25, bottom:0}}><Tooltip cursor={{fill:'#f3f5fb'}}/><Bar dataKey="count" fill="#5d5fef" radius={[5,5,0,0]} /></BarChart></ResponsiveContainer></div></div></section> }
-export function ActivityTimeline({ items }) { return <section className="card timeline-card"><SectionTitle eyebrow="RECENTLY" title="Activity timeline"/><div className="timeline">{items.map(item=><div className="timeline-item" key={item.title}><span className={`timeline-icon ${item.tone}`}><Icon name={item.icon} size={15}/></span><div><small>{item.date}</small><b>{item.title}</b></div></div>)}</div></section> }
-export function ProfileCompletion({ completion }) { const checks = [['Basic information', true], ['Education', true], ['Certifications', true], ['Achievements', true], ['Skills', true], ['Projects', false], ['Publications', false]]; return <section className="card profile-card"><SectionTitle eyebrow="PROFILE" title="Complete your profile"/><div className="profile-score"><div className="circle-score"><span>{completion}<small>%</small></span></div><p>You're doing great. A little more detail makes your profile stand out.</p></div><div className="profile-checks">{checks.map(([label, done])=><span key={label} className={done ? 'done' : ''}>{done ? <Icons.Check size={14}/> : <Icons.Circle size={13}/>} {label}</span>)}</div><button className="button secondary full">Complete profile <Icons.ArrowRight size={16}/></button></section> }
+
+const SectionTitle = ({ eyebrow, title, link, linkRoute }) => {
+  const navigate = useNavigate();
+  return (
+    <div className="section-title">
+      <div>{eyebrow && <span className="eyebrow">{eyebrow}</span>}<h2>{title}</h2></div>
+      {link && <button className="text-link" onClick={() => linkRoute && navigate(linkRoute)}>{link} <Icons.ArrowRight size={16}/></button>}
+    </div>
+  );
+};
+
+export function WelcomeHero({ student, notify }) {
+  const navigate = useNavigate();
+  return (
+    <section className="welcome">
+      <div>
+        <span className="eyebrow">YOUR STUDENT ACTIVITY HUB</span>
+        <h1>Good afternoon, {student.name}</h1>
+        <p>Build your profile. Discover opportunities. Track your growth.</p>
+        <div className="hero-actions">
+          <button className="button primary" onClick={() => navigate('/events')}>Explore opportunities <Icons.ArrowUpRight size={17}/></button>
+          <button className="button secondary" onClick={() => navigate('/certificates')}>Upload certificate</button>
+        </div>
+      </div>
+      <div className="strength">
+        <div className="strength-top"><span>Profile strength</span><b>{student.profileCompletion}%</b></div>
+        <div className="progress"><i style={{ width: `${student.profileCompletion}%` }} /></div>
+        <small>Great start! Add a project to reach 100%.</small>
+      </div>
+    </section>
+  );
+}
+
+const STAT_ROUTES = {
+  'Events & Activities': '/events',
+  'Certifications': '/certificates',
+  'Clubs': '/my-club',
+  'Publications': '/profile',
+  'Internships': '/profile',
+  'Achievements': '/profile',
+};
+
+export function ActivitySummary({ stats }) {
+  const navigate = useNavigate();
+  return (
+    <section className="stat-grid">
+      {stats.map((item) => (
+        <button className="stat-card" key={item.label} onClick={() => { const r = STAT_ROUTES[item.label]; if (r) navigate(r); }}>
+          <span className={`stat-icon ${item.tone}`}><Icon name={item.icon} size={20}/></span>
+          <div><strong>{item.value}</strong><span>{item.label}</span><small>↗ {item.detail}</small></div>
+          <Icons.ChevronRight className="stat-arrow" size={17}/>
+        </button>
+      ))}
+    </section>
+  );
+}
+
+export function SkillDevelopment({ skills }) {
+  return (
+    <section className="card skill-card">
+      <SectionTitle eyebrow="DEVELOPMENT SNAPSHOT" title="Your skill graph" link="View skill graph" linkRoute="/profile"/>
+      <div className="skill-body">
+        <div className="radar-wrap">
+          <ResponsiveContainer width="100%" height={220}>
+            <RadarChart data={skills} outerRadius="70%">
+              <PolarGrid stroke="#e7eaf2"/><PolarAngleAxis dataKey="subject" tick={{ fill:'#65708b', fontSize: 10 }}/>
+              <Radar dataKey="value" stroke="#5d5fef" fill="#5d5fef" fillOpacity={.2} />
+            </RadarChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="skill-bars">
+          {skills.slice(0, 4).map((skill) => (
+            <div className="skill-row" key={skill.subject}>
+              <div><span>{skill.subject}</span><b>{skill.value}%</b></div>
+              <div className="mini-progress"><i style={{width:`${skill.value}%`}} /></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function AIInsights() {
+  const navigate = useNavigate();
+  return (
+    <section className="card ai-card">
+      <div className="ai-heading"><span className="ai-icon"><Icons.Sparkles size={18}/></span><div><span className="eyebrow">DEVELOPMENT INTELLIGENCE</span><h2>AI insights</h2></div></div>
+      <div className="insight-list">
+        <div><b>Your strengths</b><p><span>Programming</span><span>Problem solving</span><span>Innovation</span></p></div>
+        <div><b>Build next</b><p><span>Leadership</span><span>Research</span></p></div>
+      </div>
+      <div className="recommend">
+        <span><Icons.UsersRound size={17}/></span>
+        <div><b>Join a leadership role</b><p>Strong technical participation—try leading a club initiative.</p>
+          <button className="text-link" onClick={() => navigate('/clubs')}>Explore clubs <Icons.ArrowRight size={15}/></button>
+        </div>
+      </div>
+      <div className="recommend">
+        <span><Icons.Rocket size={17}/></span>
+        <div><b>Participate in a hackathon</b><p>Build innovation, teamwork and problem solving.</p>
+          <button className="text-link" onClick={() => navigate('/events')}>Explore hackathons <Icons.ArrowRight size={15}/></button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function OpportunitySection({ opportunities, notify }) {
+  return (
+    <section className="opportunity-section">
+      <SectionTitle eyebrow="CURATED FOR YOU" title="Recommended opportunities" link="View all" linkRoute="/events"/>
+      <div className="opportunity-grid">{opportunities.map((item) => <OpportunityCard key={item.id} item={item} notify={notify}/>)}</div>
+    </section>
+  );
+}
+
+export function OpportunityCard({ item, notify }) {
+  const navigate = useNavigate();
+  return (
+    <article className="opportunity-card">
+      <div className={`opportunity-art ${item.accent}`}><span>{item.category}</span><Icon name={item.icon} size={35}/><div className="art-dots">•••</div></div>
+      <div className="opportunity-info">
+        <div className="opportunity-head"><h3>{item.title}</h3><button aria-label="Save opportunity"><Icons.Bookmark size={18}/></button></div>
+        <p className="org">{item.organization}</p>
+        <div className="opportunity-meta"><span><Icons.CalendarDays size={14}/>{item.date}</span><Badge status={item.status}/></div>
+        <div className="deadline"><Icons.Clock3 size={14}/>{item.deadline}</div>
+        <button className="button apply" onClick={() => navigate('/events')}>
+          {item.status === 'PARTIALLY_APPLIED' ? 'Continue' : 'Apply now'} <Icons.ArrowUpRight size={15}/>
+        </button>
+      </div>
+    </article>
+  );
+}
+
+const ACTION_ROUTES = {
+  'Complete Profile': '/profile',
+  'Upload Certificates': '/certificates',
+  'Join a Club': '/clubs',
+  'Register for Events': '/events',
+};
+
+export function ActionRequired({ items, notify }) {
+  const navigate = useNavigate();
+  return (
+    <section className="card action-card">
+      <SectionTitle eyebrow="DON'T MISS OUT" title="Action required"/>
+      <div className="action-list">
+        {items.map((item) => (
+          <div className="action-item" key={item.title}>
+            <span className={`action-icon ${item.urgent ? 'urgent' : ''}`}><Icon name={item.icon} size={17}/></span>
+            <div>
+              <b>{item.title}</b><p>{item.text}</p>
+              <button onClick={() => { const r = ACTION_ROUTES[item.title]; if (r) navigate(r); else notify(`${item.title}: action opened`); }}>
+                {item.cta} <Icons.ArrowRight size={14}/>
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export function Calendar({ events }) {
+  const [month, setMonth] = useState(1); const [selected, setSelected] = useState(null);
+  const monthNames = ['August 2026', 'September 2026', 'October 2026'];
+  const days = useMemo(() => Array.from({length: 35}, (_, index) => index - 1), []);
+  const getEvent = (day) => month === 1 ? events.find((e) => e.day === day) : null;
+  return (
+    <section className="card calendar-card">
+      <SectionTitle eyebrow="PLAN AHEAD" title="Your activity calendar"/>
+      <div className="calendar-head">
+        <button onClick={() => setMonth(Math.max(0, month - 1))} disabled={!month}><Icons.ChevronLeft size={18}/></button>
+        <b>{monthNames[month]}</b>
+        <button onClick={() => setMonth(Math.min(2, month + 1))} disabled={month === 2}><Icons.ChevronRight size={18}/></button>
+      </div>
+      <div className="weekdays">{['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d=><span key={d}>{d}</span>)}</div>
+      <div className="calendar-grid">
+        {days.map((day,index) => { const event = getEvent(day); return (
+          <button onClick={() => event && setSelected(event)} className={`${day < 1 || day > 30 ? 'blank' : ''} ${day === 8 && month === 1 ? 'today' : ''} ${event ? 'has-event' : ''}`} key={index}>
+            {day > 0 && day <= 30 && <><span>{day}</span>{event && <i className={event.color} title={event.title}/>}</>}
+          </button>
+        );})}
+      </div>
+      {selected && <div className="event-popover"><span className={`event-dot ${selected.color}`}/><div><b>{selected.title}</b><small>{selected.type} · September {selected.day}</small></div><button onClick={() => setSelected(null)}><Icons.X size={16}/></button></div>}
+    </section>
+  );
+}
+
+export function Achievements({ items }) {
+  return (
+    <section className="card achievement-card">
+      <SectionTitle eyebrow="MILESTONES" title="Recent achievements" link="View all achievements" linkRoute="/profile"/>
+      <div className="achievement-list">
+        {items.map(item=><div className="achievement" key={item.title}><span className={`achievement-icon ${item.tone}`}><Icon name={item.icon} size={19}/></span><div><small>{item.type}</small><b>{item.title}</b></div></div>)}
+      </div>
+    </section>
+  );
+}
+
+export function ActivityAnalytics({ distribution, monthly }) {
+  return (
+    <section className="card analytics-card">
+      <SectionTitle eyebrow="YOUR ACTIVITY MIX" title="Activity analytics"/>
+      <div className="charts">
+        <div className="donut">
+          <h3>Distribution</h3>
+          <ResponsiveContainer width="100%" height={155}><PieChart><Pie data={distribution} innerRadius={42} outerRadius={63} dataKey="value" paddingAngle={3}>{distribution.map(i=><Cell key={i.name} fill={i.color}/>)}</Pie><Tooltip /></PieChart></ResponsiveContainer>
+          <div className="legend">{distribution.slice(0,4).map(i=><span key={i.name}><i style={{background:i.color}}/>{i.name} {i.value}%</span>)}</div>
+        </div>
+        <div className="bar">
+          <h3>Monthly activity</h3>
+          <ResponsiveContainer width="100%" height={180}><BarChart data={monthly} margin={{top: 10, right: 0, left: -25, bottom:0}}><Tooltip cursor={{fill:'#f3f5fb'}}/><Bar dataKey="count" fill="#5d5fef" radius={[5,5,0,0]} /></BarChart></ResponsiveContainer>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function ActivityTimeline({ items }) {
+  return (
+    <section className="card timeline-card">
+      <SectionTitle eyebrow="RECENTLY" title="Activity timeline"/>
+      <div className="timeline">
+        {items.map(item=><div className="timeline-item" key={item.title}><span className={`timeline-icon ${item.tone}`}><Icon name={item.icon} size={15}/></span><div><small>{item.date}</small><b>{item.title}</b></div></div>)}
+      </div>
+    </section>
+  );
+}
+
+export function ProfileCompletion({ completion }) {
+  const navigate = useNavigate();
+  const checks = [['Basic information', true], ['Education', true], ['Certifications', true], ['Achievements', true], ['Skills', true], ['Projects', false], ['Publications', false]];
+  return (
+    <section className="card profile-card">
+      <SectionTitle eyebrow="PROFILE" title="Complete your profile"/>
+      <div className="profile-score">
+        <div className="circle-score"><span>{completion}<small>%</small></span></div>
+        <p>You're doing great. A little more detail makes your profile stand out.</p>
+      </div>
+      <div className="profile-checks">
+        {checks.map(([label, done])=><span key={label} className={done ? 'done' : ''}>{done ? <Icons.Check size={14}/> : <Icons.Circle size={13}/>} {label}</span>)}
+      </div>
+      <button className="button secondary full" onClick={() => navigate('/profile')}>Complete profile <Icons.ArrowRight size={16}/></button>
+    </section>
+  );
+}

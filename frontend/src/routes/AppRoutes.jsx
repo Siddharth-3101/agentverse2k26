@@ -31,7 +31,11 @@ import TeacherLogin from '../pages/auth/TeacherLogin.jsx';
 import NotFound from '../pages/errors/NotFound.jsx';
 
 const RootRedirect = () => {
-  const { role } = useAuth();
+  const { user, role } = useAuth();
+  const token = localStorage.getItem('agentverse_token');
+  if (!user || !token || role === 'GUEST') {
+    return <Navigate to="/login" replace />;
+  }
   if (role === 'TEACHER' || role === 'ADMIN') {
     return <Navigate to="/teacher/dashboard" replace />;
   }

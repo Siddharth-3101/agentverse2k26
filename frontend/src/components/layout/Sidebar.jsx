@@ -154,14 +154,14 @@ export default function Sidebar({ open, onClose }) {
         <div className="flex items-center justify-between bg-white p-2.5 rounded-xl border border-slate-200 shadow-xs">
           <div className="flex items-center space-x-2.5 min-w-0">
             <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0">
-              {isFacultyOrAdmin ? 'F' : user?.name ? user.name[0] : 'S'}
+              {user?.name ? user.name.charAt(0) : 'U'}
             </div>
             <div className="min-w-0 flex-1">
               <div className="text-xs font-extrabold text-slate-800 truncate">
-                {isFacultyOrAdmin ? (role === 'ADMIN' ? 'Admin Officer' : 'John Teacher') : (user?.name || 'Siddharth')}
+                {user?.name || (role === 'ADMIN' ? 'Campus Administrator' : 'Dr. A. K. Gupta')}
               </div>
               <div className="text-[10px] text-slate-500 truncate font-semibold">
-                {isFacultyOrAdmin ? (role === 'ADMIN' ? 'admin@campus.edu' : 'john.teacher@campus.edu') : (user?.email || 'siddharth@campus.edu')}
+                {user?.email || 'user@agentverse.edu'}
               </div>
             </div>
           </div>

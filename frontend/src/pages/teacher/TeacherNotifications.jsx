@@ -5,6 +5,7 @@ import ApplicationCard from '../../components/teacher/ApplicationCard';
 
 const TeacherNotifications = () => {
   const {
+    teacher,
     notifications,
     unreadCount,
     selectedApplication,
@@ -42,7 +43,7 @@ const TeacherNotifications = () => {
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-bold mb-3 border border-indigo-100">
               <span className="w-2 h-2 rounded-full bg-indigo-600"></span>
-              Coding Club Notifications
+              {teacher?.club || 'Club'} Notifications
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               Notifications

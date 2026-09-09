@@ -1,17 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getClubs } from '../../services/clubService';
 
 const INITIAL_CLUBS = [
-  { id: 1, name: 'Coding Club', department: 'CSE', mentor: 'John Teacher', members: 128, status: 'Active', budget: '₹75,000' },
-  { id: 2, name: 'Robotics & AI Society', department: 'ECE', mentor: 'Dr. Ramesh Nair', members: 110, status: 'Active', budget: '₹90,000' },
-  { id: 3, name: 'Cyber Security Club', department: 'IT', mentor: 'Prof. Anjali Roy', members: 95, status: 'Active', budget: '₹60,000' },
-  { id: 4, name: 'Quantum Computing Hub', department: 'CSE', mentor: 'Unassigned', members: 24, status: 'Pending Approval', budget: '₹40,000' }
+  { id: 1, name: 'Agentic AI & Coding Society', department: 'Computer Science & Engineering', mentor: 'Dr. A. K. Gupta', members: 42, status: 'Active', budget: '₹75,000' },
+  { id: 2, name: 'Web3 & Blockchain Guild', department: 'Computer Science & Engineering', mentor: 'Dr. A. K. Gupta', members: 38, status: 'Active', budget: '₹60,000' },
+  { id: 3, name: 'Cyber Defense & Security Guild', department: 'Computer Science & Engineering', mentor: 'Prof. Meenakshi Sharma', members: 35, status: 'Active', budget: '₹65,000' },
+  { id: 4, name: 'Cloud Native & DevOps Syndicate', department: 'Information Technology', mentor: 'Prof. Rajesh Verma', members: 29, status: 'Active', budget: '₹50,000' },
+  { id: 5, name: 'Robotics & Autonomous Systems Hub', department: 'Mechanical Engineering', mentor: 'Dr. Sunita Deshmukh', members: 31, status: 'Active', budget: '₹80,000' }
 ];
 
 const ManageClubs = () => {
   const [clubs, setClubs] = useState(INITIAL_CLUBS);
 
+  useEffect(() => {
+    getClubs()
+      .then((res) => {
+        const list = res?.data || res;
+        if (Array.isArray(list) && list.length > 0) {
+          setClubs(
+            list.map((c) => ({
+              id: c.id,
+              name: c.name,
+              department: c.department || 'Engineering',
+              mentor: c.mentor_name || 'Faculty Lead',
+              members: c.member_count || c.total_members || 30,
+              status: c.status || 'Active',
+              budget: '₹75,000'
+            }))
+          );
+        }
+      })
+      .catch((e) => console.warn('[ManageClubs fetch notice]:', e.message));
+  }, []);
+
   const toggleStatus = (id) => {
-    setClubs(clubs.map(c => c.id === id ? { ...c, status: c.status === 'Active' ? 'Suspended' : 'Active' } : c));
+    setClubs(clubs.map((c) => (c.id === id ? { ...c, status: c.status === 'Active' ? 'Suspended' : 'Active' } : c)));
   };
 
   return (
@@ -39,7 +62,7 @@ const ManageClubs = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
-            {clubs.map(c => (
+            {clubs.map((c) => (
               <tr key={c.id} className="hover:bg-slate-50/70 transition">
                 <td className="py-4 px-5 font-bold text-slate-900 text-sm">{c.name}</td>
                 <td className="py-4 px-5 text-slate-600 font-medium">{c.department}</td>
@@ -47,9 +70,11 @@ const ManageClubs = () => {
                 <td className="py-4 px-5 text-slate-700">{c.members}</td>
                 <td className="py-4 px-5 font-bold text-emerald-700">{c.budget}</td>
                 <td className="py-4 px-5">
-                  <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
-                    c.status === 'Active' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
-                  }`}>
+                  <span
+                    className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
+                      c.status === 'Active' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+                    }`}
+                  >
                     {c.status}
                   </span>
                 </td>
@@ -71,3 +96,4 @@ const ManageClubs = () => {
 };
 
 export default ManageClubs;
+

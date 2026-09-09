@@ -1,14 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { BASE_URLS, apiFetch } from '../../config/api';
 
 const INITIAL_USERS = [
-  { id: 1, name: 'Siddharth Mehta', role: 'Student Lead', email: 'siddharth@campus.edu', department: 'CSE', status: 'Active' },
-  { id: 2, name: 'John Teacher', role: 'Faculty Mentor', email: 'john.teacher@campus.edu', department: 'CSE', status: 'Active' },
-  { id: 3, name: 'Riya Gupta', role: 'Student VP', email: 'riya.gupta@campus.edu', department: 'IT', status: 'Active' },
-  { id: 4, name: 'Dr. Ramesh Nair', role: 'Faculty Mentor', email: 'ramesh.nair@campus.edu', department: 'ECE', status: 'Active' }
+  { id: 1, name: 'Sanjay Krishna', role: 'STUDENT', email: 'sanjay.krishna@agentverse.edu', department: 'Computer Science & Engineering', status: 'Active' },
+  { id: 2, name: 'Siddharth G', role: 'STUDENT', email: 'siddharth.g@agentverse.edu', department: 'Computer Science & Engineering', status: 'Active' },
+  { id: 3, name: 'Sankari G', role: 'STUDENT', email: 'sankari.g@agentverse.edu', department: 'Electronics & Communication', status: 'Active' },
+  { id: 9, name: 'Dr. A. K. Gupta', role: 'TEACHER', email: 'dr.gupta@agentverse.edu', department: 'Computer Science & Engineering', status: 'Active' },
+  { id: 10, name: 'Prof. Meenakshi Sharma', role: 'TEACHER', email: 'prof.sharma@agentverse.edu', department: 'Computer Science & Engineering', status: 'Active' },
+  { id: 14, name: 'Campus Administrator', role: 'ADMIN', email: 'admin@agentverse.edu', department: 'Administration', status: 'Active' }
 ];
 
 const ManageUsers = () => {
   const [users, setUsers] = useState(INITIAL_USERS);
+
+  useEffect(() => {
+    apiFetch(`${BASE_URLS.AUTH}/users`)
+      .then((res) => {
+        const list = res?.data || res;
+        if (Array.isArray(list) && list.length > 0) {
+          setUsers(
+            list.map((u) => ({
+              id: u.id,
+              name: u.full_name || u.name,
+              role: u.role,
+              email: u.email,
+              department: u.department || 'General',
+              status: 'Active'
+            }))
+          );
+        }
+      })
+      .catch((e) => console.warn('[ManageUsers fetch notice]:', e.message));
+  }, []);
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto animate-fadeIn pb-12">
@@ -32,11 +55,19 @@ const ManageUsers = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
-            {users.map(u => (
+            {users.map((u) => (
               <tr key={u.id} className="hover:bg-slate-50/70 transition">
                 <td className="py-4 px-5 font-bold text-slate-900 text-sm">{u.name}</td>
                 <td className="py-4 px-5">
-                  <span className="px-2.5 py-1 bg-slate-100 text-slate-800 rounded-md font-bold text-[11px]">
+                  <span
+                    className={`px-2.5 py-1 rounded-md font-bold text-[11px] ${
+                      u.role === 'ADMIN'
+                        ? 'bg-amber-100 text-amber-800'
+                        : u.role === 'TEACHER'
+                        ? 'bg-indigo-100 text-indigo-800'
+                        : 'bg-blue-50 text-blue-700'
+                    }`}
+                  >
                     {u.role}
                   </span>
                 </td>
@@ -62,3 +93,4 @@ const ManageUsers = () => {
 };
 
 export default ManageUsers;
+

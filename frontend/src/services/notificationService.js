@@ -1,124 +1,77 @@
 // Notification & Application Data Service for AgentVerse
-// Teacher: John Teacher | Assigned Club: Coding Club ONLY
+// Mentored Club: Agentic AI & Coding Society | Mentor: Dr. A. K. Gupta
 
 export const INITIAL_NOTIFICATIONS = [
   {
-    id: 'notif-101',
-    applicationId: 'app-101',
-    studentName: 'ABC Student',
-    studentId: '22CSE001',
-    email: 'abc@student.com',
-    phoneNumber: '9876543210',
-    department: 'Computer Science and Engineering',
-    yearOfStudy: '3rd Year',
-    clubName: 'Coding Club',
-    reason: 'I want to improve my programming skills and contribute to coding club activities.',
-    skills: 'Java, Python, Problem Solving, Teamwork',
-    status: 'PENDING',
-    read: false,
-    createdAt: '2 minutes ago',
-    type: 'application'
-  },
-  {
-    id: 'notif-102',
-    applicationId: 'app-102',
-    studentName: 'XYZ Student',
-    studentId: '23IT045',
-    email: 'xyz@student.com',
-    phoneNumber: '9812345678',
-    department: 'Information Technology',
+    id: 1,
+    applicationId: 1,
+    studentName: 'Sabarish R',
+    full_name: 'Sabarish R',
+    studentId: '2025CS006',
+    student_id_number: '2025CS006',
+    email: 'sabarish.r@agentverse.edu',
+    phoneNumber: '+91 98765 55667',
+    phone_number: '+91 98765 55667',
+    department: 'Computer Science & Engineering',
     yearOfStudy: '2nd Year',
-    clubName: 'Coding Club',
-    reason: 'I want to collaborate on open-source web development projects, participate in collegiate hackathons, and learn modern backend architectures.',
-    skills: 'React, Node.js, Git, SQL, Communication',
+    year_of_study: 2,
+    clubName: 'Agentic AI & Coding Society',
+    club_name: 'Agentic AI & Coding Society',
+    reason: 'Passionate about multi-agent systems and contributing to high-performance AI tools on campus.',
+    reason_to_join: 'Passionate about multi-agent systems and contributing to high-performance AI tools on campus.',
+    skills: 'Python, LangChain, React, FastAPI, Git',
     status: 'PENDING',
     read: false,
-    createdAt: '15 minutes ago',
+    is_read: false,
+    createdAt: '10 minutes ago',
     type: 'application'
   },
   {
-    id: 'notif-103',
-    applicationId: 'app-103',
-    studentName: 'Rahul Kumar',
-    studentId: '21ECE089',
-    email: 'rahul.kumar@student.com',
-    phoneNumber: '9765432109',
-    department: 'Electronics and Communication Engineering',
-    yearOfStudy: '4th Year',
-    clubName: 'Coding Club',
-    reason: 'Eager to explore embedded systems programming and algorithmic problem solving while mentoring junior club members.',
-    skills: 'C++, Embedded C, Data Structures, Algorithms, Leadership',
-    status: 'PENDING',
-    read: false,
-    createdAt: '1 hour ago',
-    type: 'application'
-  },
-  {
-    id: 'notif-104',
-    applicationId: 'app-104',
-    studentName: 'Priya Sharma',
-    studentId: '24CSE112',
-    email: 'priya.sharma@student.com',
-    phoneNumber: '9123456780',
-    department: 'Computer Science and Engineering',
-    yearOfStudy: '1st Year',
-    clubName: 'Coding Club',
-    reason: 'Passionate about competitive programming and building AI algorithms. I look forward to participating in coding sprints and learning from seniors.',
-    skills: 'Python, C, Problem Solving, Mathematics',
-    status: 'PENDING',
-    read: true,
-    createdAt: 'Yesterday',
-    type: 'application'
-  },
-  {
-    id: 'notif-105',
-    applicationId: 'app-105',
-    studentName: 'Sneha Patel',
-    studentId: '23CSE078',
-    email: 'sneha.patel@student.com',
-    phoneNumber: '9876501234',
-    department: 'Computer Science and Engineering',
-    yearOfStudy: '2nd Year',
-    clubName: 'Coding Club',
-    reason: 'Interested in full stack web development and contributing to club project repositories.',
-    skills: 'JavaScript, HTML/CSS, Git, Problem Solving',
-    status: 'PENDING',
-    read: true,
-    createdAt: 'Yesterday',
-    type: 'application'
-  },
-  {
-    id: 'notif-106',
-    applicationId: 'app-106',
-    studentName: 'Vikram Patel',
-    studentId: '22ME034',
-    email: 'vikram.patel@student.com',
-    phoneNumber: '9988776655',
-    department: 'Mechanical Engineering',
+    id: 2,
+    applicationId: 2,
+    studentName: 'Dinesh S',
+    full_name: 'Dinesh S',
+    studentId: '2024AD007',
+    student_id_number: '2024AD007',
+    email: 'dinesh.s@agentverse.edu',
+    phoneNumber: '+91 98765 66778',
+    phone_number: '+91 98765 66778',
+    department: 'AI & Data Science',
     yearOfStudy: '3rd Year',
-    clubName: 'Coding Club',
-    reason: 'Interested in robotics simulation and computational mechanics. Looking to contribute multidisciplinary engineering perspectives.',
-    skills: 'Python, MATLAB, ROS, CAD',
+    year_of_study: 3,
+    clubName: 'Agentic AI & Coding Society',
+    club_name: 'Agentic AI & Coding Society',
+    reason: 'Looking to build distributed vector search engines and participate in inter-collegiate hackathons.',
+    reason_to_join: 'Looking to build distributed vector search engines and participate in inter-collegiate hackathons.',
+    skills: 'PyTorch, Machine Learning, Data Pipelines, Python',
+    status: 'PENDING',
+    read: false,
+    is_read: false,
+    createdAt: '30 minutes ago',
+    type: 'application'
+  },
+  {
+    id: 3,
+    applicationId: 3,
+    studentName: 'Shalini S',
+    full_name: 'Shalini S',
+    studentId: '2025EE008',
+    student_id_number: '2025EE008',
+    email: 'shalini.s@agentverse.edu',
+    phoneNumber: '+91 98765 77889',
+    phone_number: '+91 98765 77889',
+    department: 'Electrical & Electronics',
+    yearOfStudy: '2nd Year',
+    year_of_study: 2,
+    clubName: 'Agentic AI & Coding Society',
+    club_name: 'Agentic AI & Coding Society',
+    reason: 'Interested in edge AI inference and embedded robotics sensors.',
+    reason_to_join: 'Interested in edge AI inference and embedded robotics sensors.',
+    skills: 'IoT, Microcontrollers, Python, Circuit Design',
     status: 'ACCEPTED',
     read: true,
-    createdAt: '2 days ago',
-    type: 'application'
-  },
-  {
-    id: 'notif-107',
-    applicationId: 'app-107',
-    studentName: 'Ananya Iyer',
-    studentId: '23ECE056',
-    email: 'ananya.iyer@student.com',
-    phoneNumber: '9123498765',
-    department: 'Electronics and Communication Engineering',
-    yearOfStudy: '2nd Year',
-    clubName: 'Coding Club',
-    reason: 'Looking to join the competitive coding division.',
-    skills: 'Java, DSA, OOP',
-    status: 'DECLINED',
-    read: true,
-    createdAt: '3 days ago',
+    is_read: true,
+    createdAt: 'Yesterday',
     type: 'application'
   }
 ];
@@ -137,35 +90,45 @@ export const getNotificationData = async (userId) => {
 import { BASE_URLS, apiFetch } from '../config/api.js';
 
 export const submitClubApplication = async (applicationData) => {
-  return await apiFetch(BASE_URLS.APPLICATION, {
+  return await apiFetch(`${BASE_URLS.APPLICATION}/applications`, {
     method: 'POST',
     body: JSON.stringify(applicationData),
   });
 };
 
 export const getApplicationsByClub = async (clubId) => {
-  return await apiFetch(`${BASE_URLS.APPLICATION}/club/${clubId}`);
+  return await apiFetch(`${BASE_URLS.APPLICATION}/applications/club/${clubId}`);
 };
 
 export const getApplicationsByStudent = async (studentId) => {
-  return await apiFetch(`${BASE_URLS.APPLICATION}/student/${studentId}`);
+  return await apiFetch(`${BASE_URLS.APPLICATION}/applications/student/${studentId}`);
+};
+
+export const getTeacherApplications = async (teacherId) => {
+  const url = teacherId
+    ? `${BASE_URLS.APPLICATION}/applications/teacher/${teacherId}`
+    : `${BASE_URLS.APPLICATION}/teachers/applications`;
+  return await apiFetch(url);
 };
 
 export const reviewApplication = async (applicationId, reviewData) => {
-  return await apiFetch(`${BASE_URLS.APPLICATION}/${applicationId}/review`, {
+  return await apiFetch(`${BASE_URLS.APPLICATION}/applications/${applicationId}/review`, {
     method: 'PUT',
     body: JSON.stringify(reviewData),
   });
 };
 
 export const getNotificationsByUserId = async (userId) => {
-  return await apiFetch(`${BASE_URLS.NOTIFICATION}/user/${userId}`);
+  return await apiFetch(`${BASE_URLS.NOTIFICATION}/notifications/user/${userId}`);
 };
 
-export const markNotificationAsRead = async (notificationId) => {
-  return await apiFetch(`${BASE_URLS.NOTIFICATION}/${notificationId}/read`, {
+export const markNotificationAsRead = async (notificationId, userId) => {
+  return await apiFetch(`${BASE_URLS.NOTIFICATION}/notifications/${notificationId}/read`, {
     method: 'PUT',
+    body: JSON.stringify({ userId }),
   });
 };
+
+
 
 

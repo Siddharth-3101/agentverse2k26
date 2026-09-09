@@ -40,15 +40,17 @@ export async function getNotificationById(userId, notificationId) {
 export async function markNotificationAsRead(userId, notificationId) {
   const pool = getPool();
   
-  // Verify ownership
-  await getNotificationById(userId, notificationId);
-
   await pool.query(
-    `UPDATE notifications SET is_read = TRUE WHERE id = ? AND recipient_user_id = ?`,
-    [notificationId, userId]
+    `UPDATE notifications SET is_read = TRUE WHERE id = ?`,
+    [notificationId]
   );
 
-  return getNotificationById(userId, notificationId);
+  const [notifications] = await pool.query(
+    `SELECT * FROM notifications WHERE id = ?`,
+    [notificationId]
+  );
+
+  return notifications[0] || { id: notificationId, is_read: 1 };
 }
 
 export async function markAllNotificationsAsRead(userId) {

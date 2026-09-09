@@ -1,6 +1,7 @@
-// Centralized Microservice Ports and API Helpers for AgentVerse
+// Centralized API Ports and Endpoints for AgentVerse AI Platform
 
 export const PORTS = {
+  UNIFIED: 5000,
   AUTH: 5001,
   CLUB: 5002,
   APPLICATION: 5003,
@@ -9,32 +10,51 @@ export const PORTS = {
   ANALYTICS: 5006,
 };
 
+// By default, endpoints point to the unified backend server or dedicated microservices
 export const BASE_URLS = {
-  AUTH: `http://localhost:${PORTS.AUTH}/api/auth`,
-  CLUB: `http://localhost:${PORTS.CLUB}/api/clubs`,
-  APPLICATION: `http://localhost:${PORTS.APPLICATION}/api/applications`,
-  NOTIFICATION: `http://localhost:${PORTS.NOTIFICATION}/api/notifications`,
-  ACTIVITY: `http://localhost:${PORTS.ACTIVITY}/api/activities`,
-  ANALYTICS: `http://localhost:${PORTS.ANALYTICS}/api/analytics`,
+  UNIFIED: `http://localhost:${PORTS.UNIFIED}/api`,
+  AUTH: `http://localhost:${PORTS.UNIFIED}/api`,
+  CLUB: `http://localhost:${PORTS.UNIFIED}/api`,
+  APPLICATION: `http://localhost:${PORTS.UNIFIED}/api`,
+  NOTIFICATION: `http://localhost:${PORTS.UNIFIED}/api`,
+  ACTIVITY: `http://localhost:${PORTS.UNIFIED}/api`,
+  ANALYTICS: `http://localhost:${PORTS.UNIFIED}/api`,
 };
 
 /**
- * Universal Fetch Helper with Token handling and Error parsing
+ * Universal Fetch Helper with token attachment and FormData support
  */
 export async function apiFetch(url, options = {}) {
   const token = localStorage.getItem('agentverse_token');
-  
+
+  const isFormData = options.body instanceof FormData;
   const headers = {
-    'Content-Type': 'application/json',
+    ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
     ...options.headers,
   };
 
   try {
-    const response = await fetch(url, {
-      ...options,
-      headers,
-    });
+    // Attempt primary URL, with fallback to unified server (port 5000) if microservice is offline
+    let response;
+    try {
+      response = await fetch(url, {
+        ...options,
+        headers,
+      });
+    } catch (networkErr) {
+      // If microservice URL failed, try fallback to unified server
+      if (url.includes(':500') && !url.includes(':5000')) {
+        const unifiedUrl = url.replace(/:500[1-6]\/api/, ':5000/api');
+        try {
+          response = await fetch(unifiedUrl, { ...options, headers });
+        } catch (e) {
+          throw networkErr;
+        }
+      } else {
+        throw networkErr;
+      }
+    }
 
     const data = await response.json().catch(() => ({}));
 
@@ -45,7 +65,7 @@ export async function apiFetch(url, options = {}) {
 
     return data;
   } catch (err) {
-    console.error(`[API Error] ${url}:`, err.message);
+    console.warn(`[API Info] ${url}:`, err.message);
     throw err;
   }
 }

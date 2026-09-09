@@ -1,18 +1,40 @@
 import React from 'react';
 
-const CertificateCard = ({ certificate, onView, onDownload }) => {
-  const {
-    id,
-    title,
-    issuer,
-    issueDate,
-    category,
-    credentialId,
-    skills = [],
-    grade,
-    isVerified = true,
-    thumbnail
-  } = certificate;
+const formatSkill = (skill) => {
+  if (!skill) return '';
+  if (typeof skill === 'string') return skill;
+  if (typeof skill === 'object') {
+    return skill.name || skill.skill || skill.title || '';
+  }
+  return String(skill);
+};
+
+const parseSkills = (s) => {
+  if (!s) return [];
+  if (Array.isArray(s)) return s;
+  if (typeof s === 'string') {
+    try {
+      const parsed = JSON.parse(s);
+      if (Array.isArray(parsed)) return parsed;
+    } catch {
+      return s.split(',').map((x) => x.trim()).filter(Boolean);
+    }
+  }
+  return [];
+};
+
+const CertificateCard = ({ certificate = {}, onView, onDownload }) => {
+  const id = certificate.id || certificate.credential_id;
+  const title = certificate.title || 'Verified Certificate';
+  const issuer = certificate.issuer || certificate.organization || 'AgentVerse Accreditation';
+  const issueDate = certificate.issueDate || certificate.issue_date || 'Sep 2026';
+  const category = certificate.category || 'Technical';
+  const credentialId = certificate.credentialId || certificate.credential_id || 'AV-CERT';
+  const rawSkills = certificate.skills || [];
+  const skills = parseSkills(rawSkills);
+  const grade = certificate.grade || certificate.achievement;
+  const isVerified = certificate.isVerified !== undefined ? certificate.isVerified : (certificate.verification_status !== 'REJECTED');
+  const thumbnail = certificate.thumbnail;
 
   const categoryColors = {
     Hackathon: 'bg-indigo-50 text-indigo-700 border-indigo-200',
@@ -84,7 +106,7 @@ const CertificateCard = ({ certificate, onView, onDownload }) => {
                   key={idx}
                   className="px-2 py-0.5 bg-slate-100 text-slate-700 text-[11px] font-semibold rounded-md border border-slate-200/60"
                 >
-                  {skill}
+                  {formatSkill(skill)}
                 </span>
               ))}
             </div>

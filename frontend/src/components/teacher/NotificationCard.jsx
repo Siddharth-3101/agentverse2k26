@@ -1,13 +1,15 @@
 import React from 'react';
 
 const NotificationCard = ({ notification, onClick }) => {
-  const {
-    studentName,
-    clubName = 'Coding Club',
-    createdAt,
-    read,
-    status = 'PENDING'
-  } = notification;
+  const studentName = notification.full_name || notification.student_name || notification.studentName || 'Student';
+  const clubName = notification.club_name || notification.clubName || 'Agentic AI & Coding Society';
+  const createdAt = notification.applied_at
+    ? new Date(notification.applied_at).toLocaleDateString()
+    : notification.created_at
+    ? new Date(notification.created_at).toLocaleDateString()
+    : notification.createdAt || 'Recently';
+  const read = notification.is_read !== undefined ? Boolean(notification.is_read) : Boolean(notification.read);
+  const status = notification.status || 'PENDING';
 
   return (
     <div
@@ -48,7 +50,7 @@ const NotificationCard = ({ notification, onClick }) => {
                   className={`text-[11px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider ${
                     status === 'ACCEPTED'
                       ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
-                      : status === 'DECLINED'
+                      : status === 'DECLINED' || status === 'REJECTED'
                       ? 'bg-rose-100 text-rose-800 border border-rose-200'
                       : 'bg-amber-100 text-amber-800 border border-amber-200'
                   }`}
@@ -67,7 +69,7 @@ const NotificationCard = ({ notification, onClick }) => {
             </p>
 
             <p className="text-xs text-slate-500 leading-relaxed">
-              {studentName} has submitted an application to join your club.
+              {studentName} has submitted an application to join {clubName}.
             </p>
 
             <div className="flex items-center gap-3 mt-3 text-xs text-slate-400 font-medium">
@@ -108,3 +110,4 @@ const NotificationCard = ({ notification, onClick }) => {
 };
 
 export default NotificationCard;
+

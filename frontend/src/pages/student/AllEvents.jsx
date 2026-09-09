@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './allevents.css';
+import { useAuth } from '../../context/AuthContext.jsx';
+import { getEvents, createEvent, getStudentActivities } from '../../services/eventService.js';
+import CreateEventModal from '../../components/club/CreateEventModal.jsx';
 
-/* ==========================================================================
-   EASY-TO-REMOVE DUMMY DATA FOR EXPLORE EVENTS
-   Replace DUMMY_EVENTS with backend API responses (e.g. fetchFromApi('/events'))
-   ========================================================================== */
-export const DUMMY_EVENTS = [
+export const SEEDED_EVENTS = [
   {
-    id: 'evt-1',
+    id: 1,
     title: 'Tejas India Hackathon 2026',
-    organizer: 'Government Engineering College (GEC)',
-    college: 'GEC, Sheikhpura',
+    organizer: 'Agentic AI & Coding Society',
+    college: 'Campus Center, Tech Block',
     category: 'Hackathons',
     mode: 'Online',
     location: 'Online / Pan India',
@@ -21,156 +20,152 @@ export const DUMMY_EVENTS = [
     fee: 'Free',
     logoImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80',
     bannerImage: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&auto=format&fit=crop&q=80',
-    tags: ['Quizzes & Treasure Hunt', 'Software Development', 'Everyone can apply'],
-    eligibility: ['Engineering Students', 'Postgraduate', 'Undergraduate'],
+    tags: ['Hackathon', 'AI Agents', 'Open Source', 'Cash Prizes'],
+    eligibility: ['Undergraduate', 'Postgraduate', 'Engineering Students'],
     isFeatured: true,
-    description: `Tejas India Hackathon 2026 is a flagship national-level 36-hour virtual hackathon organized by GEC Sheikhpura. It aims to bring together bright minds from across the country to solve real-world challenges in AI, FinTech, AgriTech, and Smart Governance. Participants will receive mentorship from industry leaders, cash prizes worth ₹1,500,000, and direct internship opportunities!`,
+    description: 'Tejas India Hackathon 2026 is a flagship 36-hour virtual hackathon organized by the Agentic AI & Coding Society. Solve challenges in AI, Web3, and Smart Governance with direct mentorship and ₹1.5L in cash prizes!',
     schedule: 'Sep 20 - Sep 22, 2026',
     contactNumbers: [
-      { name: 'Rohan Sharma (Lead Organizer)', phone: '+91 98765 43210' },
-      { name: 'Priya Verma (Student Coordinator)', phone: '+91 91234 56789' }
+      { name: 'Siddharth G (Lead Organizer)', phone: '+91 98765 43210' },
+      { name: 'Sanjay Krishna (Co-Lead)', phone: '+91 91234 56789' }
     ],
     googleFormUrl: 'https://forms.google.com/example-tejas-hackathon-2026'
   },
   {
-    id: 'evt-2',
-    title: 'Code Clash 2026',
-    organizer: 'CSE Department, DCRUST',
-    college: 'Deenbandhu Chhotu Ram University Of Science And Technology, Sonipat',
+    id: 2,
+    title: 'Code Clash 2026 Speed Programming',
+    organizer: 'Agentic AI & Coding Society',
+    college: 'Computer Lab 3, CSE Block',
     category: 'Competitions',
     mode: 'Offline',
-    location: 'CVR Lab, CSE Dept, DCRUST, Sonipat, Haryana',
+    location: 'Computer Lab 3, CSE Dept',
     teamSize: '1 - 2 Members',
     postedDate: 'Sep 7, 2026',
     deadline: 'Sep 29, 2026',
-    daysLeft: '22 days left',
+    daysLeft: '20 days left',
     fee: 'Free',
     logoImage: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=150&auto=format&fit=crop&q=80',
     bannerImage: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&auto=format&fit=crop&q=80',
-    tags: ['Competitive Programming', 'DSA & Algorithms', 'Undergraduate'],
-    eligibility: ['B.Tech / BCA / B.Sc CS', 'Batch 2024-2028'],
+    tags: ['Competitive Programming', 'DSA', 'Algorithms'],
+    eligibility: ['B.Tech CSE/IT/ECE', 'Batch 2024-2028'],
     isFeatured: true,
-    description: `Gear up for Code Clash 2026! A high-speed algorithmic programming showdown designed to test your problem-solving abilities, data structure efficiency, and code speed under pressure. Winners earn trophies, certificates, and exciting gadget prizes!`,
+    description: 'A high-speed algorithmic programming showdown testing data structures efficiency, math logic, and rapid code speed under pressure.',
     schedule: 'Oct 02, 2026 | 10:00 AM - 4:00 PM',
     contactNumbers: [
       { name: 'Dr. A. K. Gupta (Faculty Head)', phone: '+91 98112 23344' },
-      { name: 'Aman Deep (Technical Lead)', phone: '+91 99887 76655' }
+      { name: 'Siddharth G (President)', phone: '+91 98765 43210' }
     ],
-    googleFormUrl: 'https://forms.google.com/example-code-clash-dcrust'
+    googleFormUrl: 'https://forms.google.com/example-code-clash'
   },
   {
-    id: 'evt-3',
+    id: 3,
     title: 'AI & Generative Vision Workshop',
-    organizer: 'Robotics & AI Society',
-    college: 'Delhi Technological University (DTU)',
+    organizer: 'Robotics & Automation Guild',
+    college: 'Seminar Hall B, Mechanical Block',
     category: 'Workshops',
     mode: 'Hybrid',
-    location: 'Auditorium 2 & Zoom Virtual Link',
+    location: 'Seminar Hall B & Virtual Link',
     teamSize: 'Individual',
     postedDate: 'Sep 5, 2026',
     deadline: 'Sep 18, 2026',
-    daysLeft: '10 days left',
+    daysLeft: '9 days left',
     fee: '₹199',
     logoImage: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?w=150&auto=format&fit=crop&q=80',
     bannerImage: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&auto=format&fit=crop&q=80',
-    tags: ['Artificial Intelligence', 'Generative AI', 'Hands-on Bootcamp'],
-    eligibility: ['Open to All Students & Professionals'],
+    tags: ['Artificial Intelligence', 'Vision AI', 'Bootcamp'],
+    eligibility: ['Open to All Students & Faculty'],
     isFeatured: false,
-    description: `An intensive 2-day hands-on workshop covering LLMs, Diffusion Models, and AI Agentic Frameworks. Learn how to build production-grade AI agents from scratch with live code walk-throughs by senior AI researchers. Certificate of Participation provided.`,
+    description: 'An intensive 2-day hands-on workshop covering LLMs, Diffusion Models, and AI Agentic Frameworks. Build production-ready AI agents from scratch.',
     schedule: 'Sep 24 - Sep 25, 2026',
     contactNumbers: [
-      { name: 'Siddharth Mehta (Coordinator)', phone: '+91 97110 09988' }
+      { name: 'Santhana S (President)', phone: '+91 98112 23344' }
     ],
-    googleFormUrl: 'https://forms.google.com/example-ai-workshop-dtu'
+    googleFormUrl: 'https://forms.google.com/example-ai-workshop'
   },
   {
-    id: 'evt-4',
-    title: 'National Cyber Shield Quiz 2026',
-    organizer: 'Cyber Security Club',
-    college: 'IIT Roorkee',
+    id: 4,
+    title: 'National Cyber Shield CTF & Quiz 2026',
+    organizer: 'Cyber Shield Security Club',
+    college: 'Auditorium 1 & Cyber Lab',
     category: 'Quizzes',
     mode: 'Online',
-    location: 'Unstop Portal Online',
+    location: 'Campus Portal Online',
     teamSize: 'Individual',
     postedDate: 'Sep 4, 2026',
     deadline: 'Sep 12, 2026',
-    daysLeft: '4 days left',
+    daysLeft: '3 days left',
     fee: 'Free',
     logoImage: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=150&auto=format&fit=crop&q=80',
     bannerImage: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&auto=format&fit=crop&q=80',
     tags: ['Cyber Security', 'CTF Quiz', 'Ethical Hacking'],
-    eligibility: ['All College Students Across India'],
+    eligibility: ['All Enrolled Students'],
     isFeatured: false,
-    description: `Test your knowledge in Network Security, Cryptography, Web Exploitation, and Digital Forensics in this fast-paced online trivia quiz! Top 50 rankers get direct entry into the annual CTF Hackathon.`,
+    description: 'Test your skills in Network Security, Cryptography, Web Exploitation, and Digital Forensics in a fast-paced online trivia quiz.',
     schedule: 'Sep 15, 2026 | 7:00 PM - 8:00 PM',
     contactNumbers: [
-      { name: 'Vikramaditya (Security Lead)', phone: '+91 94567 89012' }
+      { name: 'Sabarish R (President)', phone: '+91 98765 99887' }
     ],
-    googleFormUrl: 'https://forms.google.com/example-cyber-quiz-iitr'
+    googleFormUrl: 'https://forms.google.com/example-cyber-quiz'
   },
   {
-    id: 'evt-5',
+    id: 5,
     title: 'Resonance 2026 Cultural Fest & Battle of Bands',
-    organizer: 'Cultural Board',
-    college: 'NSUT Delhi',
+    organizer: 'Resonance Music & Band Society',
+    college: 'Main Campus Grounds & Open Theatre',
     category: 'Cultural',
     mode: 'Offline',
-    location: 'NSUT Main Campus Grounds, Dwarka, New Delhi',
+    location: 'Main Campus Open Air Theatre',
     teamSize: '3 - 10 Members',
     postedDate: 'Sep 2, 2026',
     deadline: 'Oct 05, 2026',
-    daysLeft: '27 days left',
+    daysLeft: '26 days left',
     fee: 'Free',
     logoImage: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=150&auto=format&fit=crop&q=80',
     bannerImage: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&auto=format&fit=crop&q=80',
-    tags: ['Music & Dance', 'Band Competition', 'College Fest'],
-    eligibility: ['College Music Societies & Independent Bands'],
+    tags: ['Music', 'Band Competition', 'Campus Fest'],
+    eligibility: ['Campus Bands & Music Societies'],
     isFeatured: true,
-    description: `The grandest inter-college battle of bands! Perform live before thousands of students and celebrity judges. Sound system, amps, and drums kit provided on site. Cash prizes worth ₹2,00,000 for top 3 bands!`,
+    description: 'The premier inter-department battle of bands! Perform live before thousands of students. Full sound stage and instruments provided.',
     schedule: 'Oct 12, 2026 | 4:00 PM onwards',
     contactNumbers: [
-      { name: 'Ananya Roy (Head of Events)', phone: '+91 98300 11223' },
-      { name: 'Karan Malhotra (Band Logistics)', phone: '+91 98711 22334' }
+      { name: 'Sankari G (President)', phone: '+91 98300 11223' },
+      { name: 'Shalini S (Vice President)', phone: '+91 98711 22334' }
     ],
-    googleFormUrl: 'https://forms.google.com/example-resonance-bands-nsut'
+    googleFormUrl: 'https://forms.google.com/example-resonance-bands'
   }
 ];
 
-/* ==========================================================================
-   EASY-TO-REMOVE DUMMY DATA FOR MY PARTICIPATED EVENTS
-   Replace DUMMY_PARTICIPATED_EVENTS with student's personal registrations
-   ========================================================================== */
-export const DUMMY_PARTICIPATED_EVENTS = [
+export const DEFAULT_PARTICIPATED = [
   {
     id: 'part-1',
-    eventId: 'evt-1',
+    eventId: 1,
     title: 'Tejas India Hackathon 2026',
-    organizer: 'Government Engineering College (GEC)',
-    college: 'GEC, Sheikhpura',
+    organizer: 'Agentic AI & Coding Society',
+    college: 'Campus Center, Tech Block',
     category: 'Hackathons',
     mode: 'Online',
     teamName: 'Team ByteBusters',
-    userRole: 'Team Leader',
+    userRole: 'Team Lead',
     registrationDate: 'Sep 08, 2026',
     participationStatus: 'Registration Confirmed',
     statusColor: 'bg-emerald-100 text-emerald-800 border-emerald-300',
     bannerImage: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&auto=format&fit=crop&q=80',
     schedule: 'Sep 20 - Sep 22, 2026',
     contactNumbers: [
-      { name: 'Rohan Sharma (Lead Organizer)', phone: '+91 98765 43210' }
+      { name: 'Siddharth G (Lead Organizer)', phone: '+91 98765 43210' }
     ],
     googleFormUrl: 'https://forms.google.com/example-tejas-hackathon-2026',
-    description: 'You are registered for Tejas India Hackathon 2026 as Team Leader of Team ByteBusters. Submission portal opens on Sep 20.'
+    description: 'You are registered for Tejas India Hackathon 2026 as Team Lead. Project submissions open on Sep 20.'
   },
   {
     id: 'part-2',
-    eventId: 'evt-3',
+    eventId: 3,
     title: 'AI & Generative Vision Workshop',
-    organizer: 'Robotics & AI Society',
-    college: 'Delhi Technological University (DTU)',
+    organizer: 'Robotics & Automation Guild',
+    college: 'Seminar Hall B, Mechanical Block',
     category: 'Workshops',
     mode: 'Hybrid',
-    teamName: 'Individual Participant',
+    teamName: 'Individual Attendee',
     userRole: 'Attendee',
     registrationDate: 'Sep 06, 2026',
     participationStatus: 'Pass Generated',
@@ -178,53 +173,34 @@ export const DUMMY_PARTICIPATED_EVENTS = [
     bannerImage: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&auto=format&fit=crop&q=80',
     schedule: 'Sep 24 - Sep 25, 2026',
     contactNumbers: [
-      { name: 'Siddharth Mehta (Coordinator)', phone: '+91 97110 09988' }
+      { name: 'Santhana S (President)', phone: '+91 98112 23344' }
     ],
-    googleFormUrl: 'https://forms.google.com/example-ai-workshop-dtu',
-    description: 'Your seat for AI & Generative Vision Workshop is reserved. Zoom joining credentials have been sent to your registered email.'
-  },
-  {
-    id: 'part-3',
-    eventId: 'evt-4',
-    title: 'National Cyber Shield Quiz 2026',
-    organizer: 'Cyber Security Club',
-    college: 'IIT Roorkee',
-    category: 'Quizzes',
-    mode: 'Online',
-    teamName: 'Individual Participant',
-    userRole: 'Participant',
-    registrationDate: 'Sep 05, 2026',
-    participationStatus: 'Certificate Available',
-    statusColor: 'bg-purple-100 text-purple-800 border-purple-300',
-    bannerImage: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&auto=format&fit=crop&q=80',
-    schedule: 'Sep 15, 2026 | 7:00 PM - 8:00 PM',
-    contactNumbers: [
-      { name: 'Vikramaditya (Security Lead)', phone: '+91 94567 89012' }
-    ],
-    googleFormUrl: 'https://forms.google.com/example-cyber-quiz-iitr',
-    description: 'Quiz completed with score 92/100. Your E-Certificate of Excellence is ready for download.'
+    googleFormUrl: 'https://forms.google.com/example-ai-workshop',
+    description: 'Your seat for AI & Generative Vision Workshop is confirmed. Joining link sent to registered email.'
   }
 ];
 
-import { getEvents } from '../../services/eventService.js';
-
 const AllEvents = () => {
-  // Active selected category / tab in the pill line
+  const { user } = useAuth();
+
   const [selectedCategory, setSelectedCategory] = useState('All');
-  
-  // Mode filter state: 'All' | 'Online' | 'Offline' | 'Hybrid'
   const [selectedMode, setSelectedMode] = useState('All');
-
-  // Search query state
   const [searchQuery, setSearchQuery] = useState('');
-
-  // Events list state
-  const [eventsList, setEventsList] = useState(DUMMY_EVENTS);
-
-  // Selected event state for detail modal
+  const [eventsList, setEventsList] = useState(SEEDED_EVENTS);
+  const [participatedEvents, setParticipatedEvents] = useState(DEFAULT_PARTICIPATED);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [bookmarkedIds, setBookmarkedIds] = useState([1]);
+  const [toastMessage, setToastMessage] = useState(null);
 
-  React.useEffect(() => {
+  // Create Event Modal State
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
+  const showToast = (msg) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 4500);
+  };
+
+  const loadEventsData = () => {
     getEvents()
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
@@ -232,40 +208,69 @@ const AllEvents = () => {
             id: e.id,
             title: e.title,
             organizer: e.organizer || 'Campus Society',
-            college: 'Campus Center',
+            college: e.college || 'Campus Tech Block',
             category: e.activity_type || 'Competitions',
             mode: e.mode || 'Offline',
             location: e.location || 'Campus Auditorium',
             teamSize: e.team_size || '1 - 4 Members',
             postedDate: e.created_at ? new Date(e.created_at).toLocaleDateString() : 'Sep 2026',
-            deadline: e.deadline ? new Date(e.deadline).toLocaleDateString() : 'Upcoming',
+            deadline: e.deadline ? new Date(e.deadline).toLocaleDateString() : 'Active',
             daysLeft: 'Active',
             fee: e.fee || 'Free',
             logoImage: e.logo_url || 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=150&auto=format&fit=crop&q=80',
             bannerImage: e.banner_url || 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&auto=format&fit=crop&q=80',
             tags: typeof e.tags === 'string' ? JSON.parse(e.tags) : (Array.isArray(e.tags) ? e.tags : ['Campus', 'Event']),
-            eligibility: typeof e.eligibility === 'string' ? JSON.parse(e.eligibility) : ['All Students'],
+            eligibility: typeof e.eligibility === 'string' ? JSON.parse(e.eligibility) : (Array.isArray(e.eligibility) ? e.eligibility : ['All Students']),
             isFeatured: Boolean(e.is_featured),
             description: e.description || 'Join this exciting campus activity and build your skills.',
-            schedule: e.start_date ? `${new Date(e.start_date).toLocaleString()}` : 'TBA',
-            contactNumbers: [
-              { name: 'Event Coordinator', phone: '+91 98765 43210' }
-            ],
+            schedule: e.start_date ? new Date(e.start_date).toLocaleString() : 'Upcoming',
+            contactNumbers: typeof e.contact_numbers === 'string'
+              ? JSON.parse(e.contact_numbers)
+              : (Array.isArray(e.contact_numbers) ? e.contact_numbers : [{ name: 'Event Coordinator', phone: '+91 98765 43210' }]),
             googleFormUrl: e.google_form_url || '#'
           }));
           setEventsList(formatted);
         }
       })
       .catch((err) => console.warn('[AllEvents API warning]:', err.message));
-  }, []);
 
-  // Bookmarked event IDs
-  const [bookmarkedIds, setBookmarkedIds] = useState(['evt-1']);
+    if (user?.id) {
+      getStudentActivities(user.id)
+        .then((acts) => {
+          if (Array.isArray(acts) && acts.length > 0) {
+            const mapped = acts.map((a, i) => ({
+              id: a.id || `part-${i}`,
+              eventId: a.activity_id || a.id,
+              title: a.title || 'Registered Event',
+              organizer: a.organizer || 'Campus Society',
+              college: a.college || 'Campus Center',
+              category: a.activity_type || 'Activity',
+              mode: a.mode || 'Offline',
+              teamName: a.team_name || 'Individual Participant',
+              userRole: a.role || 'Participant',
+              registrationDate: a.created_at ? new Date(a.created_at).toLocaleDateString() : 'Sep 2026',
+              participationStatus: a.status || 'Registration Confirmed',
+              statusColor: 'bg-emerald-100 text-emerald-800 border-emerald-300',
+              bannerImage: a.banner_url || 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&auto=format&fit=crop&q=80',
+              schedule: a.start_date ? new Date(a.start_date).toLocaleString() : 'Upcoming',
+              contactNumbers: [{ name: 'Coordinator', phone: '+91 98765 43210' }],
+              googleFormUrl: a.google_form_url || '#',
+              description: a.description || 'You are registered for this event.'
+            }));
+            setParticipatedEvents(mapped);
+          }
+        })
+        .catch(() => {});
+    }
+  };
 
-  // Categories list with My Participated Events integrated right into the category pills row!
+  useEffect(() => {
+    loadEventsData();
+  }, [user]);
+
   const categories = [
     { name: 'All', label: '🏆 All Events' },
-    { name: 'Participated', label: `🎉 My Participated Events (${DUMMY_PARTICIPATED_EVENTS.length})`, isSpecial: true },
+    { name: 'Participated', label: `🎉 My Participated Events (${participatedEvents.length})`, isSpecial: true },
     { name: 'Competitions', label: '🎯 Competitions' },
     { name: 'Hackathons', label: '💻 Hackathons' },
     { name: 'Quizzes', label: '📝 Quizzes' },
@@ -273,7 +278,6 @@ const AllEvents = () => {
     { name: 'Cultural', label: '🎭 Cultural & Fest' }
   ];
 
-  // Bookmark toggle handler
   const toggleBookmark = (id, e) => {
     e.stopPropagation();
     setBookmarkedIds((prev) =>
@@ -281,54 +285,105 @@ const AllEvents = () => {
     );
   };
 
-  // Filter explore events based on search, category, and mode
+  const handleEventCreatedFromModal = (createdEvent) => {
+    setEventsList((prev) => [createdEvent, ...prev]);
+    showToast(`🎉 Event "${createdEvent.title}" published successfully to campus calendar!`);
+    loadEventsData();
+  };
+
   const filteredExploreEvents = eventsList.filter((evt) => {
     const matchesSearch =
-      evt.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      evt.organizer.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      evt.college.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      evt.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+      (evt.title || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (evt.organizer || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (evt.college || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (evt.tags || []).some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
 
     const matchesCategory =
-      selectedCategory === 'All' || evt.category.toLowerCase() === selectedCategory.toLowerCase();
+      selectedCategory === 'All' || (evt.category || '').toLowerCase() === selectedCategory.toLowerCase();
 
     const matchesMode =
-      selectedMode === 'All' || evt.mode.toLowerCase() === selectedMode.toLowerCase();
+      selectedMode === 'All' || (evt.mode || '').toLowerCase() === selectedMode.toLowerCase();
 
     return matchesSearch && matchesCategory && matchesMode;
   });
 
-  // Filter participated events based on search query
-  const filteredParticipatedEvents = DUMMY_PARTICIPATED_EVENTS.filter((evt) =>
-    evt.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    evt.organizer.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    evt.teamName.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredParticipatedEvents = participatedEvents.filter((evt) =>
+    (evt.title || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (evt.organizer || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (evt.teamName || '').toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
     <div className="min-h-screen bg-[#f4f7fb] text-slate-800 pb-16">
+      {/* Toast Notification Banner */}
+      {toastMessage && (
+        <div className="fixed top-4 right-4 z-50 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-xl border border-slate-700 flex items-center space-x-3 text-xs font-bold animate-bounce">
+          <span>🔔</span>
+          <span>{toastMessage}</span>
+          <button onClick={() => setToastMessage(null)} className="text-slate-400 hover:text-white">✕</button>
+        </div>
+      )}
+
       {/* Main Container */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
         
-        {/* Title & Global Search Banner */}
+        {/* Title Header & Create Event Action */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+          <div>
+            <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+              {selectedCategory === 'Participated'
+                ? 'My Participated Events'
+                : `${filteredExploreEvents.length} Campus Events & Hackathons`}
+              <span className="inline-block w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse"></span>
+            </h1>
+            <p className="text-slate-600 mt-1 font-medium text-sm">
+              {selectedCategory === 'Participated'
+                ? 'Track your registered hackathons, workshops, and quizzes in one place.'
+                : 'Build, code, and compete in online and student hackathons across campus.'}
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setIsCreateModalOpen(true)}
+              className="px-5 py-3 bg-gradient-to-r from-[#1c4980] to-[#2563eb] hover:from-[#153760] hover:to-[#1d4ed8] text-white font-extrabold text-xs rounded-xl transition shadow-md shadow-blue-500/20 flex items-center justify-center space-x-2 shrink-0"
+            >
+              <span className="text-base font-bold">+</span>
+              <span>Host / Create Event</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Global Search & Filter Bar */}
         <div className="mb-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-              <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
-                {selectedCategory === 'Participated'
-                  ? 'My Participated Events'
-                  : `${filteredExploreEvents.length}+ Events in India`}
-                <span className="inline-block w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse"></span>
-              </h1>
-              <p className="text-slate-600 mt-1 font-medium text-sm">
-                {selectedCategory === 'Participated'
-                  ? 'Track your registered hackathons, workshops, and quizzes in one place.'
-                  : 'Build, code, and innovate in online and student hackathons across campuses.'}
-              </p>
+            
+            {/* Category Pills Line */}
+            <div className="flex items-center space-x-2 overflow-x-auto hide-scrollbar pb-2 flex-1">
+              {categories.map((cat) => {
+                const isSelected = selectedCategory === cat.name;
+                return (
+                  <button
+                    key={cat.name}
+                    onClick={() => setSelectedCategory(cat.name)}
+                    className={`px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all duration-200 flex items-center space-x-2 ${
+                      isSelected
+                        ? cat.isSpecial
+                          ? 'bg-emerald-600 text-white shadow-md shadow-emerald-900/10'
+                          : 'bg-[#1c4980] text-white shadow-md shadow-blue-900/10'
+                        : cat.isSpecial
+                        ? 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-200 font-bold'
+                        : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
+                    }`}
+                  >
+                    <span>{cat.label}</span>
+                  </button>
+                );
+              })}
             </div>
 
             {/* Global Search Input */}
-            <div className="relative w-full md:w-80">
+            <div className="relative w-full md:w-80 shrink-0">
               <input
                 type="text"
                 placeholder="Search events, colleges, tags..."
@@ -342,12 +397,7 @@ const AllEvents = () => {
                 stroke="currentColor"
                 viewBox="0 0 24 24"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
               {searchQuery && (
                 <button
@@ -360,52 +410,21 @@ const AllEvents = () => {
             </div>
           </div>
 
-          {/* Category Pills Line */}
-          <div className="flex items-center space-x-2 mt-6 overflow-x-auto hide-scrollbar pb-2">
-            {categories.map((cat) => {
-              const isSelected = selectedCategory === cat.name;
-              return (
-                <button
-                  key={cat.name}
-                  onClick={() => setSelectedCategory(cat.name)}
-                  className={`px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all duration-200 flex items-center space-x-2 ${
-                    isSelected
-                      ? cat.isSpecial
-                        ? 'bg-emerald-600 text-white shadow-md shadow-emerald-900/10'
-                        : 'bg-[#1c4980] text-white shadow-md shadow-blue-900/10'
-                      : cat.isSpecial
-                      ? 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-200 font-bold'
-                      : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
-                  }`}
-                >
-                  <span>{cat.label}</span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Quick Filter Pill Bar (only shown when exploring events) */}
+          {/* Mode Selectors */}
           {selectedCategory !== 'Participated' && (
-            <div className="flex flex-wrap items-center gap-3 mt-4 text-xs font-semibold text-slate-600">
-              <span className="flex items-center space-x-1 bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg">
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-                </svg>
-                <span>Filters</span>
-              </span>
-
-              {/* Mode Selectors */}
+            <div className="flex flex-wrap items-center gap-2 mt-4 text-xs font-semibold text-slate-600">
+              <span className="text-slate-500 font-bold mr-1">Filter by Mode:</span>
               {['All', 'Online', 'Offline', 'Hybrid'].map((mode) => (
                 <button
                   key={mode}
                   onClick={() => setSelectedMode(mode)}
-                  className={`px-3 py-1.5 rounded-lg border transition ${
+                  className={`px-3 py-1.5 rounded-xl border transition ${
                     selectedMode === mode
-                      ? 'bg-blue-50 border-blue-300 text-blue-700 font-bold'
+                      ? 'bg-[#1c4980] border-[#1c4980] text-white font-bold'
                       : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
                   }`}
                 >
-                  Mode: {mode}
+                  {mode}
                 </button>
               ))}
             </div>
@@ -439,9 +458,7 @@ const AllEvents = () => {
                     <div>
                       {/* Top status header */}
                       <div className="flex items-center justify-between mb-3">
-                        <span
-                          className={`text-xs font-bold px-2.5 py-1 rounded-lg border ${item.statusColor}`}
-                        >
+                        <span className={`text-xs font-bold px-2.5 py-1 rounded-lg border ${item.statusColor}`}>
                           ● {item.participationStatus}
                         </span>
                         <span className="text-xs text-slate-400 font-medium">
@@ -449,7 +466,6 @@ const AllEvents = () => {
                         </span>
                       </div>
 
-                      {/* Event Title */}
                       <h3 className="text-lg font-bold text-slate-900 hover:text-[#1c4980] transition">
                         {item.title}
                       </h3>
@@ -457,7 +473,6 @@ const AllEvents = () => {
                         {item.organizer} • {item.college}
                       </p>
 
-                      {/* Team / Role Box */}
                       <div className="mt-4 bg-slate-50 p-3 rounded-xl border border-slate-100 space-y-1 text-xs">
                         <div className="flex justify-between">
                           <span className="text-slate-500">Team Name:</span>
@@ -478,7 +493,6 @@ const AllEvents = () => {
                       </p>
                     </div>
 
-                    {/* Action Bar */}
                     <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
                       <button
                         onClick={() => setSelectedEvent(item)}
@@ -505,7 +519,6 @@ const AllEvents = () => {
         ) : (
           /* EXPLORE EVENTS LIST VIEW */
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Left Column - Events Card List */}
             <div className="lg:col-span-2 space-y-4">
               {filteredExploreEvents.length === 0 ? (
                 <div className="bg-white rounded-2xl p-12 text-center border border-slate-200">
@@ -535,7 +548,6 @@ const AllEvents = () => {
                       className="event-card bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm cursor-pointer hover:border-blue-300 transition-all group relative"
                     >
                       <div className="flex flex-col sm:flex-row items-start gap-4">
-                        {/* Event Thumbnail Logo */}
                         <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-slate-100 shrink-0 border border-slate-100 relative">
                           <img
                             src={evt.logoImage}
@@ -551,7 +563,6 @@ const AllEvents = () => {
                           </span>
                         </div>
 
-                        {/* Event Info Details */}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-start justify-between gap-2">
                             <div>
@@ -563,7 +574,6 @@ const AllEvents = () => {
                               </p>
                             </div>
 
-                            {/* Bookmark Icon Button */}
                             <button
                               onClick={(e) => toggleBookmark(evt.id, e)}
                               title={isBookmarked ? 'Bookmarked' : 'Bookmark Event'}
@@ -576,17 +586,11 @@ const AllEvents = () => {
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
                               >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth="2"
-                                  d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-                                />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
                               </svg>
                             </button>
                           </div>
 
-                          {/* Meta Metrics Bar (Team size, mode, deadline) */}
                           <div className="flex flex-wrap items-center gap-y-1 gap-x-4 mt-3 text-xs text-slate-600 font-medium">
                             <span className="flex items-center gap-1 bg-slate-50 px-2.5 py-1 rounded-md border border-slate-100">
                               👥 {evt.teamSize}
@@ -599,9 +603,8 @@ const AllEvents = () => {
                             </span>
                           </div>
 
-                          {/* Tags list */}
                           <div className="flex flex-wrap items-center gap-1.5 mt-3">
-                            {evt.tags.map((tag, idx) => (
+                            {(evt.tags || []).map((tag, idx) => (
                               <span
                                 key={idx}
                                 className="text-[11px] font-semibold text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-full"
@@ -611,7 +614,6 @@ const AllEvents = () => {
                             ))}
                           </div>
 
-                          {/* Bottom Card Footer Actions */}
                           <div className="flex items-center justify-between mt-4 pt-3 border-t border-slate-100 text-xs">
                             <span className="text-slate-400 font-medium">
                               Posted {evt.postedDate}
@@ -638,9 +640,8 @@ const AllEvents = () => {
               )}
             </div>
 
-            {/* Right Column - Featured Events & Highlights Sidebar */}
+            {/* Right Column - Featured Events & Highlights */}
             <div className="space-y-6">
-              {/* Featured Opportunities Box */}
               <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm sticky top-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="font-extrabold text-slate-900 text-base flex items-center gap-2">
@@ -652,7 +653,7 @@ const AllEvents = () => {
                 </div>
 
                 <div className="divide-y divide-slate-100">
-                  {DUMMY_EVENTS.filter((e) => e.isFeatured).map((item) => (
+                  {eventsList.slice(0, 4).map((item) => (
                     <div
                       key={item.id}
                       onClick={() => setSelectedEvent(item)}
@@ -685,13 +686,12 @@ const AllEvents = () => {
                   ))}
                 </div>
 
-                {/* Student Stats Box */}
                 <div className="mt-6 p-4 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 text-xs">
                   <div className="font-bold text-[#1c4980] text-sm">
-                    🚀 Elevate Your Campus Profile
+                    🚀 Build Your Verified Portfolio
                   </div>
                   <p className="text-slate-600 mt-1 leading-relaxed">
-                    Participate in hackathons and quizzes to build your verifiable portfolio & get recognized.
+                    Participate in hackathons and quizzes to build your AI-verified student talent profile.
                   </p>
                 </div>
               </div>
@@ -708,7 +708,6 @@ const AllEvents = () => {
             className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-100 modal-animate relative"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Modal Header Poster Image */}
             <div className="relative h-48 sm:h-56 w-full bg-slate-900 rounded-t-3xl overflow-hidden">
               <img
                 src={selectedEvent.bannerImage}
@@ -721,7 +720,6 @@ const AllEvents = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
 
-              {/* Close Button */}
               <button
                 onClick={() => setSelectedEvent(null)}
                 className="absolute top-4 right-4 bg-slate-900/70 hover:bg-slate-900 text-white w-9 h-9 rounded-full flex items-center justify-center transition text-lg font-bold shadow-md"
@@ -729,7 +727,6 @@ const AllEvents = () => {
                 ✕
               </button>
 
-              {/* Badge Tags on Banner */}
               <div className="absolute bottom-4 left-6 right-6 flex items-center justify-between text-white">
                 <span className="bg-[#1c4980] text-xs font-bold px-3 py-1 rounded-full border border-blue-400/30">
                   {selectedEvent.category} • {selectedEvent.mode}
@@ -742,9 +739,7 @@ const AllEvents = () => {
               </div>
             </div>
 
-            {/* Modal Content Body */}
             <div className="p-6 sm:p-8 space-y-6">
-              {/* Title & Organizer */}
               <div>
                 <h2 className="text-2xl font-extrabold text-slate-900">
                   {selectedEvent.title}
@@ -755,7 +750,6 @@ const AllEvents = () => {
                 <p className="text-xs text-slate-500 mt-0.5">{selectedEvent.college}</p>
               </div>
 
-              {/* Key Event Details Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 bg-slate-50 p-4 rounded-2xl border border-slate-100 text-xs">
                 <div>
                   <span className="text-slate-400 block font-medium">Location / Mode</span>
@@ -771,7 +765,6 @@ const AllEvents = () => {
                 </div>
               </div>
 
-              {/* Event Description */}
               <div>
                 <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider mb-2">
                   📌 About The Event
@@ -781,14 +774,13 @@ const AllEvents = () => {
                 </p>
               </div>
 
-              {/* Eligibility Tags */}
               {selectedEvent.eligibility && (
                 <div>
                   <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider mb-2">
                     🎯 Eligibility Criteria
                   </h3>
                   <div className="flex flex-wrap gap-2">
-                    {selectedEvent.eligibility.map((item, idx) => (
+                    {(Array.isArray(selectedEvent.eligibility) ? selectedEvent.eligibility : [selectedEvent.eligibility]).map((item, idx) => (
                       <span
                         key={idx}
                         className="text-xs font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-lg"
@@ -800,7 +792,6 @@ const AllEvents = () => {
                 </div>
               )}
 
-              {/* Contact Information Section */}
               {selectedEvent.contactNumbers && selectedEvent.contactNumbers.length > 0 && (
                 <div className="bg-blue-50/70 p-4 rounded-2xl border border-blue-100">
                   <h3 className="text-xs font-extrabold text-[#1c4980] uppercase tracking-wider mb-3 flex items-center gap-1.5">
@@ -827,7 +818,6 @@ const AllEvents = () => {
                 </div>
               )}
 
-              {/* Action Buttons: Direct Google Form Registration Button */}
               <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <button
                   onClick={() => setSelectedEvent(null)}
@@ -846,11 +836,19 @@ const AllEvents = () => {
                   <span className="text-base">↗</span>
                 </a>
               </div>
-
             </div>
           </div>
         </div>
       )}
+
+      {/* =========================================================================
+          CREATE EVENT MODAL (Adding Event Form)
+          ========================================================================= */}
+      <CreateEventModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onEventCreated={handleEventCreatedFromModal}
+      />
     </div>
   );
 };

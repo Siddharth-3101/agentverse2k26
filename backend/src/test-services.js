@@ -17,10 +17,10 @@ export async function testAllServices() {
 
     // 1. Auth/User Service Tests
     console.log('\n--- 1. Testing Auth/User Service ---');
-    const teacherLogin = await authUserService.loginUser({ email: 'john.teacher@agentverse.edu' });
+    const teacherLogin = await authUserService.loginUser({ email: 'dr.gupta@agentverse.edu' });
     console.log('✅ 1 & 2. Teacher Login:', teacherLogin.user.full_name, `(Role: ${teacherLogin.user.role})`);
 
-    const studentLogin = await authUserService.loginUser({ email: 'abc.student@agentverse.edu' });
+    const studentLogin = await authUserService.loginUser({ email: 'siddharth.g@agentverse.edu' });
     console.log('✅ Student Login:', studentLogin.user.full_name, `(Role: ${studentLogin.user.role})`);
 
     // 2. Club Service Tests

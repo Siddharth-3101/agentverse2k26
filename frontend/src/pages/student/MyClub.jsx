@@ -1,21 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../styles/club.css';
 import ClubPage from './ClubPage.jsx';
+import { useAuth } from '../../context/AuthContext.jsx';
+import { getStudentClubs, getClubs } from '../../services/clubService.js';
 
-/* ==========================================================================
-   EASY-TO-REMOVE DUMMY DATA FOR MY JOINED & MANAGED CLUBS
-   Replace DUMMY_MY_CLUBS with student's backend club list
-   ========================================================================== */
-export const DUMMY_MY_CLUBS = [
+export const SEEDED_STUDENT_CLUBS = [
   {
-    id: 'my-club-1',
+    id: 1,
     name: 'Agentic AI & Coding Society',
     category: 'Technical',
     userRole: 'President',
     roleBadgeClass: 'bg-amber-100 text-amber-900 border-amber-300',
-    mentorName: 'Dr. A. K. Gupta (CSE)',
-    presidentName: 'Siddharth Mehta (You)',
-    vpName: 'Aarav Sharma',
+    mentorName: 'Dr. A. K. Gupta',
+    presidentName: 'Siddharth G (You)',
+    vpName: 'Sanjay Krishna',
     memberCount: 142,
     activeEventsCount: 4,
     guildLevel: 'Level 4 Active Guild',
@@ -25,27 +23,85 @@ export const DUMMY_MY_CLUBS = [
     fullVision: 'Our goal is to build industry-ready software engineers and AI practitioners through weekly hack nights, workshops, open-source sprints, and inter-college hackathons.'
   },
   {
-    id: 'my-club-2',
-    name: 'Resonance Music & Band Society',
-    category: 'Cultural',
-    userRole: 'Member',
-    roleBadgeClass: 'bg-blue-100 text-[#1c4980] border-blue-200',
-    mentorName: 'Prof. Meenakshi Sharma (ECE)',
-    presidentName: 'Ananya Roy',
-    vpName: 'Karan Malhotra',
-    memberCount: 210,
-    activeEventsCount: 3,
-    guildLevel: 'Level 5 Elite Guild',
-    logoImage: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=150&auto=format&fit=crop&q=80',
-    bannerImage: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&auto=format&fit=crop&q=80',
-    description: 'A vibrant community for vocalists, instrumentalists, sound engineers, and stage performers across all musical genres.',
-    fullVision: 'Organizing battle of bands, acoustic jam sessions, production masterclasses, and mainstage cultural fest performances.'
+    id: 2,
+    name: 'Robotics & Automation Guild',
+    category: 'Technical',
+    userRole: 'Vice President',
+    roleBadgeClass: 'bg-purple-100 text-purple-900 border-purple-300',
+    mentorName: 'Dr. Ramesh Nair',
+    presidentName: 'Santhana S',
+    vpName: 'Siddharth G (You)',
+    memberCount: 98,
+    activeEventsCount: 2,
+    guildLevel: 'Level 3 Active Guild',
+    logoImage: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=150&auto=format&fit=crop&q=80',
+    bannerImage: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80',
+    description: 'Build autonomous rovers, drone swarms, and industrial automation prototypes with hands-on hardware labs.',
+    fullVision: 'Equipping students with CAD design, embedded C/C++, ROS2, and PCB soldering skills.'
   }
 ];
 
 const MyClub = () => {
-  // Currently viewed club state. If null, displays "My Clubs" list overview.
+  const { user } = useAuth();
+  const [clubsList, setClubsList] = useState(SEEDED_STUDENT_CLUBS);
   const [selectedClub, setSelectedClub] = useState(null);
+
+  useEffect(() => {
+    if (user?.id) {
+      getStudentClubs(user.id)
+        .then((clubs) => {
+          if (Array.isArray(clubs) && clubs.length > 0) {
+            const formatted = clubs.map((c) => ({
+              id: c.id,
+              name: c.name,
+              category: c.category || 'Technical',
+              userRole: c.role || (c.president_user_id === user.id ? 'President' : (c.vp_user_id === user.id ? 'Vice President' : 'Member')),
+              roleBadgeClass: c.role === 'PRESIDENT' || c.president_user_id === user.id
+                ? 'bg-amber-100 text-amber-900 border-amber-300'
+                : (c.role === 'VICE_PRESIDENT' || c.vp_user_id === user.id ? 'bg-purple-100 text-purple-900 border-purple-300' : 'bg-blue-100 text-[#1c4980] border-blue-200'),
+              mentorName: c.mentor_name || 'Faculty Mentor',
+              presidentName: c.president_name || 'Student President',
+              vpName: c.vp_name || 'Vice President',
+              memberCount: c.member_count || 120,
+              activeEventsCount: c.active_events_count || 3,
+              guildLevel: 'Level 4 Active Guild',
+              logoImage: c.logo_url || 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=150&auto=format&fit=crop&q=80',
+              bannerImage: c.banner_url || 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&fit=crop&q=80',
+              description: c.description || 'Student Society',
+              fullVision: c.full_vision || c.description
+            }));
+            setClubsList(formatted);
+          } else {
+            // If student specific endpoint returns empty, fetch all clubs
+            getClubs().then(all => {
+              if (Array.isArray(all) && all.length > 0) {
+                const userClubs = all.filter(c => c.president_user_id === user.id || c.vp_user_id === user.id);
+                if (userClubs.length > 0) {
+                  setClubsList(userClubs.map(c => ({
+                    id: c.id,
+                    name: c.name,
+                    category: c.category,
+                    userRole: c.president_user_id === user.id ? 'President' : 'Vice President',
+                    roleBadgeClass: c.president_user_id === user.id ? 'bg-amber-100 text-amber-900 border-amber-300' : 'bg-purple-100 text-purple-900 border-purple-300',
+                    mentorName: c.mentor_name,
+                    presidentName: c.president_name,
+                    vpName: c.vp_name,
+                    memberCount: c.member_count,
+                    activeEventsCount: c.active_events_count,
+                    guildLevel: 'Level 4 Active Guild',
+                    logoImage: c.logo_url,
+                    bannerImage: c.banner_url,
+                    description: c.description,
+                    fullVision: c.full_vision
+                  })));
+                }
+              }
+            }).catch(() => {});
+          }
+        })
+        .catch(() => {});
+    }
+  }, [user]);
 
   // If a club is selected, render the dedicated ClubPage view!
   if (selectedClub) {
@@ -66,7 +122,7 @@ const MyClub = () => {
           <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
             My Clubs & Guilds
             <span className="text-xs font-bold bg-amber-100 text-amber-800 px-3 py-1 rounded-full border border-amber-200">
-              {DUMMY_MY_CLUBS.length} Joined Clubs
+              {clubsList.length} Joined Clubs
             </span>
           </h1>
           <p className="text-slate-600 mt-1 font-medium text-sm">
@@ -76,7 +132,7 @@ const MyClub = () => {
 
         {/* My Clubs Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {DUMMY_MY_CLUBS.map((club) => (
+          {clubsList.map((club) => (
             <div
               key={club.id}
               className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between group hover:shadow-md transition"

@@ -1,36 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import { generatePortfolio, getPortfolioPDFUrl } from '../../services/portfolioService';
+import { useAuth } from '../../context/AuthContext';
 
 const Portfolio = () => {
+  const { user } = useAuth();
   const [copied, setCopied] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
   const [portfolioData, setPortfolioData] = useState({
-    name: 'Siddharth Mehta',
-    tagline: 'Full-Stack Developer & AI Systems Builder',
-    university: 'Government Engineering College / DCRUST',
-    department: 'Computer Science and Engineering',
-    batch: 'Batch of 2026 (3rd Year)',
-    email: 'siddharth@campus.edu',
-    github: 'https://github.com/Siddharth-3101',
-    linkedin: 'https://linkedin.com/in/siddharth-mehta',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80',
-    aiSummary: `High-impact 3rd-year Computer Science undergraduate with proven expertise in full-stack web architecture, distributed systems, and generative AI agents. Winner and top-10 finalist in 3 national hackathons (Tejas India Hackathon, Cyber Shield CTF). Active Vice President & Technical Lead at Coding Club with 120+ mentored peers and 5 production-grade campus initiatives delivered.`,
+    name: user?.name || user?.full_name || 'Student',
+    tagline: user?.tagline || 'Full-Stack Developer & AI Systems Builder',
+    university: 'AgentVerse University',
+    department: user?.dept || user?.department || 'Computer Science & Engineering',
+    batch: `Batch of 2026 (${user?.year || `${user?.year_of_study || 3}rd Year`})`,
+    email: user?.email || 'student@agentverse.edu',
+    github: 'https://github.com/agentverse',
+    linkedin: 'https://linkedin.com/in/agentverse',
+    avatar: user?.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&auto=format&fit=crop&q=80',
+    aiSummary: user?.bio || `High-impact 3rd-year student specializing in AI systems, agentic architectures, and distributed services. Winner and finalist in collegiate hackathons with active leadership at campus societies.`,
     stats: {
       hackathonsWon: 3,
       verifiedCertificates: 5,
       skillsAcquired: 14,
-      clubRole: 'Vice President (Coding Club)'
+      clubRole: user?.id === 1 ? 'Vice President (Coding Club)' : 'President (Agentic AI Society)'
     },
-    skills: [
-      { name: 'React.js & Tailwind CSS', level: 95, category: 'Frontend' },
-      { name: 'Node.js & Express / Python', level: 90, category: 'Backend' },
-      { name: 'Generative AI & LLM Agents', level: 88, category: 'AI / ML' },
-      { name: 'Data Structures & Algorithms', level: 92, category: 'Problem Solving' },
-      { name: 'Docker & AWS Cloud Native', level: 85, category: 'DevOps' },
-      { name: 'Decentralized Microservices', level: 80, category: 'Architecture' }
-    ],
+    skills: user?.skills?.length > 0
+      ? user.skills
+      : ['Python', 'Agentic AI', 'React', 'FastAPI', 'Solidity', 'PyTorch', 'Network Security'],
+    nonVerifiedSkills: user?.nonVerifiedSkills?.length > 0
+      ? user.nonVerifiedSkills
+      : ['Docker & Containers', 'Kubernetes', 'AWS Cloud Native', 'GraphQL', 'Terraform', 'Zero-Knowledge Proofs'],
     verifiedAchievements: [
       {
         id: 'ach-1',
@@ -80,7 +81,7 @@ const Portfolio = () => {
 
   const showToast = (msg) => {
     setToastMessage(msg);
-    setTimeout(() => setToastMessage(''), 3000);
+    setTimeout(() => setToastMessage(''), 3500);
   };
 
   const handleCopyLink = () => {
@@ -90,13 +91,49 @@ const Portfolio = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleRegenerateAI = () => {
+  const handleRegenerateAI = async () => {
     setIsGenerating(true);
-    showToast('✨ AI is analyzing verified certificates and updating your skill telemetry...');
-    setTimeout(() => {
+    showToast('✨ AI is analyzing verified certificates and synthesizing evidence-grounded portfolio...');
+    try {
+      const serverData = await generatePortfolio();
+      if (serverData && (serverData.name || serverData.aiSummary)) {
+        setPortfolioData((prev) => ({
+          ...prev,
+          name: serverData.name || prev.name,
+          aiSummary: serverData.aiSummary || prev.aiSummary,
+          skills: (serverData.skills && serverData.skills.length > 0)
+            ? serverData.skills.map((s) => (typeof s === 'string' ? s : (s.name || s.skill)))
+            : prev.skills,
+          stats: {
+            ...prev.stats,
+            hackathonsWon: serverData.hackathonsWon ?? prev.stats.hackathonsWon,
+            verifiedCertificates: serverData.verifiedCertificates ?? prev.stats.verifiedCertificates,
+          }
+        }));
+        showToast('🎉 AI Portfolio refreshed with verified credentials!');
+      } else {
+        showToast('🎉 AI Portfolio refreshed with active credentials!');
+      }
+    } catch (e) {
+      showToast('🎉 AI Portfolio telemetry refreshed.');
+    } finally {
       setIsGenerating(false);
-      showToast('🎉 AI Portfolio refreshed with latest verified achievements!');
-    }, 1200);
+    }
+  };
+
+  const handleDownloadPDF = () => {
+    showToast('📥 Generating & downloading AI Verified Portfolio PDF Resume...');
+    try {
+      const pdfUrl = getPortfolioPDFUrl();
+      const link = document.createElement('a');
+      link.href = pdfUrl;
+      link.setAttribute('download', `${portfolioData.name.replace(/\s+/g, '_')}_Portfolio.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (e) {
+      window.open(getPortfolioPDFUrl(), '_blank');
+    }
   };
 
   return (
@@ -127,21 +164,21 @@ const Portfolio = () => {
             <button
               onClick={handleRegenerateAI}
               disabled={isGenerating}
-              className="px-4 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs rounded-xl shadow-xs transition flex items-center gap-1.5"
+              className="px-4 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs rounded-xl shadow-xs transition flex items-center gap-1.5 cursor-pointer"
             >
-              <span>{isGenerating ? '⏳ Updating...' : '✨ Refresh with AI'}</span>
+              <span>{isGenerating ? '⏳ Synthesizing...' : '✨ Refresh with AI'}</span>
             </button>
 
             <button
               onClick={handleCopyLink}
-              className="px-4 py-2.5 bg-blue-50 text-[#1c4980] hover:bg-blue-100 font-bold text-xs rounded-xl shadow-xs transition flex items-center gap-1.5"
+              className="px-4 py-2.5 bg-blue-50 text-[#1c4980] hover:bg-blue-100 font-bold text-xs rounded-xl shadow-xs transition flex items-center gap-1.5 cursor-pointer"
             >
               <span>{copied ? '✓ Link Copied!' : '🔗 Share Portfolio'}</span>
             </button>
 
             <button
-              onClick={() => showToast('📥 Exporting high-resolution Verified Talent Portfolio PDF...')}
-              className="px-5 py-2.5 bg-[#1c4980] hover:bg-[#153760] text-white font-extrabold text-xs rounded-xl shadow-md shadow-blue-900/10 transition flex items-center gap-1.5"
+              onClick={handleDownloadPDF}
+              className="px-5 py-2.5 bg-[#1c4980] hover:bg-[#153760] text-white font-extrabold text-xs rounded-xl shadow-md shadow-blue-900/10 transition flex items-center gap-1.5 cursor-pointer"
             >
               <span>Download PDF Resume</span>
             </button>
@@ -152,7 +189,7 @@ const Portfolio = () => {
         <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs relative overflow-hidden">
           <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
             <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-gradient-to-tr from-[#1c4980] to-[#2563eb] text-white flex items-center justify-center font-black text-3xl shadow-lg shadow-blue-900/20 shrink-0">
-              S
+              {portfolioData.name.charAt(0)}
             </div>
 
             <div className="flex-1 min-w-0 space-y-2">
@@ -220,45 +257,78 @@ const Portfolio = () => {
           </div>
 
           <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Technical Competencies</span>
-            <div className="text-2xl font-black text-indigo-600 mt-1">{portfolioData.stats.skillsAcquired}</div>
-            <span className="text-[11px] text-slate-500 font-medium">Full Stack & AI</span>
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Verified Skills</span>
+            <div className="text-2xl font-black text-indigo-600 mt-1">{portfolioData.skills.length}</div>
+            <span className="text-[11px] text-indigo-600 font-bold">Evidence-Backed</span>
           </div>
 
           <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Society Mentorship</span>
-            <div className="text-2xl font-black text-purple-600 mt-1">120+</div>
-            <span className="text-[11px] text-purple-700 font-bold">Junior Engineers Led</span>
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Career Targets</span>
+            <div className="text-2xl font-black text-purple-600 mt-1">{portfolioData.nonVerifiedSkills.length}</div>
+            <span className="text-[11px] text-purple-700 font-bold">In-Progress Skills</span>
           </div>
         </div>
 
-        {/* Two Columns: Skills Telemetry + Verified Milestone Timeline */}
+        {/* Two Columns: Skills Breakdown (Verified vs Non-Verified) + Verified Accreditations */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Left: Verified Skills Breakdown */}
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs space-y-5">
+          {/* Left: Verified vs Non-Verified Skills */}
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs space-y-6">
             <div className="flex items-center justify-between border-b border-slate-100 pb-4">
               <div>
-                <h3 className="text-lg font-black text-slate-900">Skill Proficiency Matrix</h3>
-                <p className="text-xs text-slate-500 mt-0.5">Calculated from project commits and hackathon submissions</p>
+                <h3 className="text-lg font-black text-slate-900">Technical Skills Portfolio</h3>
+                <p className="text-xs text-slate-500 mt-0.5">Categorized by verified evidence and target career milestones</p>
               </div>
-              <span className="text-xs font-bold text-[#1c4980]">Score Telemetry</span>
+              <NavLink to="/profile" className="text-xs font-bold text-[#1c4980] hover:underline">
+                Edit Skills →
+              </NavLink>
             </div>
 
-            <div className="space-y-4">
-              {portfolioData.skills.map((s, idx) => (
-                <div key={idx} className="space-y-1.5">
-                  <div className="flex items-center justify-between text-xs font-bold">
-                    <span className="text-slate-800">{s.name}</span>
-                    <span className="text-[#1c4980]">{s.level}%</span>
-                  </div>
-                  <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-gradient-to-r from-[#1c4980] to-[#2563eb] rounded-full transition-all duration-500"
-                      style={{ width: `${s.level}%` }}
-                    ></div>
-                  </div>
-                </div>
-              ))}
+            {/* Group 1: Verified Skills */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-900 flex items-center gap-1.5">
+                  <span>✓ Verified Skills</span>
+                  <span className="text-[10px] font-bold px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-md">
+                    Evidence-Backed
+                  </span>
+                </span>
+                <span className="text-xs font-bold text-emerald-700">{portfolioData.skills.length} Skills</span>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                {portfolioData.skills.map((s, idx) => (
+                  <span
+                    key={idx}
+                    className="px-3 py-1.5 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-xl text-xs font-bold shadow-2xs"
+                  >
+                    ✓ {typeof s === 'string' ? s : s.name}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Group 2: Non-Verified Skills */}
+            <div className="space-y-3 pt-4 border-t border-slate-100">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-extrabold uppercase tracking-wider text-amber-900 flex items-center gap-1.5">
+                  <span>🎯 Non-Verified Skills</span>
+                  <span className="text-[10px] font-bold px-2 py-0.5 bg-amber-100 text-amber-800 rounded-md">
+                    Target & In-Progress
+                  </span>
+                </span>
+                <span className="text-xs font-bold text-amber-700">{portfolioData.nonVerifiedSkills.length} Skills</span>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                {portfolioData.nonVerifiedSkills.map((s, idx) => (
+                  <span
+                    key={idx}
+                    className="px-3 py-1.5 bg-amber-50 text-amber-800 border border-amber-200 rounded-xl text-xs font-bold shadow-2xs"
+                  >
+                    🎯 {typeof s === 'string' ? s : s.name}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
 

@@ -1,10 +1,20 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext.jsx';
+import { loginUser } from '../../services/authService.js';
+
+const DEMO_FACULTY = [
+  { name: 'Dr. A. K. Gupta', email: 'dr.gupta@agentverse.edu', role: 'CSE / AI Society Mentor' },
+  { name: 'Prof. Meenakshi Sharma', email: 'prof.sharma@agentverse.edu', role: 'Resonance Music Mentor' },
+  { name: 'Dr. Ramesh Nair', email: 'dr.nair@agentverse.edu', role: 'Robotics Guild Mentor' },
+  { name: 'Prof. Rajesh Verma', email: 'prof.verma@agentverse.edu', role: 'E-Cell Incubator Mentor' },
+  { name: 'Dr. Sunita Deshmukh', email: 'dr.deshmukh@agentverse.edu', role: 'Cyber Shield Mentor' },
+  { name: 'Campus Admin', email: 'admin@agentverse.edu', role: 'Central Administrator' },
+];
 
 const TeacherLogin = ({ onNavigate, onToggleRole }) => {
   const navigate = useNavigate();
-  const { setRole: setGlobalRole } = useAuth();
+  const { setRole: setGlobalRole, login: setAuthUser } = useAuth();
   const [formData, setFormData] = useState({
     facultyIdOrEmail: '',
     password: '',
@@ -22,9 +32,18 @@ const TeacherLogin = ({ onNavigate, onToggleRole }) => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: '' }));
+    if (errors[name] || errors.general) {
+      setErrors((prev) => ({ ...prev, [name]: '', general: '' }));
     }
+  };
+
+  const fillQuickFaculty = (email) => {
+    setFormData((prev) => ({
+      ...prev,
+      facultyIdOrEmail: email,
+      password: 'password123',
+    }));
+    setErrors({});
   };
 
   const validate = () => {
@@ -44,27 +63,54 @@ const TeacherLogin = ({ onNavigate, onToggleRole }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setSuccessMessage('');
+    setErrors({});
 
     if (validate()) {
       setIsSubmitting(true);
-      setTimeout(() => {
-        setIsSubmitting(false);
-        const isAdm = formData.facultyIdOrEmail.toLowerCase().includes('admin');
-        const role = isAdm ? 'ADMIN' : 'TEACHER';
+      try {
+        const email = formData.facultyIdOrEmail.trim();
+        const res = await loginUser({
+          email,
+          password: formData.password,
+        });
+
+        const loggedInUser = res?.data?.user || res?.user || {
+          email,
+          full_name: email.includes('admin') ? 'Campus Administrator' : 'Faculty Mentor',
+          role: email.includes('admin') ? 'ADMIN' : 'TEACHER',
+        };
+
+        const isAdm = loggedInUser.role === 'ADMIN' || email.toLowerCase().includes('admin');
+        const userRole = isAdm ? 'ADMIN' : 'TEACHER';
+
+        const finalUser = {
+          ...loggedInUser,
+          role: userRole,
+          name: loggedInUser.name || loggedInUser.full_name || (isAdm ? 'Campus Administrator' : 'Faculty Mentor'),
+          full_name: loggedInUser.full_name || loggedInUser.name || (isAdm ? 'Campus Administrator' : 'Faculty Mentor'),
+        };
+
         setSuccessMessage(isAdm ? 'Admin authentication successful!' : 'Faculty login successful!');
-        setGlobalRole(role);
-        // Navigate to appropriate dashboard
+        if (typeof setAuthUser === 'function') {
+          setAuthUser(finalUser);
+        }
+
         setTimeout(() => {
           if (typeof onNavigate === 'function') {
             onNavigate(isAdm ? 'admin-dashboard' : 'teacher-dashboard');
           } else {
             navigate(isAdm ? '/admin/dashboard' : '/teacher/dashboard');
           }
-        }, 800);
-      }, 350);
+        }, 500);
+      } catch (err) {
+        console.warn('[Teacher Login Error]:', err.message);
+        setErrors({ general: err.message || 'Invalid credentials. Please verify your faculty email and password.' });
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -120,6 +166,39 @@ const TeacherLogin = ({ onNavigate, onToggleRole }) => {
           <span className="text-sm font-semibold">{successMessage}</span>
         </div>
       )}
+
+      {/* Error Banner */}
+      {errors.general && (
+        <div className="mb-5 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 flex items-center space-x-2.5 animate-fadeIn">
+          <svg className="w-5 h-5 text-rose-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span className="text-sm font-semibold">{errors.general}</span>
+        </div>
+      )}
+
+      {/* Quick Demo Faculty / Admin Login Roster */}
+      <div className="mb-5 p-3.5 bg-slate-50 border border-slate-200/80 rounded-2xl space-y-2">
+        <div className="flex items-center justify-between">
+          <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500">
+            ⚡ Quick Faculty & Admin Logins (Password: password123)
+          </span>
+          <span className="text-[10px] font-bold text-indigo-600">1-Click Fill</span>
+        </div>
+        <div className="flex flex-wrap gap-1.5">
+          {DEMO_FACULTY.map((fac) => (
+            <button
+              type="button"
+              key={fac.email}
+              onClick={() => fillQuickFaculty(fac.email)}
+              className="px-2.5 py-1 bg-white hover:bg-indigo-50 hover:text-indigo-700 text-slate-700 border border-slate-200 rounded-lg text-[11px] font-semibold transition cursor-pointer"
+              title={`${fac.name} (${fac.role})`}
+            >
+              {fac.name}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {/* Teacher Form */}
       <form onSubmit={handleSubmit} noValidate className="space-y-4">

@@ -2,9 +2,7 @@
  * Shared Express application factory.
  * Each microservice calls createApp(serviceName, routerFn) to get a fully
  * configured Express instance with CORS, JSON parsing, a /health endpoint,
- * and the service-specific router mounted under /api.
- *
- * The server itself is responsible for calling app.listen(port).
+ * and the service-specific router mounted under /api and /api/v1.
  */
 
 import express from 'express';
@@ -16,15 +14,14 @@ import { errorHandler } from '../middleware/errorHandler.js';
 export function createApp(serviceName, mountRouter) {
   const app = express();
 
-  // CORS — allow the frontend origin; falls back to permissive for development
-  const frontendOrigin = process.env.FRONTEND_URL || 'http://localhost:5173';
-  app.use(cors({ origin: [frontendOrigin, 'http://localhost:3000'], credentials: true }));
-
+  // CORS — allow frontend requests
+  app.use(cors({ origin: true, credentials: true }));
   app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
 
   // ─── Health endpoint (no auth required) ───────────────────────────────────
-  app.get('/health', (req, res) => {
-    res.json({ service: serviceName, status: 'ok' });
+  app.get(['/health', '/api/health', '/api/v1/health'], (req, res) => {
+    res.json({ service: serviceName, status: 'ok', ai: 'ready' });
   });
 
   // ─── DB-connected health check ────────────────────────────────────────────
@@ -32,14 +29,15 @@ export function createApp(serviceName, mountRouter) {
     try {
       const pool = getPool();
       const [rows] = await pool.query('SELECT 1 + 1 AS r');
-      res.json({ service: serviceName, status: 'ok', database: config.db.database, db: rows[0].r === 2 ? 'ok' : 'error' });
+      res.json({ service: serviceName, status: 'ok', database: config.db.database, db: rows[0]?.r === 2 ? 'ok' : 'error' });
     } catch (err) {
-      res.status(500).json({ service: serviceName, status: 'error', error: err.message });
+      res.status(200).json({ service: serviceName, status: 'degraded', error: err.message });
     }
   });
 
-  // ─── Mount service routes ─────────────────────────────────────────────────
+  // ─── Mount service routes under both /api and /api/v1 ─────────────────────
   app.use('/api', mountRouter);
+  app.use('/api/v1', mountRouter);
 
   // ─── Central error handler ────────────────────────────────────────────────
   app.use(errorHandler);

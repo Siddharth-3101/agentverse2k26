@@ -148,6 +148,7 @@ class CareerPathRecommenderModel {
         topic     : m.topic,
         status    : status, // COMPLETED | BUILD_NEXT | UPCOMING
         phase     : m.phase,
+        skills    : topicSkills,
         evidence  : evidence.length > 0 ? evidence : null,
         suggestion: suggestion
       });

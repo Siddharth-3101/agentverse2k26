@@ -1,11 +1,23 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext.jsx';
+import { loginUser } from '../../services/authService.js';
 import TeacherLogin from './TeacherLogin.jsx';
+
+const DEMO_STUDENTS = [
+  { name: 'Siddharth G', email: 'siddharth.g@agentverse.edu', role: 'AI Society President' },
+  { name: 'Sanjay Krishna', email: 'sanjay.krishna@agentverse.edu', role: 'Web3 Guild Lead' },
+  { name: 'Sankari G', email: 'sankari.g@agentverse.edu', role: 'Cyber Defense Lead' },
+  { name: 'Santhana S', email: 'santhana.s@agentverse.edu', role: 'DevOps Guild Lead' },
+  { name: 'Senthil P', email: 'senthil.p@agentverse.edu', role: 'Robotics Lead' },
+  { name: 'Sabarish R', email: 'sabarish.r@agentverse.edu', role: 'Full Stack Lead' },
+  { name: 'Dinesh S', email: 'dinesh.s@agentverse.edu', role: 'Data Science Lead' },
+  { name: 'Shalini S', email: 'shalini.s@agentverse.edu', role: 'IoT & Embedded Lead' },
+];
 
 const Login = ({ onNavigate }) => {
   const navigate = useNavigate();
-  const { setRole: setGlobalRole } = useAuth();
+  const { setRole: setGlobalRole, login: setAuthUser } = useAuth();
   const [role, setRole] = useState('student'); // 'student' | 'teacher'
 
   // Student form state
@@ -35,9 +47,18 @@ const Login = ({ onNavigate }) => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: '' }));
+    if (errors[name] || errors.general) {
+      setErrors((prev) => ({ ...prev, [name]: '', general: '' }));
     }
+  };
+
+  const fillQuickLogin = (email) => {
+    setFormData((prev) => ({
+      ...prev,
+      email,
+      password: 'password123',
+    }));
+    setErrors({});
   };
 
   const validate = () => {
@@ -58,24 +79,46 @@ const Login = ({ onNavigate }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setSuccessMessage('');
+    setErrors({});
 
     if (validate()) {
       setIsSubmitting(true);
-      setTimeout(() => {
-        setIsSubmitting(false);
-        setSuccessMessage('Login successful!');
-        setGlobalRole('STUDENT');
+      try {
+        const res = await loginUser({
+          email: formData.email.trim(),
+          password: formData.password,
+        });
+
+        const loggedInUser = res?.data?.user || res?.user || {
+          email: formData.email.trim(),
+          name: formData.email.split('@')[0].replace('.', ' '),
+          full_name: formData.email.split('@')[0].replace('.', ' '),
+          role: 'STUDENT',
+        };
+
+        const displayName = loggedInUser.full_name || loggedInUser.name || 'Student';
+        setSuccessMessage(`Welcome back, ${displayName}!`);
+
+        if (typeof setAuthUser === 'function') {
+          setAuthUser(loggedInUser);
+        }
+
         setTimeout(() => {
           if (typeof onNavigate === 'function') {
             onNavigate('dashboard');
           } else {
             navigate('/dashboard');
           }
-        }, 1000);
-      }, 350);
+        }, 500);
+      } catch (err) {
+        console.warn('[Login Error]:', err.message);
+        setErrors({ general: err.message || 'Invalid email or password. Please verify credentials.' });
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -203,6 +246,39 @@ const Login = ({ onNavigate }) => {
                     <span className="text-sm font-semibold">{successMessage}</span>
                   </div>
                 )}
+
+                {/* Error Banner */}
+                {errors.general && (
+                  <div className="mb-5 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 flex items-center space-x-2.5 animate-fadeIn">
+                    <svg className="w-5 h-5 text-rose-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="text-sm font-semibold">{errors.general}</span>
+                  </div>
+                )}
+
+                {/* Quick Demo Login Roster */}
+                <div className="mb-5 p-3.5 bg-slate-50 border border-slate-200/80 rounded-2xl space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500">
+                      ⚡ Quick Demo Logins (Password: password123)
+                    </span>
+                    <span className="text-[10px] font-bold text-indigo-600">1-Click Fill</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto">
+                    {DEMO_STUDENTS.map((stu) => (
+                      <button
+                        type="button"
+                        key={stu.email}
+                        onClick={() => fillQuickLogin(stu.email)}
+                        className="px-2.5 py-1 bg-white hover:bg-indigo-50 hover:text-indigo-700 text-slate-700 border border-slate-200 rounded-lg text-[11px] font-semibold transition cursor-pointer"
+                        title={`${stu.name} (${stu.role})`}
+                      >
+                        {stu.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
                 {/* Form */}
                 <form onSubmit={handleSubmit} noValidate className="space-y-4">

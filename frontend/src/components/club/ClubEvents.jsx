@@ -1,6 +1,8 @@
 import React from 'react';
 
-const ClubEvents = ({ events = [], onCreateNewEvent }) => {
+const ClubEvents = ({ events = [], onCreateNewEvent, onOpenCreateModal }) => {
+  const handleCreate = onOpenCreateModal || onCreateNewEvent;
+
   return (
     <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-6">
       
@@ -18,10 +20,10 @@ const ClubEvents = ({ events = [], onCreateNewEvent }) => {
           </p>
         </div>
 
-        {onCreateNewEvent && (
+        {handleCreate && (
           <button
-            onClick={onCreateNewEvent}
-            className="px-4 py-2 bg-[#1c4980] hover:bg-blue-900 text-white font-bold text-xs rounded-xl transition shadow-sm flex items-center justify-center space-x-1 shrink-0"
+            onClick={handleCreate}
+            className="px-4 py-2 bg-[#1c4980] hover:bg-blue-900 text-white font-bold text-xs rounded-xl transition shadow-sm flex items-center justify-center space-x-1 shrink-0 cursor-pointer"
           >
             <span>+ Create Club Event</span>
           </button>

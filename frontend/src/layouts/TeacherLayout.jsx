@@ -221,8 +221,8 @@ const TeacherLayout = () => {
       </div>
     </div>
   );
->>>>>>> d42175d (feat(teacher): Redesign Teacher Dashboard, Notifications, Profile & Sidebar Logout)
 };
 
 export default TeacherLayout;
+
 

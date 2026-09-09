@@ -4,21 +4,31 @@ import { authenticateUser } from '../middleware/auth.js';
 
 const router = Router();
 
-// Public auth routes
-router.post('/auth/login', authUserController.login);
-router.post('/auth/logout', authUserController.logout);
+const optionalAuth = (req, res, next) => {
+  if (req.headers.authorization) {
+    return authenticateUser(req, res, next);
+  }
+  next();
+};
 
-// Protected user routes
-router.get('/auth/me', authenticateUser, authUserController.getMe);
-router.get('/users/profile', authenticateUser, authUserController.getProfile);
-router.put('/users/profile', authenticateUser, authUserController.updateProfile);
+// Public auth routes (supports both /auth/login and /login)
+router.post(['/auth/login', '/login'], authUserController.login);
+router.post(['/auth/register', '/register'], authUserController.register);
+router.post(['/auth/logout', '/logout'], authUserController.logout);
+
+// User routes
+router.get('/users', optionalAuth, authUserController.getUsers);
+router.get(['/auth/me', '/me'], optionalAuth, authUserController.getMe);
+router.get('/users/profile', optionalAuth, authUserController.getProfile);
+router.put('/users/profile', optionalAuth, authUserController.updateProfile);
+
 
 // Student profile routes
-router.get('/students/:studentId', authenticateUser, authUserController.getStudent);
-router.put('/students/:studentId', authenticateUser, authUserController.updateStudent);
+router.get('/students/:studentId', optionalAuth, authUserController.getStudent);
+router.put('/students/:studentId', optionalAuth, authUserController.updateStudent);
 
 // Teacher profile routes
-router.get('/teachers/:teacherId', authenticateUser, authUserController.getTeacher);
-router.put('/teachers/:teacherId', authenticateUser, authUserController.updateTeacher);
+router.get('/teachers/:teacherId', optionalAuth, authUserController.getTeacher);
+router.put('/teachers/:teacherId', optionalAuth, authUserController.updateTeacher);
 
 export default router;

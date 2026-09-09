@@ -13,6 +13,15 @@ export async function login(req, res, next) {
   }
 }
 
+export async function register(req, res, next) {
+  try {
+    const data = await authUserService.registerUser(req.body);
+    res.status(201).json({ success: true, data, message: 'User registered successfully.' });
+  } catch (err) {
+    next(err);
+  }
+}
+
 export async function getMe(req, res, next) {
   try {
     const userProfile = await authUserService.getUserProfile(req.user.id);
@@ -83,6 +92,16 @@ export async function updateTeacher(req, res, next) {
     }
     const updated = await authUserService.updateTeacherDetails(req.params.teacherId, req.body);
     res.json({ success: true, data: updated, message: 'Teacher details updated.' });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function getUsers(req, res, next) {
+  try {
+    const role = req.query?.role || req.params?.role || null;
+    const users = await authUserService.getAllUsers(role);
+    res.json({ success: true, data: users });
   } catch (err) {
     next(err);
   }

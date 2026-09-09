@@ -1,19 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTeacherNotifications } from '../../context/teacherNotificationContext';
+import { getClubs } from '../../services/clubService';
 
 const TeacherClubs = () => {
   const { teacher, club } = useTeacherNotifications();
+  const [liveClub, setLiveClub] = useState(null);
+
+  useEffect(() => {
+    getClubs()
+      .then((res) => {
+        const clubs = res?.data || res;
+        if (Array.isArray(clubs) && clubs.length > 0) {
+          // Match by teacher mentor id or club id
+          const found = clubs.find((c) => c.mentor_teacher_id === teacher.id || c.id === teacher.club_id || c.name === teacher.club);
+          if (found) {
+            setLiveClub(found);
+          } else {
+            setLiveClub(clubs[0]);
+          }
+        }
+      })
+      .catch((e) => console.warn('[TeacherClubs fetch notice]:', e.message));
+  }, [teacher]);
 
   const clubDetails = {
-    name: teacher.club || 'Coding Club',
-    category: 'Technical & Engineering',
+    name: liveClub?.name || teacher.club || 'Agentic AI & Coding Society',
+    category: liveClub?.category || 'Technical & Innovation',
     established: '2023',
-    totalMembers: club.totalMembers || 128,
+    totalMembers: liveClub?.member_count || liveClub?.total_members || club.totalMembers || 42,
     activeProjects: 6,
-    mentor: teacher.name,
-    department: teacher.department,
-    lead: 'Arjun Sen (President)',
-    vicePresident: 'Riya Gupta (Vice President)',
+    mentor: liveClub?.mentor_name || teacher.name || 'Dr. A. K. Gupta',
+    department: liveClub?.department || teacher.department || 'Computer Science & Engineering',
+    lead: `${liveClub?.president_name || 'Siddharth G'} (President)`,
+    vicePresident: `${liveClub?.vp_name || 'Sanjay Krishna'} (Vice President)`,
     budget: '₹75,000 / Semester',
     upcomingEvents: club.upcomingActivities || []
   };
@@ -83,17 +102,17 @@ const TeacherClubs = () => {
             <div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100">
               <div>
                 <span className="font-bold text-slate-800 block text-sm">{clubDetails.lead}</span>
-                <span className="text-slate-500">Club President (Final Year CSE)</span>
+                <span className="text-slate-500">Club President</span>
               </div>
               <span className="px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full font-bold text-[10px]">
-                Leader
+                President
               </span>
             </div>
 
             <div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100">
               <div>
                 <span className="font-bold text-slate-800 block text-sm">{clubDetails.vicePresident}</span>
-                <span className="text-slate-500">Vice President (3rd Year IT)</span>
+                <span className="text-slate-500">Vice President</span>
               </div>
               <span className="px-2.5 py-1 bg-purple-100 text-purple-800 rounded-full font-bold text-[10px]">
                 Vice President
@@ -132,3 +151,4 @@ const TeacherClubs = () => {
 };
 
 export default TeacherClubs;
+

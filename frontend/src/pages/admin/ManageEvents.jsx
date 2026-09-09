@@ -1,14 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getEvents } from '../../services/eventService';
+
 
 const INITIAL_EVENTS = [
   { id: 1, title: 'Tejas India Hackathon 2026', club: 'Government Engineering College', category: 'Hackathons', status: 'Published', date: 'Sep 20 - Sep 22' },
-  { id: 2, title: 'Code Clash 2026', club: 'Coding Club, DCRUST', category: 'Competitions', status: 'Published', date: 'Oct 02, 2026' },
-  { id: 3, title: 'AI & Generative Vision Workshop', club: 'Robotics Society, DTU', category: 'Workshops', status: 'Published', date: 'Sep 24 - Sep 25' },
-  { id: 4, title: 'Quantum Computing Intro Session', club: 'Quantum Hub', category: 'Workshops', status: 'Pending Review', date: 'Oct 15, 2026' }
+  { id: 2, title: 'Code Clash 2026', club: 'Agentic AI & Coding Society', category: 'Competitions', status: 'Published', date: 'Oct 02, 2026' },
+  { id: 3, title: 'AI & Generative Vision Workshop', club: 'Agentic AI & Coding Society', category: 'Workshops', status: 'Published', date: 'Sep 24 - Sep 25' },
+  { id: 4, title: 'Zero-Knowledge Security Summit', club: 'Cyber Defense Guild', category: 'Conferences', status: 'Published', date: 'Oct 15, 2026' }
 ];
 
 const ManageEvents = () => {
   const [events, setEvents] = useState(INITIAL_EVENTS);
+
+  useEffect(() => {
+    getEvents()
+      .then((res) => {
+        const list = res?.data || res;
+        if (Array.isArray(list) && list.length > 0) {
+          setEvents(
+            list.map((e) => ({
+              id: e.id,
+              title: e.title,
+              club: e.organizer_name || e.college || 'Campus Society',
+              category: e.category || 'Hackathons',
+              status: 'Published',
+              date: e.start_date
+                ? new Date(e.start_date).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })
+                : 'Upcoming'
+            }))
+          );
+        }
+      })
+      .catch((e) => console.warn('[ManageEvents fetch notice]:', e.message));
+  }, []);
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto animate-fadeIn pb-12">
@@ -32,7 +56,7 @@ const ManageEvents = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
-            {events.map(e => (
+            {events.map((e) => (
               <tr key={e.id} className="hover:bg-slate-50/70 transition">
                 <td className="py-4 px-5 font-bold text-slate-900 text-sm">{e.title}</td>
                 <td className="py-4 px-5 text-slate-600 font-medium">{e.club}</td>
@@ -43,9 +67,11 @@ const ManageEvents = () => {
                 </td>
                 <td className="py-4 px-5 text-slate-600">{e.date}</td>
                 <td className="py-4 px-5">
-                  <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
-                    e.status === 'Published' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
-                  }`}>
+                  <span
+                    className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
+                      e.status === 'Published' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+                    }`}
+                  >
                     {e.status}
                   </span>
                 </td>
@@ -64,3 +90,4 @@ const ManageEvents = () => {
 };
 
 export default ManageEvents;
+

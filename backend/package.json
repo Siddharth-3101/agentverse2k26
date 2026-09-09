@@ -5,36 +5,33 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "start":        "node src/index.js",
-    "dev":          "node --watch src/index.js",
-
-    "auth":         "node src/servers/authServer.js",
-    "club":         "node src/servers/clubServer.js",
-    "application":  "node src/servers/applicationServer.js",
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "auth": "node src/servers/authServer.js",
+    "club": "node src/servers/clubServer.js",
+    "application": "node src/servers/applicationServer.js",
     "notification": "node src/servers/notificationServer.js",
-    "activity":     "node src/servers/activityServer.js",
-    "analytics":    "node src/servers/analyticsServer.js",
-
-    "auth:dev":         "node --watch src/servers/authServer.js",
-    "club:dev":         "node --watch src/servers/clubServer.js",
-    "application:dev":  "node --watch src/servers/applicationServer.js",
+    "activity": "node src/servers/activityServer.js",
+    "analytics": "node src/servers/analyticsServer.js",
+    "auth:dev": "node --watch src/servers/authServer.js",
+    "club:dev": "node --watch src/servers/clubServer.js",
+    "application:dev": "node --watch src/servers/applicationServer.js",
     "notification:dev": "node --watch src/servers/notificationServer.js",
-    "activity:dev":     "node --watch src/servers/activityServer.js",
-    "analytics:dev":    "node --watch src/servers/analyticsServer.js",
-
+    "activity:dev": "node --watch src/servers/activityServer.js",
+    "analytics:dev": "node --watch src/servers/analyticsServer.js",
     "services": "node src/scripts/startAll.js",
-
-    "db:init":  "node src/database/init.js",
-    "db:seed":  "node src/database/seed.js",
-    "db:test":  "node src/test-db.js",
-    "test":     "node src/test-services.js"
+    "db:init": "node src/database/init.js",
+    "db:seed": "node src/database/seed.js",
+    "db:test": "node src/test-db.js",
+    "test": "node src/test-services.js"
   },
   "dependencies": {
-    "bcryptjs":      "^2.4.3",
-    "cors":          "^2.8.5",
-    "dotenv":        "^16.4.5",
-    "express":       "^4.19.2",
-    "jsonwebtoken":  "^9.0.2",
-    "mysql2":        "^3.9.7"
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.3.0",
+    "mysql2": "^3.9.7"
   }
 }

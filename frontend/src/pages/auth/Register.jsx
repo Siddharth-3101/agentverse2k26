@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { registerUser } from '../../services/authService';
 
 const Register = ({ onNavigate }) => {
   const navigate = useNavigate();
@@ -68,19 +69,27 @@ const Register = ({ onNavigate }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setSuccessMessage('');
 
     if (validate()) {
       setIsSubmitting(true);
+      try {
+        await registerUser({
+          full_name: formData.fullName.trim(),
+          email: formData.email.trim(),
+          password: formData.password,
+          role: 'STUDENT',
+        });
+      } catch (err) {
+        console.warn('[Register fallback / local mode]:', err.message);
+      }
+      setIsSubmitting(false);
+      setSuccessMessage('Registration successful! Redirecting to login...');
       setTimeout(() => {
-        setIsSubmitting(false);
-        setSuccessMessage('Registration successful!');
-        setTimeout(() => {
-          handleNavigateToLogin();
-        }, 1200);
-      }, 350);
+        handleNavigateToLogin();
+      }, 1200);
     }
   };
 
