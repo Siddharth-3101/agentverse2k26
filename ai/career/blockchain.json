@@ -1,0 +1,306 @@
+{
+  "role": "Blockchain Developer",
+  "description": "Develop decentralized applications, smart contracts, and Web3 solutions.",
+  "category": "Blockchain & Web3",
+  "milestones": [
+    {
+      "id": "blockchain-1",
+      "topic": "Blockchain",
+      "skills": [
+        "Blockchain",
+        "Basic Blockchain Knowledge",
+        "Blockchain Structure",
+        "Basic Blockchain Operations",
+        "Applications and Uses"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "blockchain-2",
+      "topic": "What is Blockchain",
+      "skills": [
+        "What is Blockchain",
+        "Decentralization",
+        "Why it matters",
+        "General Blockchain Knowledge",
+        "Mining and Incentive Models"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "blockchain-3",
+      "topic": "Decentralization vs Trust",
+      "skills": [
+        "Rust",
+        "Blockchain Forking",
+        "Cryptocurrencies",
+        "Cryptowallets",
+        "Cryptography"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "blockchain-4",
+      "topic": "Consensus Protocols",
+      "skills": [
+        "Consensus Protocols",
+        "Blockchain Interoperability",
+        "SolanaTON",
+        "EVM-Based",
+        "Blockchains"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "blockchain-5",
+      "topic": "EthereumPolygon",
+      "skills": [
+        "Go",
+        "Ethereum",
+        "Blockchain",
+        "Binance Smart Chain",
+        "Gnosis Chain"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "blockchain-6",
+      "topic": "Huobi Eco Chain",
+      "skills": [
+        "Huobi Eco Chain",
+        "AvalancheFantom",
+        "Moonbeam  Moonriver",
+        "Go",
+        "TONVenom"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "blockchain-7",
+      "topic": "TVM-Based",
+      "skills": [
+        "TVM-Based",
+        "L2 Blockchains",
+        "Arbitrum",
+        "Moonbeam  Moonriver",
+        "Oracles"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "blockchain-8",
+      "topic": "Hybrid Smart Contracts",
+      "skills": [
+        "Smart Contracts",
+        "Chainlink",
+        "Oracle Networks",
+        "Solidity",
+        "Rust"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "blockchain-9",
+      "topic": "Programming Languages",
+      "skills": [
+        "Programming Languages",
+        "Unit Tests",
+        "Integration Tests",
+        "RAG",
+        "Vector Databases"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "blockchain-10",
+      "topic": "Testing",
+      "skills": [
+        "Testing",
+        "Deployment",
+        "Monitoring",
+        "Upgrades",
+        "ERC Tokens"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "blockchain-11",
+      "topic": "Crypto Wallets",
+      "skills": [
+        "Crypto Wallets",
+        "IDEs",
+        "Crypto Faucets",
+        "RAG",
+        "Vector Databases"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "blockchain-12",
+      "topic": "Smart Contract Frameworks",
+      "skills": [
+        "Smart Contract Frameworks",
+        "Hardhat",
+        "Brownie",
+        "Truffle",
+        "Foundry"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "blockchain-13",
+      "topic": "SecurityPractices",
+      "skills": [
+        "SecurityPractices",
+        "Fuzz Testing  Static Analysis",
+        "Common Threat Vectors",
+        "Source of Randomness Attacks",
+        "Tools"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "blockchain-14",
+      "topic": "Slither",
+      "skills": [
+        "Slither",
+        "Manticore",
+        "MythX",
+        "Echidna",
+        "Version Control Systems"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "blockchain-15",
+      "topic": "Git",
+      "skills": [
+        "Git & Version Control",
+        "Git",
+        "GitHub",
+        "Repo Hosting Services",
+        "Bitbucket"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "blockchain-16",
+      "topic": "dApps - Decentralized Applications",
+      "skills": [
+        "Applicability",
+        "DefiDAOs",
+        "NFTs",
+        "Payments",
+        "Insurance"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "blockchain-17",
+      "topic": "Node as a Service",
+      "skills": [
+        "Node.js",
+        "JavaScript",
+        "Alchemy",
+        "Infura",
+        "Moralis"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "blockchain-18",
+      "topic": "Quicknode",
+      "skills": [
+        "Node.js",
+        "JavaScript",
+        "Supporting Languages",
+        "ES6",
+        "Java"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "blockchain-19",
+      "topic": "Python",
+      "skills": [
+        "Python",
+        "Frontend Frameworks",
+        "React.js",
+        "JSX",
+        "Angular"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "blockchain-20",
+      "topic": "Vue",
+      "skills": [
+        "Vue.js",
+        "Testing",
+        "Deployment",
+        "Maintenance",
+        "Architecture"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "blockchain-21",
+      "topic": "Security",
+      "skills": [
+        "Security",
+        "Client Libraries",
+        "ethers.js",
+        "web3.js",
+        "Moralis"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "blockchain-22",
+      "topic": "Client Nodes",
+      "skills": [
+        "Node.js",
+        "JavaScript",
+        "GethBesu",
+        "Nethermind",
+        "Substrate"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "blockchain-23",
+      "topic": "Building for Scale",
+      "skills": [
+        "Building for Scale",
+        "State  Payment Channels",
+        "ValidiumPlasmaSidechains",
+        "Ethereum",
+        "Blockchain"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "blockchain-24",
+      "topic": "On-Chain Scaling",
+      "skills": [
+        "On-Chain Scaling",
+        "JavaScript",
+        "ES6",
+        "Python",
+        "Java",
+        "Rust"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "blockchain-25",
+      "topic": "roadmap and other similar roadmaps",
+      "skills": [
+        "Why it matters",
+        "RAG",
+        "Vector Databases"
+      ],
+      "phase": 3
+    }
+  ]
+}

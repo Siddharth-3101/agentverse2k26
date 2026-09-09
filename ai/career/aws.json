@@ -1,0 +1,331 @@
+{
+  "role": "AWS Cloud Engineer",
+  "description": "Design, deploy, and operate scalable cloud applications on Amazon Web Services.",
+  "category": "Cloud & Infrastructure",
+  "milestones": [
+    {
+      "id": "aws-1",
+      "topic": "AWS",
+      "skills": [
+        "AWS",
+        "Cloud Computing",
+        "roadmap and more roadmaps at",
+        "Introduction",
+        "What is Cloud Computing"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "aws-2",
+      "topic": "IaaS vs PaaS vs SaaS",
+      "skills": [
+        "IaaS vs PaaS vs SaaS",
+        "Kubernetes",
+        "K8s",
+        "DevOps Roadmap",
+        "Backend Roadmap"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "aws-3",
+      "topic": "AWS Global Infrastructure",
+      "skills": [
+        "AWS",
+        "Cloud Computing",
+        "Shared Responsibility Model",
+        "Well Architected Framework",
+        "Start with Essential Services"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "aws-4",
+      "topic": "EC2",
+      "skills": [
+        "AWS",
+        "Amazon EC2",
+        "Instance Types",
+        "CPU Credits",
+        "RAG",
+        "Vector Databases"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "aws-5",
+      "topic": "Keypairs",
+      "skills": [
+        "Keypairs",
+        "Elastic IP",
+        "User Data Scripts",
+        "Purchasing Options",
+        "VPC"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "aws-6",
+      "topic": "CIDR Blocks",
+      "skills": [
+        "CIDR Blocks",
+        "Subnets",
+        "Route Tables",
+        "Security Groups",
+        "Internet Gateway"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "aws-7",
+      "topic": "NAT Gateway",
+      "skills": [
+        "NAT Gateway",
+        "Private Subnet",
+        "Public Subnet",
+        "AWS",
+        "IAM Security"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "aws-8",
+      "topic": "Users / User Groups",
+      "skills": [
+        "Users  User Groups",
+        "Roles",
+        "Identity-based",
+        "Resource-based",
+        "Instance Profiles"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "aws-9",
+      "topic": "Assuming Roles",
+      "skills": [
+        "Assuming Roles",
+        "AWS",
+        "Cloud Computing",
+        "Step 1 - Essentials",
+        "IAM Security"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "aws-10",
+      "topic": "VPC - Network Layer",
+      "skills": [
+        "VPC - Network Layer",
+        "AWS",
+        "Amazon EC2",
+        "Step 2 - Learn these next",
+        "Amazon S3",
+        "RAG",
+        "Vector Databases"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "aws-11",
+      "topic": "SES - Emails",
+      "skills": [
+        "SES - Emails",
+        "Route53 - DNS",
+        "Cloudwatch - Monitoring",
+        "Cloudfront - CDN",
+        "Step 3 - Pick these after"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "aws-12",
+      "topic": "RDS - Managed Database",
+      "skills": [
+        "RDS - Managed Database",
+        "SQL",
+        "Database",
+        "RAG",
+        "Vector Databases"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "aws-13",
+      "topic": "ElastiCache -",
+      "skills": [
+        "ElastiCache -",
+        "Redis",
+        "Caching",
+        "ECS - Containers",
+        "Kubernetes",
+        "K8s"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "aws-14",
+      "topic": "Step 4 - Serverless",
+      "skills": [
+        "Step 4 - Serverless",
+        "Lambda",
+        "ECS Fargate",
+        "above for deployment.",
+        "Auto-Scaling"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "aws-15",
+      "topic": "AMIs",
+      "skills": [
+        "AMIs",
+        "Launch Templates",
+        "Auto-Scaling Groups",
+        "Scaling Policies",
+        "Elastic Load Balancers"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "aws-16",
+      "topic": "Buckets / Objects",
+      "skills": [
+        "Buckets  Objects",
+        "Bucket  Object Lifecycle",
+        "RAG",
+        "Vector Databases",
+        "Standard"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "aws-17",
+      "topic": "S3-IAGlacier",
+      "skills": [
+        "AWS",
+        "Amazon S3",
+        "SES",
+        "Sandbox  Sending Limits",
+        "Identity Verification"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "aws-18",
+      "topic": "DKIM Setup",
+      "skills": [
+        "DKIM Setup",
+        "Feedback Handling",
+        "Configuration Sets",
+        "Sender Reputation",
+        "Dedicated IP"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "aws-19",
+      "topic": "Route53",
+      "skills": [
+        "Route53",
+        "Hosted Zones",
+        "Routing Policies",
+        "Health Checks",
+        "Cloudwatch"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "aws-20",
+      "topic": "Metrics",
+      "skills": [
+        "Metrics",
+        "Events",
+        "Logs",
+        "RDS",
+        "DB Instances"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "aws-21",
+      "topic": "Storage Types",
+      "skills": [
+        "RAG",
+        "Vector Databases",
+        "Backup  Restore",
+        "General Purpose",
+        "Provisioned IOPS"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "aws-22",
+      "topic": "Magnetic",
+      "skills": [
+        "Magnetic",
+        "DynamoDB",
+        "Tables  Items  Attributes",
+        "Data ModelingStreams",
+        "Capacity Settings"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "aws-23",
+      "topic": "LimitsBackup / Restore",
+      "skills": [
+        "LimitsBackup  Restore",
+        "DynamoDB Local",
+        "ElastiCache",
+        "Quotas",
+        "ECR"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "aws-24",
+      "topic": "ECS",
+      "skills": [
+        "ECS",
+        "TasksServices",
+        "Fargate",
+        "EKS",
+        "Lambda"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "aws-25",
+      "topic": "Creating / Invoking Functions",
+      "skills": [
+        "Creating  Invoking Functions",
+        "LayersCustom Runtimes",
+        "Versioning  Aliases",
+        "Cold Start and Limitations",
+        "API GatewayLambdaEdge"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "aws-26",
+      "topic": "Continue learning with following roadmaps",
+      "skills": [
+        "Kubernetes",
+        "K8s",
+        "Cloudfront",
+        "Distributions",
+        "Policies"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "aws-27",
+      "topic": "Invalidations",
+      "skills": [
+        "Invalidations"
+      ],
+      "phase": 3
+    }
+  ]
+}

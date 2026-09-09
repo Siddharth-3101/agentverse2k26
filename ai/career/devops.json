@@ -1,0 +1,376 @@
+{
+  "role": "DevOps & Cloud Engineer",
+  "description": "Automate deployment pipelines, containerization, and infrastructure as code.",
+  "category": "DevOps",
+  "milestones": [
+    {
+      "id": "devops-1",
+      "topic": "DevOps",
+      "skills": [
+        "DevOps",
+        "Learn a Programming Language",
+        "Python",
+        "Go",
+        "Rust"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "devops-2",
+      "topic": "JavaScript / Node.js",
+      "skills": [
+        "JavaScript",
+        "ES6",
+        "Node.js",
+        "Java",
+        "Operating System"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "devops-3",
+      "topic": "Linux",
+      "skills": [
+        "Linux",
+        "Shell Scripting",
+        "Unix",
+        "Ubuntu  Debian",
+        "RHEL  Derivatives"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "devops-4",
+      "topic": "FreeBSD",
+      "skills": [
+        "FreeBSD",
+        "OpenBSD",
+        "NetBSD",
+        "Windows",
+        "Terminal Knowledge"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "devops-5",
+      "topic": "Process Monitoring",
+      "skills": [
+        "Process Monitoring",
+        "Performance Monitoring",
+        "Computer Networking",
+        "TCP/IP",
+        "Text Manipulation"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "devops-6",
+      "topic": "Bash",
+      "skills": [
+        "Bash",
+        "Power Shell",
+        "Vim  Nano  Emacs",
+        "Scripting",
+        "Git & Version Control",
+        "Git",
+        "GitHub"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "devops-7",
+      "topic": "VCS Hosting",
+      "skills": [
+        "VCS Hosting",
+        "Git & Version Control",
+        "Git",
+        "GitHub",
+        "Bitbucket"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "devops-8",
+      "topic": "What is and how to setup X ?",
+      "skills": [
+        "What is and how to setup X",
+        "Forward Proxy",
+        "Firewall",
+        "Nginx",
+        "TomcatApache"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "devops-9",
+      "topic": "Caddy",
+      "skills": [
+        "Caddy",
+        "IIS",
+        "Caching Server",
+        "Load Balancer",
+        "Reverse Proxy"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "devops-10",
+      "topic": "Containers",
+      "skills": [
+        "Containers",
+        "Docker",
+        "Containerization",
+        "LXC",
+        "Cloud Providers"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "devops-11",
+      "topic": "AWS",
+      "skills": [
+        "AWS",
+        "Cloud Computing",
+        "Azure",
+        "Go",
+        "Git & Version Control",
+        "Git",
+        "GitHub"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "devops-12",
+      "topic": "Alibaba Cloud",
+      "skills": [
+        "Alibaba Cloud",
+        "Hetzner",
+        "Heroku",
+        "Contabo",
+        "FTP  SFTPDNS"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "devops-13",
+      "topic": "HTTPHTTPS",
+      "skills": [
+        "HTTPHTTPS",
+        "SSL  TLSSSH",
+        "White  Grey Listing",
+        "SMTPDMARC",
+        "IMAPSPF"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "devops-14",
+      "topic": "POP3S",
+      "skills": [
+        "POP3S",
+        "Domain Keys",
+        "Email Protocols",
+        "OSI Model",
+        "Computer Networking",
+        "TCP/IP"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "devops-15",
+      "topic": "Serverless",
+      "skills": [
+        "Serverless",
+        "Vercel",
+        "Cloudflare",
+        "Azure Functions",
+        "AWS",
+        "Cloud Computing"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "devops-16",
+      "topic": "Netlify",
+      "skills": [
+        "Netlify",
+        "Provisioning",
+        "AWS",
+        "Cloud Computing",
+        "CloudFormation"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "devops-17",
+      "topic": "Pulumi",
+      "skills": [
+        "Pulumi",
+        "Terraform",
+        "Configuration Management",
+        "Ansible",
+        "Chef"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "devops-18",
+      "topic": "Puppet",
+      "skills": [
+        "Puppet",
+        "CI  CD Tools",
+        "Git & Version Control",
+        "Git",
+        "GitHub"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "devops-19",
+      "topic": "GitLab CI",
+      "skills": [
+        "Git & Version Control",
+        "Git",
+        "GitHub",
+        "Jenkins",
+        "Circle CI"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "devops-20",
+      "topic": "Octopus Deploy",
+      "skills": [
+        "Octopus Deploy",
+        "TeamCity",
+        "Secret Management",
+        "Sealed Secrets",
+        "Cloud Specific Tools"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "devops-21",
+      "topic": "VaultSOPsInfrastructure Monitoring",
+      "skills": [
+        "Zabbix",
+        "Prometheus",
+        "Datadog",
+        "Grafana",
+        "Logs Management"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "devops-22",
+      "topic": "Elastic Stack",
+      "skills": [
+        "Elastic Stack",
+        "Graylog",
+        "Splunk",
+        "Papertrail",
+        "Container Orchestration"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "devops-23",
+      "topic": "GKE / EKS / AKS",
+      "skills": [
+        "GKE  EKS  AKS",
+        "AWS",
+        "Cloud Computing",
+        "Docker",
+        "Containerization"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "devops-24",
+      "topic": "Artifact Management",
+      "skills": [
+        "Artifact Management",
+        "Artifactory",
+        "Nexus",
+        "Cloud Smith",
+        "Git & Version Control",
+        "Git",
+        "GitHub"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "devops-25",
+      "topic": "ArgoCD",
+      "skills": [
+        "Go",
+        "FluxCD",
+        "Service Mesh",
+        "Istio",
+        "Consul"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "devops-26",
+      "topic": "Linkerd",
+      "skills": [
+        "Linkerd",
+        "Envoy",
+        "Cloud Design Patterns",
+        "Availability",
+        "Data Management"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "devops-27",
+      "topic": "Design and Implementation",
+      "skills": [
+        "Design and Implementation",
+        "Management and Monitoring",
+        "Docker",
+        "Containerization",
+        "Kubernetes",
+        "K8s",
+        "Linux",
+        "Shell Scripting"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "devops-28",
+      "topic": "Find the detailed version of this roadmap",
+      "skills": [
+        "Visit the Beginner Version",
+        "Loki",
+        "Kubernetes",
+        "K8s",
+        "Web Server"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "devops-29",
+      "topic": "Editors",
+      "skills": [
+        "Editors",
+        "GCP Functions",
+        "Application Monitoring",
+        "Jaeger",
+        "New Relic"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "devops-30",
+      "topic": "Datadog",
+      "skills": [
+        "Datadog",
+        "Prometheus",
+        "OpenTelemetry"
+      ],
+      "phase": 3
+    }
+  ]
+}

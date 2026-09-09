@@ -1,0 +1,528 @@
+{
+  "role": "Cyber Security Analyst",
+  "description": "Secure networks, audit system vulnerabilities, and handle incident response.",
+  "category": "Security",
+  "milestones": [
+    {
+      "id": "cyber-security-1",
+      "topic": "Cyber Security",
+      "skills": [
+        "Cybersecurity",
+        "Security",
+        "Fundamental IT Skills",
+        "Computer Hardware Components",
+        "Computer Networking",
+        "TCP/IP"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "cyber-security-2",
+      "topic": "NFC",
+      "skills": [
+        "NFC",
+        "WiFi",
+        "Bluetooth",
+        "Infrared",
+        "iCloud"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "cyber-security-3",
+      "topic": "Google Suite",
+      "skills": [
+        "Go",
+        "MS Office Suite",
+        "CTFs Capture the Flag",
+        "HackTheBox",
+        "TryHackMe"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "cyber-security-4",
+      "topic": "VulnHub",
+      "skills": [
+        "VulnHub",
+        "picoCTF",
+        "SANS Holiday Hack Challenge",
+        "Certifications",
+        "Beginner Certifications"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "cyber-security-5",
+      "topic": "CompTIA A+CompTIA Linux+",
+      "skills": [
+        "Linux",
+        "Shell Scripting",
+        "CompTIA Network+CCNA",
+        "CompTIA Security+",
+        "Advanced Certifications"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "cyber-security-6",
+      "topic": "CEHCISACISM",
+      "skills": [
+        "CEHCISACISM",
+        "GSECGPENGWAPT",
+        "GIACOSCPCREST",
+        "CISSP",
+        "Operating Systems"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "cyber-security-7",
+      "topic": "Windows",
+      "skills": [
+        "Windows",
+        "Linux",
+        "Shell Scripting",
+        "Navigating using GUI and CLI",
+        "Understand Permissions"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-8",
+      "topic": "Installing Software and Applications",
+      "skills": [
+        "Performing CRUD on Files",
+        "Troubleshooting",
+        "Common Commands",
+        "Learn following for each",
+        "Computer Networking",
+        "TCP/IP"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-9",
+      "topic": "Understand the OSI Model",
+      "skills": [
+        "Understand the OSI Model",
+        "Common Ports and their Uses",
+        "SSL and TLS Basics",
+        "Basics of NAS and SAN",
+        "Basics of Subnetting"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-10",
+      "topic": "Public vs Private IP Addresses",
+      "skills": [
+        "IP Terminology",
+        "localhost",
+        "loopbackCIDR",
+        "subnet mask",
+        "default gateway"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-11",
+      "topic": "Understand the Terminology",
+      "skills": [
+        "Understand the Terminology",
+        "VLANDMZARPVM",
+        "DHCPDNS",
+        "NAT",
+        "RouterSwitchVPN"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-12",
+      "topic": "MANLANWANWLAN",
+      "skills": [
+        "MANLANWANWLAN",
+        "Understand these",
+        "DHCPDNSNTPIPAM",
+        "Functions of each",
+        "StarRingMeshBus"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-13",
+      "topic": "Network Topologies",
+      "skills": [
+        "Network Topologies",
+        "SSHRDPFTPSFTP",
+        "Network Protocols",
+        "HTTP  HTTPSSSL  TLS",
+        "VMWareVirtualBox"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-14",
+      "topic": "esxiproxmox",
+      "skills": [
+        "esxiproxmox",
+        "Hypervisor",
+        "GuestOS",
+        "HostOS",
+        "Basics of Virtualization"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-15",
+      "topic": "Troubleshooting Tools",
+      "skills": [
+        "Troubleshooting Tools",
+        "nslookup",
+        "iptables",
+        "Packet Sniffers",
+        "ipconfig"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-16",
+      "topic": "netstat",
+      "skills": [
+        "netstat",
+        "Port Scanners",
+        "ping",
+        "dig",
+        "arp"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-17",
+      "topic": "Protocol Analyzers",
+      "skills": [
+        "Protocol Analyzers",
+        "nmaproute",
+        "tcpdump",
+        "tracert",
+        "KerberosLDAPSSORADIUS"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-18",
+      "topic": "CertificatesLocal Auth",
+      "skills": [
+        "CertificatesLocal Auth",
+        "Authentication Methodologies",
+        "Security Skills and Knowledge",
+        "Basics of Reverse Engineering",
+        "Rust"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-19",
+      "topic": "Roles of Compliance and Auditors",
+      "skills": [
+        "Cyber Kill Chain",
+        "MFA  2FA",
+        "Operating System Hardening",
+        "Basics of IDS and IPS",
+        "Honeypots"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-20",
+      "topic": "Authentication vs Authorization",
+      "skills": [
+        "Blue  Red  Purple Teams",
+        "True Negative  True Positive",
+        "Basics of Threat Intel OSINT",
+        "Understand Handshakes",
+        "Understand CIA Triad"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-21",
+      "topic": "Privilege Escalation",
+      "skills": [
+        "Privilege Escalation",
+        "Web Based Attacks and OWASP10",
+        "nmap",
+        "tracert",
+        "nslookup"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-22",
+      "topic": "curl",
+      "skills": [
+        "curl",
+        "hping",
+        "pingarpcatdd",
+        "headgrep",
+        "wireshark"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-23",
+      "topic": "winhex",
+      "skills": [
+        "winhex",
+        "memdump",
+        "FTK Imager",
+        "autopsy",
+        "dig"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-24",
+      "topic": "tail",
+      "skills": [
+        "tail",
+        "ipconfig",
+        "Basics of Cryptography",
+        "SaltingHashingKey Exchange",
+        "PKI"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-25",
+      "topic": "Private vs Public Keys",
+      "skills": [
+        "Private vs Public Keys",
+        "Obfuscation",
+        "Understand Frameworks",
+        "ATTCK",
+        "AWS",
+        "IAM Security"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-26",
+      "topic": "Understand Common Standards",
+      "skills": [
+        "Understand Common Standards",
+        "ISO",
+        "NIST",
+        "RMF",
+        "CISCSF"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-27",
+      "topic": "Understand the following",
+      "skills": [
+        "Understand the following",
+        "SIEMSOAR",
+        "Common Distros for hacking",
+        "Linux",
+        "Shell Scripting"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-28",
+      "topic": "LOLBAS",
+      "skills": [
+        "LOLBAS",
+        "Event Logssyslogsnetflow",
+        "Packet CapturesFirewall Logs",
+        "Understand Hardening Concepts",
+        "MAC-basedNAC-based"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-29",
+      "topic": "Port BlockingGroup Policy",
+      "skills": [
+        "Port BlockingGroup Policy",
+        "ACLsSinkholesPatching",
+        "Jump ServerEndpoint Security",
+        "Secure vs Unsecure Protocols",
+        "FTP vs SFTPSSL vs TLSIPSEC"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-30",
+      "topic": "DNSSECLDAPSSRTPS/MIME",
+      "skills": [
+        "DNSSECLDAPSSRTPSMIME",
+        "AntivirusAntimalwareEDRDLP",
+        "ACL",
+        "EAP vs PEAPWPS",
+        "WPA vs WPA2 vs WPA3 vs WEP"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-31",
+      "topic": "Understand the Incident Response Process",
+      "skills": [
+        "Zero DayKnown vs UnknownAPT",
+        "Understand Common Tools",
+        "Rust",
+        "Joe Sandbox",
+        "any.run"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-32",
+      "topic": "urlvoid",
+      "skills": [
+        "urlvoid",
+        "urlscan",
+        "WHOIS",
+        "Attack Types and Differences",
+        "Phishing"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-33",
+      "topic": "Whishing",
+      "skills": [
+        "Whishing",
+        "Whaling",
+        "SmishingSpam vs Spim",
+        "Shoulder Surfing",
+        "Dumpster Diving"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-34",
+      "topic": "Tailgating",
+      "skills": [
+        "Tailgating",
+        "Zero day",
+        "Social Engineering",
+        "ReconnaissanceImpersonation",
+        "Watering Hole Attack"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-35",
+      "topic": "Drive by Attack",
+      "skills": [
+        "Drive by Attack",
+        "Typo Squatting",
+        "Brute Force vs Password Spray",
+        "Common Attacks",
+        "DoS vs DDoSMITM"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-36",
+      "topic": "Spoofing",
+      "skills": [
+        "Spoofing",
+        "Evil Twin",
+        "DNS Poisoning",
+        "Deauth Attack",
+        "VLAN Hopping"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-37",
+      "topic": "Rogue Access Point",
+      "skills": [
+        "Rogue Access Point",
+        "Buffer Overflow",
+        "Memory Leak",
+        "SQL",
+        "Database"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-38",
+      "topic": "CSRF",
+      "skills": [
+        "CSRF",
+        "Replay Attack",
+        "Pass the Hash",
+        "Directory Traversal",
+        "Understand Audience"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-39",
+      "topic": "StakeholdersHRLegal",
+      "skills": [
+        "StakeholdersHRLegal",
+        "ComplianceManagement",
+        "Cloud Skills and Knowledge",
+        "SaaSPaaSIaaS",
+        "Understand Cloud Services"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-40",
+      "topic": "Cloud Models",
+      "skills": [
+        "Cloud Models",
+        "PrivatePublicHybrid",
+        "AWS",
+        "Cloud Computing",
+        "Common Cloud Environments"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-41",
+      "topic": "S3Dropbox",
+      "skills": [
+        "AWS",
+        "Amazon S3",
+        "BoxOneDrive",
+        "Go",
+        "iCloud"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-42",
+      "topic": "Common Cloud Storage",
+      "skills": [
+        "RAG",
+        "Vector Databases",
+        "Programming Skills",
+        "Python",
+        "JavaScript",
+        "ES6",
+        "Java"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "cyber-security-43",
+      "topic": "C++",
+      "skills": [
+        "C++",
+        "Bash",
+        "Power Shell",
+        "Keep Learning",
+        "GTFOBINSWADCOMS"
+      ],
+      "phase": 3
+    }
+  ]
+}

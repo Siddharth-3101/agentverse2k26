@@ -1,0 +1,334 @@
+{
+  "role": "Data Analyst",
+  "description": "Transform raw data into business insights using SQL, Python, Excel, and BI tools.",
+  "category": "Data Science & Analytics",
+  "milestones": [
+    {
+      "id": "data-analyst-1",
+      "topic": "Keep learning with the following relevant track",
+      "skills": [
+        "Data Analyst",
+        "Introduction",
+        "AI and Data Scientist Roadmap",
+        "What is Data Analytics",
+        "Types of Data Analytics"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "data-analyst-2",
+      "topic": "Descriptive Analytics",
+      "skills": [
+        "Descriptive Analytics",
+        "Diagnostic Analytics",
+        "Predictive Analytics",
+        "Prescriptive Analytics",
+        "Key Concepts of Data"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "data-analyst-3",
+      "topic": "CollectionCleanup",
+      "skills": [
+        "CollectionCleanup",
+        "ExplorationVisualisation",
+        "Statistical Analysis",
+        "Machine Learning",
+        "AI"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "data-analyst-4",
+      "topic": "Building a Strong Foundation",
+      "skills": [
+        "Building a Strong Foundation",
+        "Excel",
+        "Data Analysis",
+        "DATEDIF",
+        "VLOOKUP  HLOOKUP"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "data-analyst-5",
+      "topic": "REPLACE / SUBSTITUTE",
+      "skills": [
+        "REPLACE  SUBSTITUTE",
+        "UPPER  LOWER  PROPER",
+        "CONCATTRIM",
+        "RAG",
+        "Vector Databases"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "data-analyst-6",
+      "topic": "COUNT",
+      "skills": [
+        "COUNT",
+        "SUM",
+        "MIN  MAX",
+        "Learn Common Functions",
+        "Charting"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "data-analyst-7",
+      "topic": "Pivot Tables",
+      "skills": [
+        "Pivot Tables",
+        "Learn a Programming Lang.",
+        "Data Manipulation Libraries",
+        "Pandas",
+        "Data Science & Analytics"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "data-analyst-8",
+      "topic": "Data Visualisation LibrariesMatplotlib",
+      "skills": [
+        "Dplyr",
+        "Ggplot2",
+        "Data Collection",
+        "Mastering Data Handling",
+        "Databases"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "data-analyst-9",
+      "topic": "CSV Files",
+      "skills": [
+        "CSV Files",
+        "APIs",
+        "Web Scraping",
+        "Data Cleanup",
+        "Handling Missing Data"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "data-analyst-10",
+      "topic": "Removing Duplicates",
+      "skills": [
+        "Removing Duplicates",
+        "Finding Outliers",
+        "Data Transformation",
+        "Pandas",
+        "Data Science & Analytics"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "data-analyst-11",
+      "topic": "Data Analysis Techniques",
+      "skills": [
+        "Data Analysis Techniques",
+        "Descriptive Analysis",
+        "Dispersion",
+        "Distribution Space",
+        "MeanMedian"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "data-analyst-12",
+      "topic": "ModeAverage",
+      "skills": [
+        "RAG",
+        "Vector Databases",
+        "RangeVariance",
+        "Standard Deviation",
+        "Skewness"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "data-analyst-13",
+      "topic": "Kurtosis",
+      "skills": [
+        "Kurtosis",
+        "Central Tendency",
+        "Generating Statistics",
+        "Tableau",
+        "Data Visualization"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "data-analyst-14",
+      "topic": "Power BI",
+      "skills": [
+        "Power BI",
+        "Matplotlib",
+        "Seaborn",
+        "ggplot2",
+        "ToolsLibraries"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "data-analyst-15",
+      "topic": "Charting",
+      "skills": [
+        "Charting",
+        "Bar Charts",
+        "Line Chart",
+        "Scatter Plot",
+        "Funnel Charts"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "data-analyst-16",
+      "topic": "Histograms",
+      "skills": [
+        "Histograms",
+        "Stacked Charts",
+        "Heatmap",
+        "Pie Charts",
+        "Data Visualisation"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "data-analyst-17",
+      "topic": "Statistical Analysis",
+      "skills": [
+        "Statistical Analysis",
+        "Hypothesis Testing",
+        "Correlation Analysis",
+        "Regression",
+        "Visualizing Distributions"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "data-analyst-18",
+      "topic": "Advanced Topics",
+      "skills": [
+        "Advanced Topics",
+        "Machine Learning",
+        "AI",
+        "Reinforcement Learning",
+        "Unsupervised Learning"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "data-analyst-19",
+      "topic": "Supervised Learning",
+      "skills": [
+        "Supervised Learning",
+        "Decision Trees",
+        "Naive Byes",
+        "K-Means Clustering",
+        "Model Evaluation Techniques"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "data-analyst-20",
+      "topic": "Big Data Technologies",
+      "skills": [
+        "Big Data Technologies",
+        "Big Data Concepts",
+        "KNN",
+        "Logistic Regression",
+        "Parallel Processing"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "data-analyst-21",
+      "topic": "Data Processing Frameworks",
+      "skills": [
+        "Data Processing Frameworks",
+        "HadoopSpark",
+        "Data Processing Techniques",
+        "MPIMapReduce",
+        "Deep Learning",
+        "PyTorch"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "data-analyst-22",
+      "topic": "Learn the Basics",
+      "skills": [
+        "Learn the Basics",
+        "Neural Networks",
+        "CNNsRNN",
+        "Frameworks",
+        "TensorFlow"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "data-analyst-23",
+      "topic": "Pytorch",
+      "skills": [
+        "PyTorch",
+        "Deep Learning",
+        "Practice Training Models",
+        "Image Recognition",
+        "Natural Language Processing"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "data-analyst-24",
+      "topic": "Build a portfolio of projects. Some example projects:",
+      "skills": [
+        "Stay Updated and Network",
+        "Computer Networking",
+        "TCP/IP",
+        "your network.",
+        "Related Roadmaps"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "data-analyst-25",
+      "topic": "AI and Data Scientist Roadmap",
+      "skills": [
+        "AI and Data Scientist Roadmap",
+        "SQL",
+        "Database",
+        "Python",
+        "Prompt Engineering",
+        "Generative AI"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "data-analyst-26",
+      "topic": "Popular ML Algorithms",
+      "skills": [
+        "Go",
+        "Learn Different Techniques",
+        "Machine Learning",
+        "AI",
+        "Using Libraries for Cleanup"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "data-analyst-27",
+      "topic": "Gain Programming Skills",
+      "skills": [
+        "Gain Programming Skills",
+        "RAG",
+        "Vector Databases",
+        "Python",
+        "SQL",
+        "Database"
+      ],
+      "phase": 3
+    }
+  ]
+}

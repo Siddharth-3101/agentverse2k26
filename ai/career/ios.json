@@ -1,0 +1,485 @@
+{
+  "role": "iOS Developer",
+  "description": "Develop native iOS applications for iPhone and iPad using Swift and SwiftUI.",
+  "category": "Mobile Development",
+  "milestones": [
+    {
+      "id": "ios-1",
+      "topic": "iOS Developer",
+      "skills": [
+        "iOS Developer",
+        "Swift",
+        "iOS Development",
+        "Benefits over Objective-C",
+        "Objective-C"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "ios-2",
+      "topic": "Objective-C Basics",
+      "skills": [
+        "Objective-C Basics",
+        "Swift",
+        "iOS Development",
+        "iOS Architecture",
+        "Core OS"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "ios-3",
+      "topic": "Core Services",
+      "skills": [
+        "Core Services",
+        "Media",
+        "Core Graphics",
+        "Core Animation",
+        "AVFoundation"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "ios-4",
+      "topic": "Core Image",
+      "skills": [
+        "Core Image",
+        "Core Audio",
+        "Metal",
+        "Cocoa Touch",
+        "Core Programming Concepts"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "ios-5",
+      "topic": "OOP",
+      "skills": [
+        "OOP",
+        "Functional Programming",
+        "Memory Management",
+        "ViewController Lifecycle",
+        "Error Handling"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "ios-6",
+      "topic": "Concurrency (GCD, async/await)",
+      "skills": [
+        "Concurrency GCD asyncawait",
+        "Visit his LinkedIn",
+        "The Fundamentals",
+        "Pick a Language",
+        "Git & Version Control",
+        "Git",
+        "GitHub"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "ios-7",
+      "topic": "App Components",
+      "skills": [
+        "App Components",
+        "Xcode",
+        "iOS",
+        "Setting Up",
+        "Installing"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-8",
+      "topic": "Preferences",
+      "skills": [
+        "Preferences",
+        "New Project",
+        "Navigating",
+        "Interface overview",
+        "Toolbar"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-9",
+      "topic": "Navigators",
+      "skills": [
+        "Navigators",
+        "Editors",
+        "Project Files",
+        "Groups",
+        "Debugger"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-10",
+      "topic": "Breakpoints",
+      "skills": [
+        "Breakpoints",
+        "Debug Navigator",
+        "Stepping",
+        "Interface Builder",
+        "IBOutlets"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-11",
+      "topic": "IBActions",
+      "skills": [
+        "IBActions",
+        "Auto layout",
+        "UIKit",
+        "Swift",
+        "Components"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-12",
+      "topic": "Views",
+      "skills": [
+        "Views",
+        "View Controllers",
+        "User Interactions",
+        "Basic Interfaces",
+        "Storyboards"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-13",
+      "topic": "Xibs",
+      "skills": [
+        "Xibs",
+        "Navigation",
+        "View Transitions",
+        "Swift",
+        "iOS Development",
+        "SwiftUI"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-14",
+      "topic": "Basics",
+      "skills": [
+        "Basics",
+        "Declarative Syntax",
+        "Components",
+        "State Management",
+        "Data binding"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-15",
+      "topic": "Simple UI Building",
+      "skills": [
+        "Simple UI Building",
+        "Building Interfaces",
+        "Views and Modifiers",
+        "Navigation",
+        "View Transitions"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-16",
+      "topic": "Interfaces and Navigation",
+      "skills": [
+        "Interfaces and Navigation",
+        "UI DesignHIG",
+        "UIKit",
+        "Swift",
+        "Views View Controllers"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-17",
+      "topic": "Navigation Controllers, Segues",
+      "skills": [
+        "Navigation Controllers Segues",
+        "Navigation Stacks",
+        "Pushing Presenting",
+        "Modals and Navigation",
+        "Swift",
+        "iOS Development",
+        "SwiftUI"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-18",
+      "topic": "Navigation Stacks",
+      "skills": [
+        "Navigation Stacks",
+        "Navigation View",
+        "NavigationLink",
+        "Presenting  Dismissing views",
+        "Core Animation"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-19",
+      "topic": "Basics / Creating Animations",
+      "skills": [
+        "Basics  Creating Animations",
+        "Lottie",
+        "Design Architecture",
+        "MVCMVP",
+        "MVVMMVVM-C"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-20",
+      "topic": "VIPERTCA",
+      "skills": [
+        "VIPERTCA",
+        "Architectural Patterns",
+        "UI Kit Basics",
+        "Building Simple UIs",
+        "React.js",
+        "JSX"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-21",
+      "topic": "Combine",
+      "skills": [
+        "Combine",
+        "Publishers  Subscribers",
+        "Operators  Pipelines",
+        "Combine and MVVM",
+        "Swift",
+        "iOS Development"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-22",
+      "topic": "Observables & observers",
+      "skills": [
+        "Observables  observers",
+        "Subjects",
+        "Swift",
+        "iOS Development",
+        "OperatorsSchedulers"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-23",
+      "topic": "Patterns and Techniques",
+      "skills": [
+        "Patterns and Techniques",
+        "Delegate Pattern",
+        "Implementing Delegates",
+        "CallbacksClosures",
+        "Callback Hell"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-24",
+      "topic": "Async / Await",
+      "skills": [
+        "Async  Await",
+        "Concurrency",
+        "Data Persistence",
+        "Core Data",
+        "User Defaults"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-25",
+      "topic": "Keychain",
+      "skills": [
+        "Keychain",
+        "File System",
+        "SQL",
+        "Database",
+        "JSON  XML"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-26",
+      "topic": "Parsing",
+      "skills": [
+        "Parsing",
+        "Serializing",
+        "Computer Networking",
+        "TCP/IP",
+        "HTTP  HTTPs"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-27",
+      "topic": "REST",
+      "skills": [
+        "REST",
+        "GraphQL",
+        "URLSession",
+        "Alamofire",
+        "Asynchronism"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-28",
+      "topic": "Concurrency and Multithreading",
+      "skills": [
+        "GCD",
+        "Operation Queues",
+        "Dependency Manager",
+        "CocoaPodsCarthage",
+        "Swift",
+        "iOS Development"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-29",
+      "topic": "Frameworks & Library",
+      "skills": [
+        "Frameworks  Library",
+        "XCFramework",
+        "Static Library",
+        "Dynamic Library",
+        "Accessibility"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-30",
+      "topic": "Accessibility Inspector",
+      "skills": [
+        "Accessibility Inspector",
+        "Voice Over",
+        "Dynamic Type",
+        "Common Services",
+        "Frameworks"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-31",
+      "topic": "ARKit",
+      "skills": [
+        "ARKit",
+        "HealthKit",
+        "GameKit",
+        "MapKit",
+        "Core ML"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-32",
+      "topic": "Linting",
+      "skills": [
+        "Linting",
+        "Code Quality Tools",
+        "Swift",
+        "iOS Development",
+        "Tailor"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-33",
+      "topic": "SwiftFormat",
+      "skills": [
+        "Swift",
+        "iOS Development",
+        "Debugging",
+        "Debugging Techniques",
+        "Xcode",
+        "iOS"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-34",
+      "topic": "Profiling Instruments",
+      "skills": [
+        "Profiling Instruments",
+        "Testing",
+        "Unit  UI Testing",
+        "XCTest",
+        "XCUITest"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-35",
+      "topic": "Test Plan & Coverage",
+      "skills": [
+        "RAG",
+        "Vector Databases",
+        "App Distribution",
+        "App Store Distribution",
+        "TestFlightFastLane"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-36",
+      "topic": "CI / CD",
+      "skills": [
+        "CI  CD",
+        "Jenkins",
+        "CircleCI",
+        "Git & Version Control",
+        "Git",
+        "GitHub"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-37",
+      "topic": "GitLab",
+      "skills": [
+        "Git & Version Control",
+        "Git",
+        "GitHub",
+        "Azure DevOps",
+        "App Store Optimization ASO"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-38",
+      "topic": "Continuous Learning",
+      "skills": [
+        "Continuous Learning",
+        "Keeping Updated with WWDC",
+        "Swift",
+        "iOS Development",
+        "Latest iOS SDK"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ios-39",
+      "topic": "New Feature Announcements",
+      "skills": [
+        "New Feature Announcements",
+        "React.js",
+        "JSX",
+        "RAG",
+        "Vector Databases"
+      ],
+      "phase": 3
+    }
+  ]
+}

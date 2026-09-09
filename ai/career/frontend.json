@@ -1,0 +1,320 @@
+{
+  "role": "Frontend Developer",
+  "description": "Build interactive, performant, and responsive web user interfaces.",
+  "category": "Software Engineering",
+  "milestones": [
+    {
+      "id": "frontend-1",
+      "topic": "Continue Learning with following relevant tracks",
+      "skills": [
+        "Front-end",
+        "Internet",
+        "How does the internet work",
+        "What is HTTP",
+        "What is Domain Name"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "frontend-2",
+      "topic": "What is hosting?",
+      "skills": [
+        "What is hosting",
+        "DNS and how it works",
+        "Browsers and how they work",
+        "HTML & CSS",
+        "HTML"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "frontend-3",
+      "topic": "Learn the basics",
+      "skills": [
+        "Learn the basics",
+        "HTML & CSS",
+        "HTML",
+        "Forms and Validations",
+        "Accessibility"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "frontend-4",
+      "topic": "SEO Basics",
+      "skills": [
+        "SEO Basics",
+        "HTML & CSS",
+        "CSS",
+        "Tailwind",
+        "Learn the basics"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "frontend-5",
+      "topic": "Making Layouts",
+      "skills": [
+        "Making Layouts",
+        "Responsive Design",
+        "JavaScript",
+        "ES6",
+        "Java"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "frontend-6",
+      "topic": "Fetch API / Ajax (XHR)",
+      "skills": [
+        "Fetch API  Ajax XHR",
+        "Learn DOM Manipulation",
+        "Learn the Basics",
+        "VCS Hosting",
+        "Version Control Systems"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "frontend-7",
+      "topic": "Git",
+      "skills": [
+        "Git & Version Control",
+        "Git",
+        "GitHub",
+        "Package Managers",
+        "Bitbucket"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "frontend-8",
+      "topic": "yarn",
+      "skills": [
+        "yarn",
+        "pnpm",
+        "npm",
+        "Pick a Framework",
+        "Angular"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "frontend-9",
+      "topic": "Vue.js",
+      "skills": [
+        "Vue.js",
+        "React.js",
+        "JSX",
+        "Svelte",
+        "Solid JS"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "frontend-10",
+      "topic": "Qwik",
+      "skills": [
+        "Qwik",
+        "HTML & CSS",
+        "CSS",
+        "Tailwind",
+        "Build Tools"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "frontend-11",
+      "topic": "Linters and Formatters",
+      "skills": [
+        "Linters and Formatters",
+        "Module Bundlers",
+        "Parcel",
+        "Rollup",
+        "Webpack"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "frontend-12",
+      "topic": "esbuild",
+      "skills": [
+        "esbuild",
+        "Vite",
+        "PrettierESLint",
+        "Testing",
+        "VitestJest"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "frontend-13",
+      "topic": "Playwright",
+      "skills": [
+        "Playwright",
+        "Cypress",
+        "Authentication Strategies",
+        "Web Security Basics",
+        "CORSHTTPS"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "frontend-14",
+      "topic": "Content Security Policy",
+      "skills": [
+        "Content Security Policy",
+        "OWASP Security Risks",
+        "Web ComponentsType Checkers",
+        "Custom Elements",
+        "HTML & CSS",
+        "HTML"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "frontend-15",
+      "topic": "Shadow DOM",
+      "skills": [
+        "Shadow DOM",
+        "TypeScript",
+        "SSR",
+        "Svelte",
+        "Vue.js"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "frontend-16",
+      "topic": "Angular",
+      "skills": [
+        "Angular",
+        "React.js",
+        "JSX",
+        "Next.js",
+        "Nuxt.js"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "frontend-17",
+      "topic": "Svelte Kit",
+      "skills": [
+        "Svelte Kit",
+        "GraphQL",
+        "Apollo",
+        "Relay Modern",
+        "Static Site Generators"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "frontend-18",
+      "topic": "Vuepress",
+      "skills": [
+        "Vue.js",
+        "Nuxt.js",
+        "Astro",
+        "Eleventy",
+        "Next.js"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "frontend-19",
+      "topic": "PWAs",
+      "skills": [
+        "PWAs",
+        "Mobile Apps",
+        "React.js",
+        "JSX",
+        "Flutter"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "frontend-20",
+      "topic": "Ionic",
+      "skills": [
+        "Ionic",
+        "Desktop Apps",
+        "TypeScript",
+        "Node.js",
+        "JavaScript"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "frontend-21",
+      "topic": "Electron",
+      "skills": [
+        "Electron",
+        "Tauri",
+        "Flutter",
+        "PRPL Pattern",
+        "RAIL Model"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "frontend-22",
+      "topic": "Performance Metrics",
+      "skills": [
+        "Performance Metrics",
+        "Using Lighthouse",
+        "Using DevTools",
+        "Performance Best Practices",
+        "RAG",
+        "Vector Databases"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "frontend-23",
+      "topic": "Web Sockets",
+      "skills": [
+        "Web Sockets",
+        "Server Sent Events",
+        "Service Workers",
+        "Location",
+        "Notifications"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "frontend-24",
+      "topic": "Device Orientation",
+      "skills": [
+        "Device Orientation",
+        "Payments",
+        "Credentials",
+        "HTML & CSS",
+        "CSS",
+        "Tailwind"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "frontend-25",
+      "topic": "Components. Also worth looking at are",
+      "skills": [
+        "HTML & CSS",
+        "CSS",
+        "Tailwind",
+        "SWC",
+        "Astro"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "frontend-26",
+      "topic": "Browser APIs",
+      "skills": [
+        "Browser APIs",
+        "Measure  Improve Perf.",
+        "Fullstack"
+      ],
+      "phase": 3
+    }
+  ]
+}

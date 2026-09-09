@@ -1,0 +1,354 @@
+{
+  "role": "AI / ML Engineer",
+  "description": "Master Machine Learning, Deep Learning, LLMs, RAG, and AI System Engineering.",
+  "category": "Artificial Intelligence",
+  "milestones": [
+    {
+      "id": "ai-engineer-1",
+      "topic": "Pre-requisites (One of these)",
+      "skills": [
+        "Pre-requisites One of these",
+        "AI Engineer",
+        "Introduction",
+        "What is an AI Engineer",
+        "AI Engineer vs ML Engineer"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "ai-engineer-2",
+      "topic": "LLMs",
+      "skills": [
+        "LLMs",
+        "Generative AI",
+        "Inference",
+        "Training",
+        "Embeddings"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "ai-engineer-3",
+      "topic": "Vector Databases",
+      "skills": [
+        "Vector Databases",
+        "RAG",
+        "Prompt Engineering",
+        "Generative AI",
+        "AI Agents"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "ai-engineer-4",
+      "topic": "AI vs AGI",
+      "skills": [
+        "AI vs AGI",
+        "Common Terminology",
+        "FrontendBackendFull-Stack",
+        "Impact on Product Development",
+        "Roles and Responsiblities"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "ai-engineer-5",
+      "topic": "Using Pre-trained Models",
+      "skills": [
+        "Using Pre-trained Models",
+        "Pre-trained Models",
+        "Popular AI Models",
+        "Open AI Models",
+        "Capabilities  Context Length"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "ai-engineer-6",
+      "topic": "Cut-off Dates / Knowledge",
+      "skills": [
+        "Cut-off Dates  Knowledge",
+        "Anthropics Claude",
+        "Go",
+        "AWS",
+        "Cloud Computing"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "ai-engineer-7",
+      "topic": "Hugging Face Models",
+      "skills": [
+        "Hugging Face Models",
+        "Mistral AICohere",
+        "OpenAI Models",
+        "Open AI Platform",
+        "OpenAI API"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ai-engineer-8",
+      "topic": "Chat Completions API",
+      "skills": [
+        "Chat Completions API",
+        "Writing Prompts",
+        "Open AI Playground",
+        "Fine-tuning",
+        "Managing Tokens"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ai-engineer-9",
+      "topic": "Maximum Tokens",
+      "skills": [
+        "Maximum Tokens",
+        "Token Counting",
+        "Pricing Considerations",
+        "Prompt Engineering",
+        "Generative AI"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ai-engineer-10",
+      "topic": "AI Safety and Ethics",
+      "skills": [
+        "AI Safety and Ethics",
+        "Prompt Injection Attacks",
+        "Bias and Fairness",
+        "Security and Privacy Concerns",
+        "OpenAI Moderation API"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ai-engineer-11",
+      "topic": "Adding end-user IDs in prompts",
+      "skills": [
+        "Prompt Engineering",
+        "Generative AI",
+        "Know your Customers  Usecases",
+        "Safety Best Practices",
+        "OpenSource AI"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ai-engineer-12",
+      "topic": "Open vs Closed Source Models",
+      "skills": [
+        "Open vs Closed Source Models",
+        "Popular Open Source Models",
+        "Hugging Face",
+        "Hugging Face Hub",
+        "Hugging Face Tasks"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ai-engineer-13",
+      "topic": "Finding Open Source Models",
+      "skills": [
+        "Finding Open Source Models",
+        "Using Open Source Models",
+        "Inference SDK",
+        "Transformers.js",
+        "Ollama"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ai-engineer-14",
+      "topic": "Ollama Models",
+      "skills": [
+        "Ollama Models",
+        "Ollama SDK",
+        "What are Embeddings",
+        "Semantic Search",
+        "Recommendation Systems"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ai-engineer-15",
+      "topic": "Anomaly Detection",
+      "skills": [
+        "Anomaly Detection",
+        "Data Classification",
+        "Vector Databases",
+        "Use Cases for Embeddings",
+        "Open AI Embeddings API"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ai-engineer-16",
+      "topic": "Open AI Embedding Models",
+      "skills": [
+        "Open AI Embedding Models",
+        "Pricing Considerations",
+        "Open-Source Embeddings",
+        "Sentence Transformers",
+        "Models on Hugging Face"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ai-engineer-17",
+      "topic": "Vector Databases",
+      "skills": [
+        "Vector Databases",
+        "Purpose and Functionality",
+        "ChromaPinecone",
+        "WeaviateFAISS",
+        "LanceDBQdrant"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ai-engineer-18",
+      "topic": "Supabase",
+      "skills": [
+        "Supabase",
+        "Go",
+        "MongoDB",
+        "NoSQL",
+        "Popular Vector DBs pick one"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ai-engineer-19",
+      "topic": "Indexing Embeddings",
+      "skills": [
+        "Indexing Embeddings",
+        "Performing Similarity Search",
+        "Implementing Vector Search",
+        "RAG",
+        "Vector Databases"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ai-engineer-20",
+      "topic": "RAG Usecases",
+      "skills": [
+        "RAG",
+        "Vector Databases",
+        "Chunking",
+        "Embedding",
+        "Vector Database"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ai-engineer-21",
+      "topic": "Retrieval Process",
+      "skills": [
+        "Retrieval Process",
+        "Generation",
+        "RAG",
+        "Vector Databases",
+        "Using SDKs Directly"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ai-engineer-22",
+      "topic": "LangchainLlama Index",
+      "skills": [
+        "LangchainLlama Index",
+        "Open AI Assistant API",
+        "Replicate",
+        "AI Agents",
+        "RAG",
+        "Vector Databases"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ai-engineer-23",
+      "topic": "Agents Usecases",
+      "skills": [
+        "Agents Usecases",
+        "Prompt Engineering",
+        "Generative AI",
+        "React.js",
+        "JSX"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ai-engineer-24",
+      "topic": "Manual Implementation",
+      "skills": [
+        "Manual Implementation",
+        "OpenAI Functions  Tools",
+        "OpenAI Assistant API",
+        "Building AI Agents",
+        "Image Understanding"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ai-engineer-25",
+      "topic": "Image Generation",
+      "skills": [
+        "Image Generation",
+        "Video Understanding",
+        "Audio Processing",
+        "Text-to-Speech",
+        "Speech-to-Text"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ai-engineer-26",
+      "topic": "Multimodal AI Tasks",
+      "skills": [
+        "Multimodal AI Tasks",
+        "OpenAI Vision API",
+        "DALL-E API",
+        "Whisper API",
+        "Hugging Face Models"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ai-engineer-27",
+      "topic": "LangChain for Multimodal Apps",
+      "skills": [
+        "LangChain for Multimodal Apps",
+        "Implementing Multimodal AI",
+        "Prompt Engineering",
+        "Generative AI",
+        "Development Tools"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ai-engineer-28",
+      "topic": "AI Code Editors",
+      "skills": [
+        "AI Code Editors",
+        "Code Completion Tools",
+        "Scrimba - AI Engineer Path",
+        "Related Roadmaps",
+        "AI and Data Scientist Roadmap"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "ai-engineer-29",
+      "topic": "Prompt Engineering",
+      "skills": [
+        "Prompt Engineering",
+        "Generative AI",
+        "Data Analyst Roadamp"
+      ],
+      "phase": 3
+    }
+  ]
+}

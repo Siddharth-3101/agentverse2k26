@@ -1,0 +1,15 @@
+{
+  "name": "agentverse-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Certificate Intelligence AI & Portfolio Generator — independent AI module",
+  "main": "CertificateIntelligenceModel.js",
+  "dependencies": {
+    "pdf-parse": "^1.1.4",
+    "pdf2pic": "^3.2.0",
+    "tesseract.js": "^5.1.1"
+  },
+  "scripts": {
+    "test": "node tests/certificateTests.js"
+  }
+}

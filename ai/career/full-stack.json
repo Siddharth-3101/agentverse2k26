@@ -1,0 +1,145 @@
+{
+  "role": "Full Stack Developer",
+  "description": "Master both client-side UI and server-side backend database architectures.",
+  "category": "Software Engineering",
+  "milestones": [
+    {
+      "id": "full-stack-1",
+      "topic": "Continue Learning with following relevant tracks",
+      "skills": [
+        "Full Stack",
+        "Frontend",
+        "HTML & CSS",
+        "HTML",
+        "CSS",
+        "Tailwind",
+        "JavaScript",
+        "ES6",
+        "Java"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "full-stack-2",
+      "topic": "npmCheckpoint - Static WebpagesCheckpoint - Interactivity",
+      "skills": [
+        "Git & Version Control",
+        "Git",
+        "GitHub",
+        "HTML & CSS",
+        "CSS",
+        "Tailwind",
+        "React.js",
+        "JSX"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "full-stack-3",
+      "topic": "Checkpoint - Collaborative Work",
+      "skills": [
+        "Feel free to skip these and",
+        "Start Backend Development",
+        "Checkpoint - Frontend Apps",
+        "Node.js",
+        "JavaScript"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "full-stack-4",
+      "topic": "You can pick any backend programming language.",
+      "skills": [
+        "Node.js",
+        "JavaScript",
+        "ES6",
+        "Java",
+        "Backend Starts here"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "full-stack-5",
+      "topic": "Checkpoint — CLI Apps",
+      "skills": [
+        "Checkpoint  CLI Apps",
+        "RESTful APIs",
+        "Checkpoint  Simple CRUD Apps",
+        "Redis",
+        "Caching"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "full-stack-6",
+      "topic": "Linux Basics",
+      "skills": [
+        "Linux",
+        "Shell Scripting",
+        "Checkpoint  Complete App",
+        "DevOps starts here",
+        "AWS",
+        "Cloud Computing"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "full-stack-7",
+      "topic": "EC2VPC",
+      "skills": [
+        "AWS",
+        "Amazon EC2",
+        "Route53SES",
+        "Monit",
+        "SQL",
+        "Database",
+        "PostgreSQL"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "full-stack-8",
+      "topic": "Checkpoint — Deployment",
+      "skills": [
+        "Checkpoint  Deployment",
+        "Git & Version Control",
+        "Git",
+        "GitHub",
+        "Checkpoint  Monitoring"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "full-stack-9",
+      "topic": "Ansible",
+      "skills": [
+        "Ansible",
+        "Checkpoint  CI  CD",
+        "Terraform",
+        "Checkpoint  Automation",
+        "Checkpoint  Infrastructure"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "full-stack-10",
+      "topic": "BackendDevOpsAWS",
+      "skills": [
+        "AWS",
+        "Cloud Computing",
+        "Key topics to learn",
+        "Project ideas and suggestions",
+        "full-stack development."
+      ],
+      "phase": 3
+    },
+    {
+      "id": "full-stack-11",
+      "topic": "FrontendBackendDevOps",
+      "skills": [
+        "FrontendBackendDevOps"
+      ],
+      "phase": 3
+    }
+  ]
+}

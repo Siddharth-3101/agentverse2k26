@@ -1,0 +1,409 @@
+{
+  "role": "Backend Developer",
+  "description": "Build server-side logic, databases, API architecture, and microservices.",
+  "category": "Software Engineering",
+  "milestones": [
+    {
+      "id": "backend-1",
+      "topic": "Have a look at the following relevant tracks",
+      "skills": [
+        "Search Engines",
+        "Learn about APIs",
+        "Backend",
+        "Internet",
+        "Rust"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "backend-2",
+      "topic": "GoJavaScript",
+      "skills": [
+        "JavaScript",
+        "ES6",
+        "Java",
+        "Go",
+        "Python"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "backend-3",
+      "topic": "Ruby",
+      "skills": [
+        "Ruby",
+        "Pick a Language",
+        "Git & Version Control",
+        "Git",
+        "GitHub"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "backend-4",
+      "topic": "Version Control Systems",
+      "skills": [
+        "Version Control Systems",
+        "Git & Version Control",
+        "Git",
+        "GitHub",
+        "Bitbucket"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "backend-5",
+      "topic": "GitLab",
+      "skills": [
+        "Git & Version Control",
+        "Git",
+        "GitHub",
+        "Repo Hosting Services",
+        "SQL",
+        "Database",
+        "PostgreSQL"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "backend-6",
+      "topic": "MS SQL",
+      "skills": [
+        "SQL",
+        "Database",
+        "MySQL",
+        "Oracle",
+        "MariaDB"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "backend-7",
+      "topic": "Relational Databases",
+      "skills": [
+        "Relational Databases",
+        "SQL",
+        "Database",
+        "ORMs",
+        "Normalization"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-8",
+      "topic": "ACID",
+      "skills": [
+        "ACID",
+        "Failure Modes",
+        "Transactions",
+        "Profiling Perfor.",
+        "N+1 Problem"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-9",
+      "topic": "More about Databases",
+      "skills": [
+        "More about Databases",
+        "Database Indexes",
+        "Sharding Strategies",
+        "Data Replication",
+        "CAP Theorem"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-10",
+      "topic": "Scaling Databases",
+      "skills": [
+        "Scaling Databases",
+        "HATEOAS",
+        "JSON APIs",
+        "Open API Specs",
+        "SOAPgRPC"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-11",
+      "topic": "REST",
+      "skills": [
+        "REST",
+        "GraphQL",
+        "Client Side",
+        "CDN",
+        "Server SideCaching"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-12",
+      "topic": "Web Security",
+      "skills": [
+        "Web Security",
+        "Integration Testing",
+        "Functional Testing",
+        "Unit Testing",
+        "Testing"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-13",
+      "topic": "CI / CD",
+      "skills": [
+        "CI  CD",
+        "Go",
+        "CQRS",
+        "Domain Driven Design",
+        "Event Sourcing"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-14",
+      "topic": "Test Driven Development",
+      "skills": [
+        "Test Driven Development",
+        "Monolithic Apps",
+        "Serverless",
+        "Microservices",
+        "Service Mesh"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-15",
+      "topic": "SOA",
+      "skills": [
+        "SOA",
+        "Twelve Factor Apps",
+        "Architectural Patterns",
+        "RabbitMQ",
+        "Kafka"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-16",
+      "topic": "Message Brokers",
+      "skills": [
+        "Message Brokers",
+        "LXC",
+        "WebSockets",
+        "Server Sent Events",
+        "Nginx"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-17",
+      "topic": "Caddy",
+      "skills": [
+        "Caddy",
+        "Apache",
+        "MS IIS",
+        "Web Servers",
+        "Building For Scale"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-18",
+      "topic": "Redis",
+      "skills": [
+        "Redis",
+        "Caching",
+        "Memcached",
+        "Document DBs",
+        "Go",
+        "MongoDB",
+        "NoSQL"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-19",
+      "topic": "CouchDB",
+      "skills": [
+        "CouchDB",
+        "Graph DBs",
+        "Neo4j",
+        "Software Design  Architecture",
+        "Mitigation Strategies"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-20",
+      "topic": "Graceful Degradation",
+      "skills": [
+        "Graceful Degradation",
+        "Throttling",
+        "Backpressure",
+        "Loadshifting",
+        "Circuit Breaker"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-21",
+      "topic": "Migration Strategies",
+      "skills": [
+        "Migration Strategies",
+        "Types of Scaling",
+        "Metrics logging and other",
+        "observable items that can",
+        "help in debugging and"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-22",
+      "topic": "solving Issues when things",
+      "skills": [
+        "solving Issues when things",
+        "Go",
+        "Difference  Usage",
+        "Instrumentation",
+        "Monitoring"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-23",
+      "topic": "Telemetry",
+      "skills": [
+        "Telemetry",
+        "DevOps",
+        "MD5",
+        "SHA",
+        "scrypt"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-24",
+      "topic": "bcrypt",
+      "skills": [
+        "bcrypt",
+        "HTTPS",
+        "OWASP Risks",
+        "SSLTLS",
+        "CORS"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-25",
+      "topic": "Server Security",
+      "skills": [
+        "Server Security",
+        "CSP",
+        "API Security Best Practices",
+        "How does the internet work",
+        "What is HTTP"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-26",
+      "topic": "What is Domain Name?",
+      "skills": [
+        "What is Domain Name",
+        "What is hosting",
+        "DNS and how it works",
+        "Browsers and how they work",
+        "Authentication"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-27",
+      "topic": "JWT",
+      "skills": [
+        "JWT",
+        "Basic Authentication",
+        "Token Authentication",
+        "OAuth",
+        "Cookie Based Auth"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-28",
+      "topic": "OpenID",
+      "skills": [
+        "OpenID",
+        "SAML",
+        "Go",
+        "Docker",
+        "Containerization"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-29",
+      "topic": "Kubernetes",
+      "skills": [
+        "Kubernetes",
+        "K8s",
+        "Elasticsearch",
+        "Solr",
+        "Real-Time Data"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-30",
+      "topic": "Long Polling",
+      "skills": [
+        "Long Polling",
+        "Short Polling",
+        "GraphQL",
+        "Key-Value",
+        "Redis",
+        "Caching"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-31",
+      "topic": "DynamoDB",
+      "skills": [
+        "DynamoDB",
+        "Realtime",
+        "Firebase",
+        "RethinkDB",
+        "SQL",
+        "Database"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-32",
+      "topic": "Time Series",
+      "skills": [
+        "Time Series",
+        "Influx DB",
+        "TimeScale",
+        "Column DBs",
+        "Cassandra"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "backend-33",
+      "topic": "BaseAWS Neptune",
+      "skills": [
+        "AWS",
+        "Cloud Computing",
+        "Observability",
+        "Full Stack",
+        "Migrations"
+      ],
+      "phase": 3
+    }
+  ]
+}
