@@ -206,6 +206,8 @@ export const DUMMY_PARTICIPATED_EVENTS = [
   }
 ];
 
+import { getEvents } from '../../services/eventService.js';
+
 const AllEvents = () => {
   // Active selected category / tab in the pill line
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -216,8 +218,46 @@ const AllEvents = () => {
   // Search query state
   const [searchQuery, setSearchQuery] = useState('');
 
+  // Events list state
+  const [eventsList, setEventsList] = useState(DUMMY_EVENTS);
+
   // Selected event state for detail modal
   const [selectedEvent, setSelectedEvent] = useState(null);
+
+  React.useEffect(() => {
+    getEvents()
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          const formatted = data.map((e) => ({
+            id: e.id,
+            title: e.title,
+            organizer: e.organizer || 'Campus Society',
+            college: 'Campus Center',
+            category: e.activity_type || 'Competitions',
+            mode: e.mode || 'Offline',
+            location: e.location || 'Campus Auditorium',
+            teamSize: e.team_size || '1 - 4 Members',
+            postedDate: e.created_at ? new Date(e.created_at).toLocaleDateString() : 'Sep 2026',
+            deadline: e.deadline ? new Date(e.deadline).toLocaleDateString() : 'Upcoming',
+            daysLeft: 'Active',
+            fee: e.fee || 'Free',
+            logoImage: e.logo_url || 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=150&auto=format&fit=crop&q=80',
+            bannerImage: e.banner_url || 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&auto=format&fit=crop&q=80',
+            tags: typeof e.tags === 'string' ? JSON.parse(e.tags) : (Array.isArray(e.tags) ? e.tags : ['Campus', 'Event']),
+            eligibility: typeof e.eligibility === 'string' ? JSON.parse(e.eligibility) : ['All Students'],
+            isFeatured: Boolean(e.is_featured),
+            description: e.description || 'Join this exciting campus activity and build your skills.',
+            schedule: e.start_date ? `${new Date(e.start_date).toLocaleString()}` : 'TBA',
+            contactNumbers: [
+              { name: 'Event Coordinator', phone: '+91 98765 43210' }
+            ],
+            googleFormUrl: e.google_form_url || '#'
+          }));
+          setEventsList(formatted);
+        }
+      })
+      .catch((err) => console.warn('[AllEvents API warning]:', err.message));
+  }, []);
 
   // Bookmarked event IDs
   const [bookmarkedIds, setBookmarkedIds] = useState(['evt-1']);
@@ -242,7 +282,7 @@ const AllEvents = () => {
   };
 
   // Filter explore events based on search, category, and mode
-  const filteredExploreEvents = DUMMY_EVENTS.filter((evt) => {
+  const filteredExploreEvents = eventsList.filter((evt) => {
     const matchesSearch =
       evt.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       evt.organizer.toLowerCase().includes(searchQuery.toLowerCase()) ||

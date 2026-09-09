@@ -121,9 +121,12 @@ export const DUMMY_RECOMMENDED_CLUBS = [
   }
 ];
 
+import { getClubs } from '../../services/clubService.js';
+
 const AllClubs = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [clubsList, setClubsList] = useState(DUMMY_CLUBS);
   
   // Modals state
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -132,6 +135,33 @@ const AllClubs = () => {
 
   // Success Toast Banner
   const [toastMessage, setToastMessage] = useState(null);
+
+  React.useEffect(() => {
+    getClubs()
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          const formatted = data.map((c) => ({
+            id: c.id,
+            name: c.name,
+            category: c.category || 'Technical',
+            mentorName: c.mentor_name || 'Faculty Mentor',
+            presidentName: c.president_name || 'Student Lead',
+            vpName: c.vp_name || 'Vice President',
+            presidentPhone: c.president_phone || '+91 98765 43210',
+            vpPhone: c.vp_phone || '+91 91234 56789',
+            memberCount: c.member_count || 0,
+            activeEventsCount: c.active_events_count || 0,
+            logoImage: c.logo_url || 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=150&auto=format&fit=crop&q=80',
+            bannerImage: c.banner_url || 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&fit=crop&q=80',
+            description: c.description || 'Campus student club dedicated to student activities and skill development.',
+            fullVision: c.description || 'Fostering excellence and teamwork across campus.',
+            tags: typeof c.tags === 'string' ? JSON.parse(c.tags) : (Array.isArray(c.tags) ? c.tags : ['Campus', 'Club'])
+          }));
+          setClubsList(formatted);
+        }
+      })
+      .catch((err) => console.warn('[AllClubs API warning]:', err.message));
+  }, []);
 
   const categories = [
     { name: 'All', label: '🏆 All Clubs' },
@@ -143,12 +173,12 @@ const AllClubs = () => {
   ];
 
   // Filter clubs based on search and category
-  const filteredClubs = DUMMY_CLUBS.filter((club) => {
+  const filteredClubs = clubsList.filter((club) => {
     const matchesSearch =
       club.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       club.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      club.mentorName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      club.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+      (club.mentorName && club.mentorName.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (club.tags && club.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase())));
 
     const matchesCategory =
       selectedCategory === 'All' || club.category.toLowerCase() === selectedCategory.toLowerCase();

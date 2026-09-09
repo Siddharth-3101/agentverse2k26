@@ -123,7 +123,49 @@ export const INITIAL_NOTIFICATIONS = [
   }
 ];
 
-export const getNotificationData = async () => {
+export const getNotificationData = async (userId) => {
+  if (userId) {
+    try {
+      return await getNotificationsByUserId(userId);
+    } catch (e) {
+      console.warn('[Notification API fallback]:', e.message);
+    }
+  }
   return [...INITIAL_NOTIFICATIONS];
 };
+
+import { BASE_URLS, apiFetch } from '../config/api.js';
+
+export const submitClubApplication = async (applicationData) => {
+  return await apiFetch(BASE_URLS.APPLICATION, {
+    method: 'POST',
+    body: JSON.stringify(applicationData),
+  });
+};
+
+export const getApplicationsByClub = async (clubId) => {
+  return await apiFetch(`${BASE_URLS.APPLICATION}/club/${clubId}`);
+};
+
+export const getApplicationsByStudent = async (studentId) => {
+  return await apiFetch(`${BASE_URLS.APPLICATION}/student/${studentId}`);
+};
+
+export const reviewApplication = async (applicationId, reviewData) => {
+  return await apiFetch(`${BASE_URLS.APPLICATION}/${applicationId}/review`, {
+    method: 'PUT',
+    body: JSON.stringify(reviewData),
+  });
+};
+
+export const getNotificationsByUserId = async (userId) => {
+  return await apiFetch(`${BASE_URLS.NOTIFICATION}/user/${userId}`);
+};
+
+export const markNotificationAsRead = async (notificationId) => {
+  return await apiFetch(`${BASE_URLS.NOTIFICATION}/${notificationId}/read`, {
+    method: 'PUT',
+  });
+};
+
 

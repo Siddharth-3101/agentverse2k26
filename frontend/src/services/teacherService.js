@@ -40,9 +40,31 @@ export const CLUB_SUMMARY = {
   ]
 };
 
-export const getTeacherData = async () => {
+import { BASE_URLS, apiFetch } from '../config/api.js';
+
+export const getLeaderboard = async () => {
+  return await apiFetch(`${BASE_URLS.ANALYTICS}/leaderboard`);
+};
+
+export const getTeacherAnalytics = async (teacherId) => {
+  return await apiFetch(`${BASE_URLS.ANALYTICS}/teacher/${teacherId}`);
+};
+
+export const getOverallAnalytics = async () => {
+  return await apiFetch(`${BASE_URLS.ANALYTICS}/overall`);
+};
+
+export const getTeacherData = async (teacherId) => {
+  if (teacherId) {
+    try {
+      return await getTeacherAnalytics(teacherId);
+    } catch (e) {
+      console.warn('[Teacher Analytics API fallback]:', e.message);
+    }
+  }
   return {
     profile: TEACHER_PROFILE,
     club: CLUB_SUMMARY
   };
 };
+
